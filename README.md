@@ -1,2 +1,3 @@
-# team-29kettle
-the employee focused component of my website
+# 29 KETTLE CONFECITONERY: Team Sub-domain
+
+This website is the employee resources to handle imporant employee resources

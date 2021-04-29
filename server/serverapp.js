@@ -32,6 +32,28 @@ serverApp.use('/', function(req, res, next) {
 	next();
 });
 
+serverApp.get('/config/firebase', async function(req, res) {
+	//	NOTIFY
+	//	LOCAL
+	var returnString = "";
+
+	returnString += "var config = {";
+	returnString += "apiKey: '"              + process.env.KETTLETEAM_FIREBASE_WEB_APP_API_KEY   	+ "',";
+	returnString += "authDomain: '"          + process.env.KETTLETEAM_FIREBASE_WEB_APP_AUTH_DOMAIN  + "',";
+	returnString += "databaseURL: '"         + process.env.KETTLETEAM_FIREBASE_WEB_APP_DB_URL       + "',";
+	returnString += "projectId: 'kettle-team',";
+	returnString += "storageBucket: 'kettle-team.appspot.com',";
+	returnString += "messagingSenderId: '731473466333',";
+	returnString += "appId: '"   			 + process.env.KETTLETEAM_FIREBASE_WEB_APP_APP_ID    	+ "'};";
+	returnString += "firebase.initializeApp(config);";
+
+	//advise of the post body
+	console.log('firebase config GET', returnString);
+
+	res.status(200);
+	res.send(returnString);
+});
+
 /*
 *	EXECUTE: RUN THE SERVER
 */

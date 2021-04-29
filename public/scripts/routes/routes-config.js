@@ -20,7 +20,12 @@ function config($routeProvider, $locationProvider) {
         templateUrl: 'assets/views/login-page.htm',     //  Login Page View
         controller: 'loginController',                  //  Login Page Controller
         controllerAs: 'vm'
-    })  
+    }) 
+    .when('/dash', {
+        templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
+        controller: 'dashboardController',                  //  dashboard Page Controller
+        controllerAs: 'vm'
+    }) 
 	.otherwise({
         redirectTo: '/'
     });

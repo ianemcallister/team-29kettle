@@ -17,14 +17,17 @@ var ngAnnotate      = require('gulp-ng-annotate');
 //  LOCAL VARIABLES
 var paths = {
     styles: {
-      src: 'public/styles/**/*.less',
+      src: [
+        'public/styles/**/*.less', 
+        'public/styles/**/*.css'
+      ],
       dest: 'dist/assets/styles/'
     },
     libraries: {
       src: [
         'node_modules/angular/angular.js',
         'node_modules/angular-route/angular-route.js',
-        'node_modules/angular-sanitize/angular-sanitize.js' 
+        'node_modules/angular-sanitize/angular-sanitize.js'
       ],
       dest: 'dist/assets/scripts/'
     },

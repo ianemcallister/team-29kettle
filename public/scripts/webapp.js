@@ -1,3 +1,3 @@
 //  MODULE
 'use strict'
-var ckc = angular.module('ckc', ['ngRoute', 'ngSanitize']);
+var ckc = angular.module('ckc', ['ngRoute', 'ngSanitize', 'firebase']);

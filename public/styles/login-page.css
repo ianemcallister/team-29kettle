@@ -1,0 +1,24 @@
+/*************************************************************************************************
+Theme Name: 
+Theme URI: 
+Author: Ian McAllister 
+Description: 
+*************************************************************************************************/
+/* Table of Contents
+==================================================
+*/
+
+.loginpage {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 200px;
+    display: block;
+}
+.loginpage .form-group {
+    margin-top: 20px;
+}
+.loginpage .form-control {
+    width: 150%;
+}
+

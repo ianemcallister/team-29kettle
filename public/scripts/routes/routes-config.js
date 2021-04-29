@@ -21,7 +21,7 @@ function config($routeProvider, $locationProvider) {
         controller: 'loginController',                  //  Login Page Controller
         controllerAs: 'vm'
     }) 
-    .when('/dash', {
+    .when('/member/:uid', {
         templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
         controller: 'dashboardController',                  //  dashboard Page Controller
         controllerAs: 'vm'

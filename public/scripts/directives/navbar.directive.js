@@ -21,12 +21,13 @@ function ckcNavbar() {
         
     }
     
-    ckcNavbarController.$inject = ['$scope', '$log'];
+    ckcNavbarController.$inject = ['$scope', '$log', 'Auth'];
 
     /* @ngInject */
     function ckcNavbarController($scope, $log) {
 
         console.log('in the navbar directive');
+        
     };
 
     return directive;		

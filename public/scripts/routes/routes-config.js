@@ -25,6 +25,16 @@ function config($routeProvider, $locationProvider) {
         templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
         controller: 'dashboardController',                  //  dashboard Page Controller
         controllerAs: 'vm'
+    })
+    .when('/member/:uid/channels/:chanelId', {
+        templateUrl: 'assets/views/channel-page.htm',     //  dashboard Page View
+        controller: 'channelController',                  //  dashboard Page Controller
+        controllerAs: 'vm'
+    }) 
+    .when('/member/:uid/resources/:resourceId', {
+        templateUrl: 'assets/views/resource-page.htm',     //  dashboard Page View
+        controller: 'resourceController',                  //  dashboard Page Controller
+        controllerAs: 'vm'
     }) 
 	.otherwise({
         redirectTo: '/'

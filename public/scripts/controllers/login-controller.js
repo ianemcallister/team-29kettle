@@ -1,10 +1,10 @@
 ckc
     .controller('loginController', loginController);
 
-	loginController.$inject = ['$scope','$log'];
+	loginController.$inject = ['$scope','$log', 'stateService'];
 
 /* @ngInject */
-function loginController($scope, $log) {
+function loginController($scope, $log, stateService) {
 
 	//	NOTIFY PROGRES
 	//	LOCAL VARIABLES

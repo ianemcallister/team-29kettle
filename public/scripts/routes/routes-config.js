@@ -31,6 +31,11 @@ function config($routeProvider, $locationProvider) {
         controller: 'channelController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     }) 
+    .when('/member/:uid/resources', {
+        templateUrl: 'assets/views/resource-page.htm',     //  dashboard Page View
+        controller: 'resourceController',                  //  dashboard Page Controller
+        controllerAs: 'vm'
+    }) 
     .when('/member/:uid/resources/:resourceId', {
         templateUrl: 'assets/views/resource-page.htm',     //  dashboard Page View
         controller: 'resourceController',                  //  dashboard Page Controller

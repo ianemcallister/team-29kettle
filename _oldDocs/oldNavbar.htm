@@ -1,0 +1,24 @@
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+
+                29 Kettle: Team Resource
+            </a>
+        </div>
+        <form action="" class='form-inline my-2 my-lg-0'>
+        
+            <button     class="btn btn-outline-success my-2 my-sm-0" 
+                        type="submit"
+                        ng-if='true'>
+                        Login
+            </button>
+
+            <button class="btn" ng-click='vm.logout()'>
+                log out
+            </button>
+
+            <span ng-if='auth.user != null'>Logged In</span>
+            <span ng-if='auth.user == null'>Logged Out</span>
+        </form>
+    </nav>

@@ -1,0 +1,26 @@
+<div>
+    <div class="container">
+        <H4>{{vm.model.name}}</H4>
+        <ul style='list-style: none;'>
+            <li>
+                UPDATES
+                {{vn.updates}}
+                <ul>
+                    <li ng-repeat="(key, value) in vm.updates">
+                        <strong>{{key | date: "shortDate" }}: </strong>
+                        <span ng-bind-html='value.body'></span>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                EVENTS
+            </li>
+
+            <li>
+
+            </li>
+
+        </ul>
+    </div>
+</div>

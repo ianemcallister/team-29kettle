@@ -24,9 +24,21 @@ function ckcNavbar() {
     ckcNavbarController.$inject = ['$scope', '$log', 'Auth'];
 
     /* @ngInject */
-    function ckcNavbarController($scope, $log) {
+    function ckcNavbarController($scope, $log, Auth) {
+
+        //  define view model variables
+        var vm = this;
 
         console.log('in the navbar directive');
+
+        Auth.$onAuthStateChanged(user => {
+            console.log('user: ', user);
+        })
+
+        vm.logout = function() {
+            console.log('logging out');
+            Auth.$signOut();
+        }
         
     };
 

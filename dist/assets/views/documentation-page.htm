@@ -1,0 +1,11 @@
+<div>
+
+    <div class="container">
+        <h3>{{vm.data.title}}</h3>
+        <p>Updated: {{vm.data._updated | date: "shortDate"}}</p>
+        
+        <!--Content-->
+        <div ng-bind-html='vm.data.content'></div>
+
+    </div>
+</div>

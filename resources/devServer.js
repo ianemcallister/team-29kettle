@@ -23,36 +23,13 @@ var jsonParser = bodyParser.json();
 //  EXECUTE: BODY PARSING
 serverApp.use(jsonParser);              // for parsing application/json
 serverApp.use(urlencodedParser);        // for parsing application/x-www-form-urlencoded
-serverApp.use(express.static('dist'));  // folder being servered
+serverApp.use(express.static('resources/cookingPage'));  // folder being servered
 
 //  EXECUTE: NOTIFY URL REQESTS
 serverApp.use('/', function(req, res, next) {
 	//log the url to the console
 	console.log('Request Url: ' + req.url);
 	next();
-});
-
-serverApp.get('/config/firebase', async function(req, res) {
-	//	NOTIFY
-	//	LOCAL
-	var returnString = "";
-
-	returnString += "var config = {";
-	returnString += "apiKey: '"              + process.env.KETTLETEAM_FIREBASE_WEB_APP_API_KEY   	+ "',";
-	returnString += "authDomain: '"          + process.env.KETTLETEAM_FIREBASE_WEB_APP_AUTH_DOMAIN  + "',";
-	returnString += "databaseURL: '"         + process.env.KETTLETEAM_FIREBASE_WEB_APP_DB_URL       + "',";
-	returnString += "projectId: 'kettle-team',";
-	returnString += "storageBucket: 'kettle-team.appspot.com',";
-	returnString += "messagingSenderId: '731473466333',";
-	returnString += "appId: '"   			 + process.env.KETTLETEAM_FIREBASE_WEB_APP_APP_ID    	+ "'};";
-	returnString += "firebase.initializeApp(config);";
-	returnString += "const auth = firebase.auth();"
-
-	//advise of the post body
-	console.log('firebase config GET', returnString);
-
-	res.status(200);
-	res.send(returnString);
 });
 
 /*

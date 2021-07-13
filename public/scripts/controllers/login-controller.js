@@ -1,12 +1,14 @@
 ckc
     .controller('loginController', loginController);
 
-	loginController.$inject = ['$scope','$log', 'stateService'];
+	loginController.$inject = [];
 
 /* @ngInject */
-function loginController($scope, $log, stateService) {
+function loginController() {
 
 	//	NOTIFY PROGRES
+	console.log('aState: ');
+
 	//	LOCAL VARIABLES
 	var vm = this;
 	var ui = new firebaseui.auth.AuthUI(firebase.auth());
@@ -62,7 +64,7 @@ function loginController($scope, $log, stateService) {
 	//define view model variable
 	
 
-	$log.info('in the login controller');	    //  TODO: TAKE THIS OUT LATER
+	console.log('in the login controller');	    //  TODO: TAKE THIS OUT LATER
 
 
 }

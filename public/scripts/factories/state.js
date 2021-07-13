@@ -27,14 +27,13 @@ function State($log, Auth) {
 
     //  LISTEN FOR STATE CHANGES FOR LOGGED IN USER
     function authorizedUser() {
-        return Auth.$onAuthStateChanged(user => {
-            console.log('user: ', user);
-            return user;
+        return new Promise(function (resolve, reject) {
+            Auth.$onAuthStateChanged(user => {
+                //console.log('user: ', user);
+                resolve(user);
+            });
         });
     }
-
-    state.user();
-
 
     //   RETURN
     return state;

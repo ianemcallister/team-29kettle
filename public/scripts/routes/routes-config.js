@@ -20,10 +20,18 @@ function config($routeProvider, $locationProvider) {
         templateUrl: 'assets/views/login-page.htm',     //  Login Page View
         controller: 'loginController',                  //  Login Page Controller
         controllerAs: 'vm',
-        resolve: {
-            State: function($location) {
-                console.log('resolved')
-                $location.path('/member/L1kSg6D6EIZP2ctV7bI0kEkZRAm2')
+        resolve: { /* @ngInject */
+            user: function(State, $q, $location) {
+                var def = $q.defer();
+                State.user().then(function(user) {
+
+                    if(user) {
+                        $location.path('/member/' + user.uid);
+                        def.resolve();
+                    } 
+
+                });
+                return def.promise;
             }
         }
     }) 
@@ -31,10 +39,22 @@ function config($routeProvider, $locationProvider) {
         templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
         controller: 'dashboardController',                  //  dashboard Page Controller
         controllerAs: 'vm',
-        resolve: {
-            state: function($location, State) {
-                
-                
+        resolve: { /* @ngInject */
+            //  CHECK FOR LOGGED IN STATE
+            user: function(State, $q, $location) {
+                var def = $q.defer();
+                State.user().then(function(user) {
+
+                    if(user) {
+                        $location.path('/member/' + user.uid);
+                        def.resolve();
+                    } else {
+                        $location.path('/login');
+                        def.resolve();
+                    }
+
+                });
+                return def.promise;
             }
         }
     })

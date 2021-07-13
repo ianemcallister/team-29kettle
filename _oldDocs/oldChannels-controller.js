@@ -1,10 +1,10 @@
 ckc
     .controller('channelController', channelController);
 
-	channelController.$inject = [];
+	channelController.$inject = ['$scope','$log', '$location','$routeParams', 'model', 'Updates'];
 
 /* @ngInject */
-function channelController() {
+function channelController($scope, $log, $location, $routeParams, model, Updates) {
 
 	//	NOTIFY PROGRES
 	console.log('$routeParams', $routeParams)
@@ -13,6 +13,12 @@ function channelController() {
 	var vm = this;
 
 	//	VIEW MODEL VARIABLES
+    vm.model = model;
+    vm.test = 'testing';
+    Updates.get.byChannelId()
+    .then(function(success) {
+        vm.updates = success;
+    });
 
 	//	VIEW MODEL FUNCTIONS
 

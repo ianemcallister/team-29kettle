@@ -14,7 +14,7 @@ function config($routeProvider, $locationProvider) {
 
 	//PUBLIC ROUTES
     .when('/', {
-        redirectTo: '/login'
+        redirectTo: '/member'
     })
     .when('/login', {
         templateUrl: 'assets/views/login-page.htm',     //  Login Page View
@@ -27,6 +27,17 @@ function config($routeProvider, $locationProvider) {
             }
         }
     }) 
+    .when('/member', {
+        templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
+        controller: 'dashboardController',                  //  dashboard Page Controller
+        controllerAs: 'vm',
+        resolve: {
+            state: function($location, State) {
+                
+                
+            }
+        }
+    })
     .when('/member/:uid', {
         templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
         controller: 'dashboardController',                  //  dashboard Page Controller

@@ -4,31 +4,37 @@
 */
 
 //  DEFINE MODULE
-ckc.factory('stateService', stateService);
+ckc.factory('State', State);
 
 //  DEPENDENCY INJECTION
-stateService.$inject = ['$log', 'Auth'];
+State.$inject = ['$log', 'Auth'];
 
 //  DECLARE THE SERVICE
 /* @ngInject */
-function stateService($log, Auth) {
+function State($log, Auth) {
 
     //  DEFINE LOCAL VARIABLES
     var self = this;
 
     //  NOTIFY PROGRESS
-    $log.info('Instanciating stateService Factory');
+    $log.info('Instanciating State Factory');
 
     //  DEFINE METHODS
     var state = {
+        user: authorizedUser,
         uid: null
     };
 
     //  LISTEN FOR STATE CHANGES FOR LOGGED IN USER
-    Auth.$onAuthStateChanged(user => {
-        console.log('user: ', user);
-        self.uid = user;
-    });
+    function authorizedUser() {
+        return Auth.$onAuthStateChanged(user => {
+            console.log('user: ', user);
+            return user;
+        });
+    }
+
+    state.user();
+
 
     //   RETURN
     return state;

@@ -32,11 +32,6 @@ function ckcNavbar() {
 
         console.log('in the navbar directive');
 
-        Auth.$onAuthStateChanged(user => {
-            console.log('user: ', user);
-            vm.user = user;
-        })
-
         vm.logOut = function() {
             console.log('logging out');
             Auth.$signOut();

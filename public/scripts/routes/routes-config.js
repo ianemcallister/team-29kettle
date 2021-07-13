@@ -19,14 +19,20 @@ function config($routeProvider, $locationProvider) {
     .when('/login', {
         templateUrl: 'assets/views/login-page.htm',     //  Login Page View
         controller: 'loginController',                  //  Login Page Controller
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+            State: function($location) {
+                console.log('resolved')
+                $location.path('/member/L1kSg6D6EIZP2ctV7bI0kEkZRAm2')
+            }
+        }
     }) 
     .when('/member/:uid', {
         templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
         controller: 'dashboardController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     })
-    .when('/member/:uid/channels/:chanelId', {
+    /*.when('/member/:uid/channels/:chanelId', {
         templateUrl: 'assets/views/channel-page.htm',     //  dashboard Page View
         controller: 'channelController',                  //  dashboard Page Controller
         controllerAs: 'vm'
@@ -40,7 +46,7 @@ function config($routeProvider, $locationProvider) {
         templateUrl: 'assets/views/resource-page.htm',     //  dashboard Page View
         controller: 'resourceController',                  //  dashboard Page Controller
         controllerAs: 'vm'
-    }) 
+    }) */
 	.otherwise({
         redirectTo: '/'
     });

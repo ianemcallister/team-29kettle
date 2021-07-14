@@ -90,6 +90,29 @@ function config($routeProvider, $locationProvider) {
             }
         }
     })
+    .when('/member/:uid/activities', {
+        templateUrl: 'assets/views/activities-page.htm',     //  dashboard Page View
+        controller: 'activitiesController',                  //  dashboard Page Controller
+        controllerAs: 'vm',
+        resolve: { /* @ngInject */
+            //  CHECK FOR LOGGED IN STATE
+            user: function(State, $q, $location) {
+                var def = $q.defer();
+                State.user().then(function(user) {
+
+                    if(user) {
+                        $location.path('/member/' + user.uid +'/activities');
+                        def.resolve();
+                    } else {
+                        $location.path('/login');
+                        def.resolve();
+                    }
+
+                });
+                return def.promise;
+            }
+        }
+    })
     /*.when('/member/:uid/channels/:chanelId', {
         templateUrl: 'assets/views/channel-page.htm',     //  dashboard Page View
         controller: 'channelController',                  //  dashboard Page Controller

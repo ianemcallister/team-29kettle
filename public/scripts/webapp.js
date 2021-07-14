@@ -1,3 +1,3 @@
 //  MODULE
 'use strict'
-var ckc = angular.module('ckc', ['ngRoute', 'ngSanitize', 'firebase']);
+var ckc = angular.module('ckc', ['ngRoute', 'ngSanitize', 'firebase', '720kb.datepicker']);

@@ -19,7 +19,8 @@ var paths = {
     styles: {
       src: [
         'public/styles/**/*.less', 
-        'public/styles/**/*.css'
+        'public/styles/**/*.css',
+        'node_modules/angularjs-datepicker/dist/angular-datepicker.css'
       ],
       dest: 'dist/assets/styles/'
     },
@@ -27,7 +28,8 @@ var paths = {
       src: [
         'node_modules/angular/angular.js',
         'node_modules/angular-route/angular-route.js',
-        'node_modules/angular-sanitize/angular-sanitize.js'
+        'node_modules/angular-sanitize/angular-sanitize.js',
+        'node_modules/angularjs-datepicker/dist/angular-datepicker.js',
       ],
       dest: 'dist/assets/scripts/'
     },

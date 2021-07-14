@@ -1,26 +1,25 @@
 <div>
-    <div class="container">
-        <div class="navbar">
-            <!--Logo-->
-            <div class="col">
-                29 Kettle: Team
-            </div>
 
-            <!--Access-->
-            <div class="col justify-content-end">
-
-                <!--Log In-->
-                <div class="d-flex justify-content-end" ng-if='vm.user == null'>
-                    <button class="btn btn-outline-success" ng-click='vm.logIn()'>Log In</button>
-                </div>
-                
-
-                <!--Log Out-->
-                <div class="d-flex justify-content-end" ng-if='vm.user != null'>
-                    <button class="btn btn-outline-success" ng-click='vm.logOut()'>Log Out</button>
-                </div>
-            </div>
-
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">29 Kettle: Team
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Manufacturing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Customers</a>
+            </li>
+          </ul>
+        
         </div>
-    </div>
+      </nav>
+
 </div>

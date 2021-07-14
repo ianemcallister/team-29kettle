@@ -6,9 +6,6 @@ ckc
 /* @ngInject */
 function loginController() {
 
-	//	NOTIFY PROGRES
-	console.log('aState: ');
-
 	//	LOCAL VARIABLES
 	var vm = this;
 	var ui = new firebaseui.auth.AuthUI(firebase.auth());

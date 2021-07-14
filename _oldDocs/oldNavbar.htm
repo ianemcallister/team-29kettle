@@ -1,4 +1,17 @@
+<div class="col-9 d-flex justify-content-end">
 
+    <ul class='d-flex justify-content-end' style='list-style: none;'>
+        <li class='navbarItems' style='display: inline;' ng-click='vm.menuClick("Menu")'>Menu</li>
+        <li class='navbarItems' style='display: inline;' ng-click='vm.menuClick("Reports")'>Reports</li>
+        <li class='navbarItems' style='display: inline;' ng-click='vm.menuClick("Settings")'>Settings</li>
+        <li class='navbarItems' style='display: inline;' ng-if='vm.user == null' ng-click='vm.menuClick("Login")'>Log In</li>
+        <li class='navbarItems' style='display: inline;' ng-if='vm.user != null' ng-click='vm.menuClick("LogOut")'>Log Out</li>    
+    </ul>
+
+    
+</div>
+    
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">

@@ -32,16 +32,39 @@ function ckcNavbar() {
 
         console.log('in the navbar directive');
 
-        vm.logOut = function() {
-            console.log('logging out');
-            Auth.$signOut();
-            $location.path('/login');
-        }
+        //  Listen for state changes
+        Auth.$onAuthStateChanged(user => {
+            console.log('user: ', user);
+            vm.user = user;
+        });
 
-        vm.logIn = function() {
-            console.log('logging in');
-            $location.path('/login');
-        }
+        vm.menuClick = function(selection) {
+            //  DEFINE LOCAL VARIABLES
+            switch(selection) {
+                case "Menu":
+                    console.log('Menu clicked');
+                    $location.path('/member/' + vm.user.uid)
+                    break;
+                case "Reports":
+                    console.log('Reports Clicked');
+                    break;
+                case "Settings":
+                    console.log('settings clicked');
+                    $location.path('/member/' + vm.user.uid + '/settings')
+                    break;
+                case "Login":
+                    console.log('logging in');
+                    $location.path('/login');
+                    break;
+                case "LogOut":
+                    console.log('logging out');
+                    Auth.$signOut();
+                    $location.path('/login');
+                    break;
+                default:
+                    break;
+            }
+        };
         
     };
 

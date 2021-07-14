@@ -19,21 +19,7 @@ function config($routeProvider, $locationProvider) {
     .when('/login', {
         templateUrl: 'assets/views/login-page.htm',     //  Login Page View
         controller: 'loginController',                  //  Login Page Controller
-        controllerAs: 'vm',
-        resolve: { /* @ngInject */
-            user: function(State, $q, $location) {
-                var def = $q.defer();
-                State.user().then(function(user) {
-
-                    if(user) {
-                        $location.path('/member/' + user.uid);
-                        def.resolve();
-                    } 
-
-                });
-                return def.promise;
-            }
-        }
+        controllerAs: 'vm'
     }) 
     .when('/member', {
         templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
@@ -61,7 +47,48 @@ function config($routeProvider, $locationProvider) {
     .when('/member/:uid', {
         templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
         controller: 'dashboardController',                  //  dashboard Page Controller
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: { /* @ngInject */
+            //  CHECK FOR LOGGED IN STATE
+            user: function(State, $q, $location) {
+                var def = $q.defer();
+                State.user().then(function(user) {
+
+                    if(user) {
+                        $location.path('/member/' + user.uid);
+                        def.resolve();
+                    } else {
+                        $location.path('/login');
+                        def.resolve();
+                    }
+
+                });
+                return def.promise;
+            }
+        }
+    })
+    .when('/member/:uid/settings', {
+        templateUrl: 'assets/views/acct-settings-page.htm',     //  dashboard Page View
+        controller: 'acctSettingsController',                  //  dashboard Page Controller
+        controllerAs: 'vm',
+        resolve: { /* @ngInject */
+            //  CHECK FOR LOGGED IN STATE
+            user: function(State, $q, $location) {
+                var def = $q.defer();
+                State.user().then(function(user) {
+
+                    if(user) {
+                        $location.path('/member/' + user.uid +'/settings');
+                        def.resolve();
+                    } else {
+                        $location.path('/login');
+                        def.resolve();
+                    }
+
+                });
+                return def.promise;
+            }
+        }
     })
     /*.when('/member/:uid/channels/:chanelId', {
         templateUrl: 'assets/views/channel-page.htm',     //  dashboard Page View

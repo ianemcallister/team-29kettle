@@ -26,9 +26,18 @@ var db = admin.database();
 
 //  DEFINE MODULE
 var firebaseMod = {
+    add: add,
     update: update
 };
 
+/*
+*   Add Function
+*/
+async function add() {};
+
+/*
+*   Update Function
+*/
 async function update(path, data) {
     //  DEFINE LOCAL VARIABLES
     var ref = admin.database().ref(path);

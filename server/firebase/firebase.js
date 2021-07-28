@@ -26,8 +26,46 @@ var db = admin.database();
 
 //  DEFINE MODULE
 var firebaseMod = {
+    get: get,
+    query: query,
     add: add,
-    update: update
+    update: update,
+    pushId: GetPushId
+};
+
+
+/*
+*   Get Function
+*/
+async function get(path) {
+    //  NOTIFY PROGRESS
+    //  LOCAL VARIABLES
+    var ref = db.ref(path);
+
+    //  EXECUTE
+    try {
+        
+    } catch (error) {
+        console.log('Get Error: ', error);
+    }
+};
+
+/*
+*   Query Function
+*/
+async function query(path, query) {
+    //  NOTIFY PROGRESS
+    //  LOCAL VARIABLES
+    var ref = db.ref(path);
+    var queryRef = ref.orderByChild(query.orderBy).equalTo(query.value);
+
+    //  EXECUTE
+    try {
+        var result = await queryRef.once('value');
+        return result.val();
+    } catch (error) {
+        console.log('query Error: ', error);
+    }    
 };
 
 /*
@@ -53,6 +91,15 @@ async function update(path, data) {
         console.log('update Error: ', error);
     }
 }
+
+/*
+*   GET PUSH ID
+*/
+function GetPushId(path) {
+    var ref = db.ref(path); 
+    var newObject = ref.push();
+    return newObject.key;
+};
 
 //  EXPORT MODULE
 module.exports = firebaseMod;

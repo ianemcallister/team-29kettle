@@ -102,12 +102,13 @@ async function _SearchLoyalty(params) {
 /*
 *
 */
-async function ListPayments(cursor) {
+async function ListPayments(cursor, beginTime, endTime) {
     //  NOTIFY PROGRESS
+    console.log('cursor', cursor, 'begin: ', beginTime, 'end: ', endTime);
     //  LOCAL VARIABLES
     const paymentsApi = client.paymentsApi;
-    const beginTime = '2021-01-01T00:00:00-08:00';
-    const endTime = '2021-04-01T00:00:00-08:00';
+    //const beginTime = '2021-07-27T00:00:00-08:00';
+    //const endTime = '2021-07-27T23:59:59-08:00';
     const sortOrder = 'DESC';
     //const cursor = '';
     const locationId = 'RKNMKQF48TA6W';
@@ -119,13 +120,14 @@ async function ListPayments(cursor) {
 
     //  EXECUTE
     try {
-        const { result, ...httpResponse } = await paymentsApi.listPayments(beginTime, endTime, sortOrder, cursor, locationId, limit);
+        const { result, ...httpResponse } = await paymentsApi.listPayments(beginTime, endTime, sortOrder, cursor, locationId);
         // Get more response info...
-        // const { statusCode, headers } = httpResponse;
+        //const { statusCode, headers } = httpResponse;
         var theCursor = result.cursor;
         var newPayments = result.payments;
+        //console.log('got this', result);
         
-        console.log('found ', newPayments.length, " records");
+        //console.log('found ', newPayments.length, " records");
 
         if(theCursor == undefined || theCursor == "") {
             console.log('found the bottom');
@@ -538,6 +540,7 @@ async function SearchTeamMembers(params) {
 */
 async function ListLocations() {
     //  NOTIFY PROGRESS
+    console.log('listing locations');
     //  LOCAL VARIABLES
     const locationsApi = client.locationsApi;
     
@@ -546,6 +549,7 @@ async function ListLocations() {
         const { result, ...httpResponse } = await locationsApi.listLocations();
         // Get more response info...
         // const { statusCode, headers } = httpResponse;
+        console.log(result);
         return result
     } catch (error) {
         console.log('ListLocations error: ');
@@ -570,6 +574,7 @@ async function listEmployees() {
         const { result, ...httpResponse } = await employeesApi.listEmployees(locationId, status, limit, cursor)
         // Get more response info...
         // const { statusCode, headers } = httpResponse;
+        console.log(result);
         return result
     } catch (error) {
         console.log('ListLocations error: ');

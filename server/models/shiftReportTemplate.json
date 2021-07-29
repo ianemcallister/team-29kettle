@@ -1,0 +1,12 @@
+{
+    "total_sales": 0,
+    "average_sale": 0,
+    "gross_sales": 0,
+    "tips": 0,
+    "discounts": 0,
+    "net_sales": 0,
+    "date": "",
+    "employeeId": "",
+    "start": "",
+    "end": ""
+}

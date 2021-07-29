@@ -216,6 +216,85 @@ function _saveSalesReportsUpdates(recordUpdates) {
     return 0;
 };
 
+function _newShiftReport(date, empoyeeId, start, end) {
+    //  NOTIFY PROGRESS
+    //  DEFINE LOCAL VARIABLES
+    var readpath                = Path.resolve(__dirname, '../../models/shiftReportTemplate.json');
+    var newShiftReport          = JSON.parse(Fs.readFileSync(readpath, 'utf8'));
+    newShiftReport.date         = date;
+    newShiftReport.employeeId   = empoyeeId;
+    newShiftReport.start        = start;
+    newShiftReport.end          = end;
+
+    //  EXECUTE
+    //  RETURN
+    return newShiftReport;
+};
+
+function _buildDailySalesReports(assigments, txs) {
+    //  NOTIFY PROGRESS
+    console.log('_buildDailySalesReports');
+    //  DEFINE LOCAL VARIABLES
+    var allReports = [];
+    var i = 0;
+
+    //  EXECUTE
+    //  1.  ITERATE OVER ASSIGMENTS
+    Object.keys(assigments).forEach(function(key) {
+
+        //  ADD REPORT STRUCTURES
+        allReports.push(_newShiftReport(assigments[key].date, assigments[key].employeeId, assigments[key].start, assigments[key].end));
+
+        //  DEFINE LOCAL VARIABLES
+        var shiftStart  = Moment(assigments[key].start);
+        var shiftEnd  = Moment(assigments[key].end);
+
+
+        //  ITERATE OVER SALES
+        txs.forEach(function (tx) {
+            
+            //  is this the right employee
+            if(tx.employeeId == allReports[i].employeeId) {
+
+                //  is this transaction between the shift start and end?
+                if(Moment(tx.createdAt).isBetween(shiftStart, shiftEnd)) {
+
+                    //  IF SO ADD THE VALUES
+                    allReports[i].total_sales   ++;
+                    allReports[i].gross_sales   += parseInt(tx.amountMoney.amount);
+                    allReports[i].average_sale  = allReports[i].gross_sales / allReports[i].total_sales;
+
+                    if(tx.tipMoney != undefined) {
+                        allReports[i].tips      += parseInt(tx.tipMoney.amount);
+                    }
+                    
+
+                } else {
+
+                }
+
+            } else {
+                
+            }
+            //  is this the right times
+        });
+
+        //  INCRIMENT COUNTER
+        i++;
+    });
+
+    //  RETURN
+    return allReports;
+};
+
+function _distributeSalesReports(allReports) {
+    //  NOTIFY PROGRESS
+    console.log('_distributeSalesReports', allReports);
+    //  DEFINE LOCAL VARIABLES
+    //  EXECUTE
+
+};
+
 //  DEFINE PUBLIC FUNCTIONS
 
 async function PullDailyAssignemnts(date) {
@@ -223,7 +302,11 @@ async function PullDailyAssignemnts(date) {
     console.log('PullDailyAssignemnts', date);
 
     //  error check
-    if(date == undefined) date = Moment(new Date()).tz("America/Los_Angeles");
+    if(date == undefined) {
+        date = Moment(new Date()).tz("America/Los_Angeles");
+    } else {
+        date = Moment(date).tz("America/Los_Angeles");
+    }
 
     //  DEFINE LOCAL VARIABLES
 
@@ -243,8 +326,8 @@ async function PullDailySquareTxs(date) {
     if(date == undefined) date = new Date();
 
     //  DEFINE LOCAL VARIABLES
-    var beginTime   = Moment(new Date(date)).tz("America/Los_Angeles");
-    var endTime     = Moment(new Date(date)).tz("America/Los_Angeles");
+    var beginTime   = Moment(date).tz("America/Los_Angeles");
+    var endTime     = Moment(date).tz("America/Los_Angeles");
     beginTime       = beginTime.hour(0).minute(0).second(0);
     endTime         = endTime.hour(23).minute(59).second(59);
 
@@ -316,9 +399,23 @@ async function ReportDailySales() {
     //  NOTIFY PROGRESS
     console.log('ReportDailySales');
     //  DEFINE LOCAL VARIABLES
-    
+    var today = Moment(new Date()).tz("America/Los_Angeles");
+    var yesterday = Moment(today.subtract(1, "days")).tz("America/Los_Angeles");
+
     try {
         //  EXECUTE
+        //  1.  Collect all of the previous day's assigments
+        var yesterdaysAssigments    = await PullDailyAssignemnts(yesterday.format('YYYY-MM-DD'));
+
+        //  2.  Pull previous day's transactions
+        var yesterdaysTxs           = await PullDailySquareTxs(yesterday.format('YYYY-MM-DD')); 
+
+        //  2.  Process those assigments into reports
+        var allReports              = _buildDailySalesReports(yesterdaysAssigments, yesterdaysTxs);
+
+        //  3.  Distribute those reports
+        _distributeSalesReports(allReports);
+
         //  END
         process.exit();
         

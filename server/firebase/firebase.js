@@ -56,6 +56,7 @@ async function get(path) {
 */
 async function query(path, query) {
     //  NOTIFY PROGRESS
+    console.log('Firebase Query:', path, query);
     //  LOCAL VARIABLES
     var ref = db.ref(path);
     var queryRef = ref.orderByChild(query.orderBy).equalTo(query.value);

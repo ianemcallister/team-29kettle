@@ -387,10 +387,10 @@ async function PullDailyAssignemnts(date) {
     //  error check
     if(date == undefined) {
         consol.log('PullDailyAssignemnts using today\'s date');
-        date = Moment(new Date()).tz("America/Los_Angeles");
+        date = Moment(new Date()).tz("America/Los_Angeles").hour(23).minute(59).second(59);
     } else {
         
-        date = Moment(date).tz("America/Los_Angeles");
+        date = Moment(date).tz("America/Los_Angeles").hour(23).minute(59).second(59);
         console.log('PullDailyAssignemnts using ' + date.tz("America/Los_Angeles").format("YYYY-MM-DD"));
     }
 

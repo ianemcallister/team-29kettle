@@ -387,10 +387,11 @@ async function PullDailyAssignemnts(date) {
     //  error check
     if(date == undefined) {
         consol.log('PullDailyAssignemnts using today\'s date');
-        date = Moment(new Date()).tz("America/Los_Angeles").hour(23).minute(59).second(59);
+        date = Moment(new Date()).tz("America/Los_Angeles");
     } else {
         
-        date = Moment(date).tz("America/Los_Angeles").hour(23).minute(59).second(59);
+        date = Moment(date).tz("America/Los_Angeles");
+        if(process.env.NODE_ENV == 'production') date.add(1, 'days');
         console.log('PullDailyAssignemnts using ' + date.tz("America/Los_Angeles").format("YYYY-MM-DD"));
     }
 
@@ -412,11 +413,12 @@ async function PullDailySquareTxs(date) {
     if(date == undefined) date = new Date();
 
     //  DEFINE LOCAL VARIABLES
-    var beginTime   = Moment(date).tz("America/Los_Angeles");
-    var endTime     = Moment(date).tz("America/Los_Angeles");
-    beginTime       = beginTime.hour(0).minute(0).second(0);
-    endTime         = endTime.hour(23).minute(59).second(59);
-
+    var beginTime   = Moment(date).tz("America/Los_Angeles").hour(0).minute(0).second(0);
+    var endTime     = Moment(date).tz("America/Los_Angeles").hour(23).minute(59).second(59);
+    if(process.env.NODE_ENV == 'production') {
+        beginTime.add(1, 'days');
+        endTime.add(1, 'days');
+    }
     //  EXECUTE
     try {
         var paymentsList = await Square.payments.list(undefined, beginTime.format(), endTime.format());

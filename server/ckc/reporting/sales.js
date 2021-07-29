@@ -391,14 +391,14 @@ async function PullDailyAssignemnts(date) {
     } else {
         
         date = Moment(date).tz("America/Los_Angeles");
-        console.log('PullDailyAssignemnts using ' + date.format("YYYY-MM-DD"));
+        console.log('PullDailyAssignemnts using ' + date.tz("America/Los_Angeles").format("YYYY-MM-DD"));
     }
 
     //  DEFINE LOCAL VARIABLES
 
     //  EXECUTE
     try {
-        var assignmentsList = await Firebase.query('ShiftTxs', {orderBy: "date", value: date.format("YYYY-MM-DD")});
+        var assignmentsList = await Firebase.query('ShiftTxs', {orderBy: "date", value: date.tz("America/Los_Angeles").format("YYYY-MM-DD")});
         return assignmentsList;
     } catch (error) {
         console.log('PullDailyAssignemnts Error: ', error);

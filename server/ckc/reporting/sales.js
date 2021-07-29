@@ -21,7 +21,8 @@ var salesMod = {
         pullDailyAssignments:   PullDailyAssignemnts
     },
     assignTxs: AssignTxs,
-    buildSalesReport: BuildSalesReport
+    buildSalesReport: BuildSalesReport,
+    reportDailySales: ReportDailySales
 };
 
 function _buildEmployeeHash(dailyAssignments) {
@@ -150,7 +151,13 @@ function _addTxAssignments(newAssignments) {
     //  NOTIFY PROGRESS
     //console.log('_addTxAssignments', newAssignments);
 
-    Firebase.update('ShiftTxs', newAssignments);
+    if(newAssignments == 0) {
+        console.log('_addTxAssignments: no transactions to assign at this time.');
+    } else {
+        console.log('_addTxAssignments writing new transaction assignments');
+        Firebase.update('ShiftTxs', newAssignments);
+    }
+    
 
     //  RETURN
     return 0;
@@ -302,6 +309,21 @@ async function BuildSalesReport() {
 
     } catch (error) {
         console.log('BuildSalesReport Error: ', error);
+    }
+};
+
+async function ReportDailySales() {
+    //  NOTIFY PROGRESS
+    console.log('ReportDailySales');
+    //  DEFINE LOCAL VARIABLES
+    
+    try {
+        //  EXECUTE
+        //  END
+        process.exit();
+        
+    } catch (error) {
+        console.log('ReportDailySales Error: ', error);
     }
 };
 

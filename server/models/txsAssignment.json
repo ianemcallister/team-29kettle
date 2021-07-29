@@ -1,10 +1,13 @@
 {
     "channel_id" : "",
+    "engagment_id": "",
     "date" : "",
     "device_id" : "",
     "device_nickname" : "",
     "employeeId" : "",
     "end" : "",
     "member_id" : "",
-    "start" : ""
+    "start" : "",
+    "sales_report_id": "",
+    "mfg_report_id": ""
 }

@@ -20,7 +20,8 @@ var salesMod = {
     firebase: {
         pullDailyAssignments:   PullDailyAssignemnts
     },
-    assignTxs: AssignTxs
+    assignTxs: AssignTxs,
+    buildSalesReport: BuildSalesReport
 };
 
 function _buildEmployeeHash(dailyAssignments) {
@@ -89,7 +90,7 @@ function _assignNewAssigments(employeesHash, paymentsList) {
                 console.log(tx.employeeId, "is not in the employees Hash, creating the records");
 
                 //  DEFINE LOCAL VARIABLES
-                var pushId                      = Firebase.pushId('TxsAssignments');
+                var pushId                      = Firebase.pushId('ShiftTxs');
                 newAssignments[pushId]          = _buildAssignmentRecord(tx.employeeId, tx.createdAt);
 
                // ADD THE EMPLOYEE ID TO THE HASH
@@ -149,7 +150,60 @@ function _addTxAssignments(newAssignments) {
     //  NOTIFY PROGRESS
     //console.log('_addTxAssignments', newAssignments);
 
-    Firebase.update('TxsAssignments', newAssignments);
+    Firebase.update('ShiftTxs', newAssignments);
+
+    //  RETURN
+    return 0;
+};
+
+function _identifyUpdateObjects(dailyAssignments) {
+    //  NOTIFY PROGRESS
+    //  DEFINE LOCAL VARIABLES
+    var updatesObject = {};
+
+    //  EXECUTE
+    Object.keys(dailyAssignments).forEach(function(key) {
+
+        //  MAKE SURE A VALID SALES REPORT ID IS PRESENT
+        if(dailyAssignments[key].sales_report_id != "" && dailyAssignments[key].sales_report_id != undefined) {
+
+        } else {
+            //  IF IT ISN'T 
+        }
+    });
+
+    //  RETURN
+    return updatesObject;
+};
+
+function _assignSalesReportValues(updateObjects, paymentsList) {
+    //  NOTIFY PROGRESS
+    //  DEFINE LOCAL VARIABLES
+
+    //  EXECUTE
+    //  RETURN
+};
+
+function _buildSalesReportsUpdates(dailyAssignments, paymentsList) {
+    //  NOTIFY PROGRESS
+    //  DEFINE LOCAL VARIABLES
+
+    //  EXECUTE
+    //  1. Identify the records to update
+    var updateObjects   = _identifyUpdateObjects(dailyAssignments);
+
+    //  2. Assign Update Values
+    var updateValues    = _assignSalesReportValues(updateObjects, paymentsList);
+
+    //  RETURN
+    return updateValues;
+};
+
+function _saveSalesReportsUpdates(recordUpdates) {
+    //  NOTIFY PROGRESS
+    //  DEFINE LOCAL VARIABLES
+    //  EXECUTE
+    Firebase.update('SalesReports', recordUpdates);
 
     //  RETURN
     return 0;
@@ -168,7 +222,7 @@ async function PullDailyAssignemnts(date) {
 
     //  EXECUTE
     try {
-        var assignmentsList = await Firebase.query('TxsAssignments', {orderBy: "date", value: date.format("YYYY-MM-DD")});
+        var assignmentsList = await Firebase.query('ShiftTxs', {orderBy: "date", value: date.format("YYYY-MM-DD")});
         return assignmentsList;
     } catch (error) {
         console.log('PullDailyAssignemnts Error: ', error);
@@ -222,6 +276,32 @@ async function AssignTxs() {
 
     } catch (error) {
         console.log('AssignTxs Error: ', error);
+    }
+};
+
+async function BuildSalesReport() {
+    //  DEFINE LOCAL VARIABLES
+
+    //  EXECUTE
+    try {
+
+        //  1. Pull day's assignments from firebase
+        var dailyAssignments    = await PullDailyAssignemnts();
+
+        //  2. Pull day's txs from square
+        var paymentsList        = await PullDailySquareTxs();
+
+        //  3. Build Update Records
+        var recordUpdates       = _buildSalesReportsUpdates(dailyAssignments, paymentsList);
+
+        //  4. Save updates
+        _saveSalesReportsUpdates(recordUpdates);
+
+        //  END
+        process.exit();
+
+    } catch (error) {
+        console.log('BuildSalesReport Error: ', error);
     }
 };
 

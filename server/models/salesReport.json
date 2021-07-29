@@ -1,0 +1,25 @@
+{
+    "id": "",
+    "engagment_id": "",
+    "total_sales": 0,
+    "average_sale": 0,
+    "gross_sales": 0,
+    "tips": 0,
+    "discounts": 0,
+    "net_sales": 0,
+    "cash_sales": {
+        "no_of_txs": 0,
+        "value": 0,
+        "percentage": 0
+    },
+    "card_sales": {
+        "no_of_txs": 0,
+        "value": 0,
+        "percentage": 0
+    },
+    "transactions": {},
+    "date": "",
+    "employees": {},
+    "channel_id": "",
+    "channel_name": ""
+}

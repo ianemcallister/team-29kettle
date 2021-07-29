@@ -30,7 +30,8 @@ var firebaseMod = {
     query: query,
     add: add,
     update: update,
-    pushId: GetPushId
+    pushId: GetPushId,
+    push: Push
 };
 
 
@@ -99,6 +100,23 @@ function GetPushId(path) {
     var ref = db.ref(path); 
     var newObject = ref.push();
     return newObject.key;
+};
+
+async function Push(path, data) {
+    //  NOTIFY PROGRESS
+    console.log('Firebase Push', path);
+    
+    //  DEFINE LOCAL VARIABLES
+    const ref = db.ref(path);
+
+    //  EXECUTE
+    try {
+        const newRecord = ref.push(data);
+        return newRecord.key;
+    } catch (error) {
+        console.log('push error:', error);
+    }
+    
 };
 
 //  EXPORT MODULE

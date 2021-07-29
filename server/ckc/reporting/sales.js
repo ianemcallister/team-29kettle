@@ -23,64 +23,136 @@ var salesMod = {
     assignTxs: AssignTxs
 };
 
-//  DEFINE PRIVATE FUNCTIONS
-function _identifyNewAssignments(dailyAssignments, paymentsList) {
-    //  NOTIFY PROGRESS
-    console.log('_identifyNewAssignments', dailyAssignments);
-
+function _buildEmployeeHash(dailyAssignments) {
     //  DEFINE LOCAL VARIABLES
-    var employeesHash           = {};
-    var newAssignments          = {};
-    var readpath                = Path.resolve(__dirname, '../../models/txsAssignment.json');
-    var newAssignmentsTemplate  = JSON.parse(Fs.readFileSync(readpath, 'utf8'));
+    var employeesHash = {};
 
-    //  build employee id hash
-    if(dailyAssignments != null) {
+    //  is assignments empty?
+    if(dailyAssignments == null) {
+        //  NOTIFY PROGRES
+        console.log('no dailyAssignments yet');
+    } else {
+        //  NOTIFY PROGRESS
+        console.log('_buildEmployeeHash found daily assignments');
+
+        //  iterate over daily assignments
         Object.keys(dailyAssignments).forEach(function(key) {
             var employeeId = dailyAssignments[key].employeeId;
 
             if(employeeId != null) {
                 employeesHash[employeeId] = true;
             };
-
-        });
-    };
-
-    //  check for valid payments list
-    if(paymentsList != undefined && paymentsList != null) {
-
-        //  Iterate over payments list
-        paymentsList.forEach(function(tx) {
-            var employeeId = tx.employeeId;
-
-            //  is this employee accounted for yet?
-            console.log(employeeId, employeesHash[employeeId]);
-
-            if(employeeId != undefined) {
-
-                if(employeesHash[employeeId] == undefined) {
-                    var pushId                          = Firebase.pushId('TxsAssignments');
-                    newAssignments[pushId]              = newAssignmentsTemplate;
-                    newAssignments[pushId].date         = Moment(new Date(tx.createdAt)).format("YYYY-MM-DD");
-                    newAssignments[pushId].employeeId   = employeeId;
-                    newAssignments[pushId].end          = Moment(new Date(tx.createdAt)).hour(23).minute(59).second(59).format();
-                    newAssignments[pushId].start        = Moment(new Date(tx.createdAt)).hour(0).minute(0).second(0).format();
-                    //  ADD THIS EMPLOYEE TO THE HASH
-                    employeesHash[employeeId]           = true
-                }
-
-            };
         });
     }
 
+    console.log('employee Hash: ', employeesHash);
+    return employeesHash;
+};
+
+function _buildAssignmentRecord(employeeId, createdAt) {
+    //  NOTIFY PROGRESS
+    //  DEFINE LOCAL VARIABLES
+    var readpath            = Path.resolve(__dirname, '../../models/txsAssignment.json');
+    var newAssigmentModel   = JSON.parse(Fs.readFileSync(readpath, 'utf8'));
+
+    newAssigmentModel.date          = Moment(new Date(createdAt)).format("YYYY-MM-DD");
+    newAssigmentModel.employeeId    = employeeId;
+    newAssigmentModel.start         = Moment(new Date(createdAt)).hour(0).minute(0).second(0).format();
+    newAssigmentModel.end           = Moment(new Date(createdAt)).hour(23).minute(59).second(59).format();  
+
+    //  RETURN
+    return newAssigmentModel;
+
+};
+
+function _assignNewAssigments(employeesHash, paymentsList) {
+    //  NOTIFY PROGRESS
+    //  DEFINE LOCAL VARIABLES
+    var newAssignments = {};
+
+    //  EXECUTE
+    
+    // ITERATE OVER THE PAYMENTS LIST
+    paymentsList.forEach(function(tx) {
+
+        //  MAKE SURE THERE IS A GOOD EMPLOYEE ID
+        if (tx.employeeId == undefined) {
+            // NOTIFY PROGRESS
+            console.log('_assignNewAssigments found no employee Id');
+        } else {
+            //  NOTIFY PROGRESS
+            console.log('_assignNewAssigments found employeeId: ', tx.employeeId);
+
+            //  IS THIS EMPLOYEE ID IN THE HASH ALREADY?
+            if(employeesHash[tx.employeeId] == undefined) {
+                //  NOTIFY PROGRESS
+                console.log(tx.employeeId, "is not in the employees Hash, creating the records");
+
+                //  DEFINE LOCAL VARIABLES
+                var pushId                      = Firebase.pushId('TxsAssignments');
+                newAssignments[pushId]          = _buildAssignmentRecord(tx.employeeId, tx.createdAt);
+
+               // ADD THE EMPLOYEE ID TO THE HASH
+                employeesHash[tx.employeeId]    = true;
+
+            } else {
+                //  NOTIFY PROGRESS
+                console.log(tx.employeeId, "is already in the employees Hash, moving on");
+            };
+
+        };
+
+    });
+
+    //  RETURN
+    return newAssignments;
+
+}
+
+function _buildNewAssigments(employeesHash, paymentsList) {
+    //  NOTIFY PROGRESS
+
+    //  CHECK FOR PAYMENTS RECORDS
+    if(paymentsList == undefined || paymentsList == null) {
+        //  NOTIFY PROGRESS
+        console.log('_buildNewAssigments found no payments');
+        
+        //  RETURN 
+        return 0;
+
+    } else {
+        //  NOTIFY PROGRESS
+        console.log('_buildNewAssigments processing payment records');
+
+        //  DEFINE LOCAL VARIABLES
+        var newAssignments = _assignNewAssigments(employeesHash, paymentsList);
+
+        //  RETURN 
+        return newAssignments;
+    };
+
+}
+
+//  DEFINE PRIVATE FUNCTIONS
+function _identifyNewAssignments(dailyAssignments, paymentsList) {
+    //  NOTIFY PROGRESS
+    console.log('_identifyNewAssignments', dailyAssignments);
+
+    //  DEFINE LOCAL VARIABLES
+    var employeesHash           = _buildEmployeeHash(dailyAssignments);
+    var newAssignments          = _buildNewAssigments(employeesHash, paymentsList);
 
     return newAssignments;
 };
 
 function _addTxAssignments(newAssignments) {
     //  NOTIFY PROGRESS
-    console.log('_addTxAssignments', newAssignments);
-    return 1;
+    //console.log('_addTxAssignments', newAssignments);
+
+    Firebase.update('TxsAssignments', newAssignments);
+
+    //  RETURN
+    return 0;
 };
 
 //  DEFINE PUBLIC FUNCTIONS

@@ -55,10 +55,10 @@ function _buildAssignmentRecord(employeeId, createdAt) {
     var readpath            = Path.resolve(__dirname, '../../models/txsAssignment.json');
     var newAssigmentModel   = JSON.parse(Fs.readFileSync(readpath, 'utf8'));
 
-    newAssigmentModel.date          = Moment(new Date(createdAt)).format("YYYY-MM-DD");
+    newAssigmentModel.date          = Moment(new Date(createdAt)).tz("America/Los_Angeles").format("YYYY-MM-DD");
     newAssigmentModel.employeeId    = employeeId;
-    newAssigmentModel.start         = Moment(new Date(createdAt)).hour(0).minute(0).second(0).format();
-    newAssigmentModel.end           = Moment(new Date(createdAt)).hour(23).minute(59).second(59).format();  
+    newAssigmentModel.start         = Moment(new Date(createdAt)).tz("America/Los_Angeles").hour(0).minute(0).second(0).format();
+    newAssigmentModel.end           = Moment(new Date(createdAt)).tz("America/Los_Angeles").hour(23).minute(59).second(59).format();  
 
     //  RETURN
     return newAssigmentModel;
@@ -162,7 +162,7 @@ async function PullDailyAssignemnts(date) {
     console.log('PullDailyAssignemnts', date);
 
     //  error check
-    if(date == undefined) date = Moment(new Date());
+    if(date == undefined) date = Moment(new Date()).tz("America/Los_Angeles");
 
     //  DEFINE LOCAL VARIABLES
 
@@ -182,8 +182,8 @@ async function PullDailySquareTxs(date) {
     if(date == undefined) date = new Date();
 
     //  DEFINE LOCAL VARIABLES
-    var beginTime   = Moment(new Date(date));
-    var endTime     = Moment(new Date(date));
+    var beginTime   = Moment(new Date(date)).tz("America/Los_Angeles");
+    var endTime     = Moment(new Date(date)).tz("America/Los_Angeles");
     beginTime       = beginTime.hour(0).minute(0).second(0);
     endTime         = endTime.hour(23).minute(59).second(59);
 

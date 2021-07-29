@@ -391,7 +391,7 @@ async function PullDailyAssignemnts(date) {
     } else {
         
         date = Moment(date).tz("America/Los_Angeles");
-        console.log('PullDailyAssignemnts using ' + date);
+        console.log('PullDailyAssignemnts using ' + date.format("YYYY-MM-DD"));
     }
 
     //  DEFINE LOCAL VARIABLES

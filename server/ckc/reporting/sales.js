@@ -389,8 +389,9 @@ async function PullDailyAssignemnts(date) {
         consol.log('PullDailyAssignemnts using today\'s date');
         date = Moment(new Date()).tz("America/Los_Angeles");
     } else {
-        console.log('PullDailyAssignemnts using ' + date);
+        
         date = Moment(date).tz("America/Los_Angeles");
+        console.log('PullDailyAssignemnts using ' + date);
     }
 
     //  DEFINE LOCAL VARIABLES

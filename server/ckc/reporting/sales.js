@@ -418,8 +418,8 @@ async function PullDailySquareTxs(date) {
     var beginTime   = Moment(date).tz("America/Los_Angeles").hour(0).minute(0).second(0);
     var endTime     = Moment(date).tz("America/Los_Angeles").hour(23).minute(59).second(59);
     if(process.env.NODE_ENV == 'production') {
-        beginTime.add(1, 'days');
-        endTime.add(1, 'days');
+        //beginTime.add(1, 'days');
+        //endTime.add(1, 'days');
     }
 
     //  EXECUTE

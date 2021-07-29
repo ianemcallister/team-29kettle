@@ -326,7 +326,9 @@ async function _collectEmployeeRecipients(employeeId) {
         var employeeRecord = await Square.team.team.retrieve(employeeId);
         
         console.log('_collectEmployeeRecipients', employeeRecord.teamMember.emailAddress);
-        //allEmails.push(employeeRecord.teamMember.emailAddress);
+        
+        //  ADD EMAIL
+        allEmails.push(employeeRecord.teamMember.emailAddress);
         
         return allEmails;
     } catch (error) {
@@ -419,6 +421,7 @@ async function PullDailySquareTxs(date) {
         beginTime.add(1, 'days');
         endTime.add(1, 'days');
     }
+
     //  EXECUTE
     try {
         var paymentsList = await Square.payments.list(undefined, beginTime.format(), endTime.format());

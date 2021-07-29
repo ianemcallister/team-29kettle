@@ -11,6 +11,8 @@ const client = new Client({
     accessToken: process.env.CKC_SQR_APP_TKN,
 });
 
+const teamApi = client.teamApi;
+
 //  DEFINE MODULE
 var squareStOps = {
     payments: {
@@ -45,7 +47,8 @@ var squareStOps = {
     },
     team: {
         team: {
-            searchTeamMembers: SearchTeamMembers
+            searchTeamMembers: SearchTeamMembers,
+            retrieve: RetrieveTeamMember
         },
         employees: {
             list: listEmployees,
@@ -531,6 +534,23 @@ async function SearchTeamMembers(params) {
         return result
     } catch (error) {
         console.log('SearchTeamMembers error: ');
+        console.log(error);
+    }
+};
+
+async function RetrieveTeamMember(employeeId) {
+    //  NOTIFY PROGRESS
+    
+    //  DEFINE LOCAL VARIABLES
+    //  EXECUTE
+    try {
+        const { result, ...httpResponse } = await teamApi.retrieveTeamMember(employeeId);
+        // Get more response info...
+        // const { statusCode, headers } = httpResponse;
+        //console.log('RetrieveTeamMember', employeeId, result);
+        return result
+    } catch (error) {
+        console.log('RetrieveTeamMember error: ');
         console.log(error);
     }
 };

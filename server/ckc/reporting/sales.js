@@ -6,6 +6,8 @@
 const Square      = require('../../square/square.js');
 const Firebase    = require('../../firebase/firebase.js');
 const Moment      = require('moment-timezone');
+const Handlebars  = require("handlebars");
+const Mail        = require('../../mailCenter/mailCenter.js');
 const Fs          = require('fs');
 const Path        = require('path');
 
@@ -287,11 +289,92 @@ function _buildDailySalesReports(assigments, txs) {
     return allReports;
 };
 
-function _distributeSalesReports(allReports) {
+async function _distributeSalesReports(allReports) {
     //  NOTIFY PROGRESS
     console.log('_distributeSalesReports', allReports);
     //  DEFINE LOCAL VARIABLES
+
     //  EXECUTE
+    try {
+
+        //  1. ITERATE OVER REPORTS
+        for (const report of allReports) {
+
+            //  COLLECT THE RECIPIANTS
+            var recipiants   = await _collectEmployeeRecipients(report.employeeId)
+
+            //  SEND THE EMAIL
+            var info = await _buildShiftReportEmails(report, recipiants);
+
+        }
+       
+
+    } catch (error) {
+        console.log('_distributeSalesReports Error', error);
+    }
+    
+};
+
+async function _collectEmployeeRecipients(employeeId) {
+    //  NOTIFY PROGRESS
+    //  DEFINE LOCAL VERIABLES
+    var allEmails = ['ian@29kettle.com', 'lexie@29kettle.com'];
+     
+    //  EXECUTE
+    try {
+        
+        var employeeRecord = await Square.team.team.retrieve(employeeId);
+        
+        console.log('_collectEmployeeRecipients', employeeRecord.teamMember.emailAddress);
+        //allEmails.push(employeeRecord.teamMember.emailAddress);
+        
+        return allEmails;
+    } catch (error) {
+        console.log('_collectEmployeeRecipients Error:', error);
+    }
+    //  RETURN 
+};
+
+async function _buildShiftReportEmails(report, emails) {
+    //  NOTIFY PROGRESS
+    console.log('_buildShiftReportEmails', report, emails);
+
+    //  DEFINE LOCAL VARIABLES
+    var emailSubject        = "29 Kettle Daily Shift Recap: " + Moment(report.date).format('LL')
+    var readpath            = Path.resolve(__dirname, '../../templates/shiftReportEmail.htm');
+    var shiftEmailTemplate  = Fs.readFileSync(readpath, 'utf8');
+    const emailTemplate     = Handlebars.compile(shiftEmailTemplate); 
+
+    Handlebars.registerHelper('readableDate', function(aDate) {
+        var dateString = Moment(aDate).format('LL');
+        return new Handlebars.SafeString(dateString)
+    });
+
+    Handlebars.registerHelper('readableDollars', function(value) {
+        var dollarValueString = "$" + (value / 100).toFixed(2);
+        return new Handlebars.SafeString(dollarValueString)
+    });
+
+    Handlebars.registerHelper('averageSale', function(value, sales) {
+        var averageValue = value / sales;
+        var averageString = "$" + (averageValue / 100).toFixed(2);
+        return new Handlebars.SafeString(averageString)
+    });
+
+
+    const sendOptions = {
+        from:       'info@ah-nuts.com',
+        to:         emails,
+        subject:    emailSubject,
+        html:       emailTemplate(report)
+    };
+
+    //  EXECUTE
+    try {
+        await Mail.send(sendOptions);
+    } catch (error) {
+        console.log('_buildShiftReportEmails Error', error );
+    }
 
 };
 
@@ -414,10 +497,11 @@ async function ReportDailySales() {
         var allReports              = _buildDailySalesReports(yesterdaysAssigments, yesterdaysTxs);
 
         //  3.  Distribute those reports
-        _distributeSalesReports(allReports);
+        await _distributeSalesReports(allReports);
 
         //  END
-        process.exit();
+        setTimeout(process.exit(), 10000);
+
         
     } catch (error) {
         console.log('ReportDailySales Error: ', error);

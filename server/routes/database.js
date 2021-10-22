@@ -37,15 +37,15 @@ module.exports = (function() {
         var path = 'Engagments';
         var query = {
             orderBy: "wk",
-            value: wk
+            value: parseInt(wk)
         };
 
         //  DEFINE LOCAL METHODS
         try {
             var result = await Firebase.query(path, query);
             // Get more response info...
-            // const { statusCode, headers } = httpResponse;
-            //console.log('got this back:', result);
+            //const { statusCode, headers } = httpResponse;
+            //console.log('queryWeeklyEngagments got this back:', result);
             return result
             
         } catch (error) {

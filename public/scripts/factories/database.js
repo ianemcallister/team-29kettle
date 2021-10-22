@@ -26,7 +26,7 @@ function Database($q, $http) {
     */
     function GetChannelEngagments(channelId) {
         //  NOTIFY PROGRESS
-        //console.log('GetChannelEngagments: ', channelId);
+        console.log('GetChannelEngagments: ', channelId);
         //  LOCAL VARIABLES
         var def = $q.defer();
 
@@ -46,7 +46,7 @@ function Database($q, $http) {
 
     function GetWeeklyEngagments(wk) {
         //  NOTIFY PROGRESS
-        console.log('GetWeeklyEngagments: ', channelId);
+        console.log('GetWeeklyEngagments: ', wk);
         //  LOCAL VARIABLES
         var def = $q.defer();
 

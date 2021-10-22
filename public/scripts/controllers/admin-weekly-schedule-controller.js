@@ -1,10 +1,10 @@
 ckc
     .controller('adminWeeklyScheduleController', adminWeeklyScheduleController);
 
-	adminWeeklyScheduleController.$inject = ['$location', '$routeParams', 'moment'];
+	adminWeeklyScheduleController.$inject = ['$location', '$routeParams', 'moment', 'engagemnts'];
 
 /* @ngInject */
-function adminWeeklyScheduleController($location, $routeParams, moment) {
+function adminWeeklyScheduleController($location, $routeParams, moment, engagemnts) {
 
 	//	NOTIFY PROGRES
 
@@ -16,6 +16,7 @@ function adminWeeklyScheduleController($location, $routeParams, moment) {
     vm.currentYear = '';
     vm.kitOrChannel = 'Channel';
     vm.days = '';
+    vm.engagments = '';
 
     /*
     *   QUALITY CONTROL
@@ -45,6 +46,7 @@ function adminWeeklyScheduleController($location, $routeParams, moment) {
             6: moment().year("20" + $routeParams.Yr).week($routeParams.Wk).isoWeekday("Monday").day(7).format(),
         }
     }
+    if(engagemnts != undefined) { vm.engagemnts = engagemnts; }
     
 
 	//	VIEW MODEL FUNCTIONS

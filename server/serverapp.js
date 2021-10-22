@@ -49,7 +49,7 @@ serverApp.get('/config/firebase', async function(req, res) {
 	returnString += "const auth = firebase.auth();"
 
 	//advise of the post body
-	console.log('firebase config GET', returnString);
+	//console.log('firebase config GET', returnString);
 
 	res.status(200);
 	res.send(returnString);

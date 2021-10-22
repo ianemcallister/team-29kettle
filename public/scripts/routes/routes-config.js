@@ -159,7 +159,17 @@ function config($routeProvider, $locationProvider) {
     .when('/admin/channels/:channelId', {
         templateUrl: 'assets/views/admin-select-channel-page.htm',     //  dashboard Page View
         controller: 'adminSelectChannelController',                  //  dashboard Page Controller
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: { /* @ngInject */
+            engagemnts: function(Database, $q, $route) {
+                var def = $q.defer();
+                Database.get.channelEngagments($route.current.params.channelId).then(function(result) {
+                    console.log('got this', result);
+                    def.resolve(result);
+                });
+                return def.promise;
+            }
+        }
     })
     .when('/admin/engagments/:engagmentId', {
         templateUrl: 'assets/views/admin-select-engagment-page.htm',     //  dashboard Page View

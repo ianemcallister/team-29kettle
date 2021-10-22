@@ -1,16 +1,17 @@
 ckc
     .controller('adminSelectChannelController', adminSelectChannelController);
 
-	adminSelectChannelController.$inject = ['$routeParams', '$firebaseObject', '$location', 'Database'];
+	adminSelectChannelController.$inject = ['$routeParams', '$firebaseObject', '$location', 'engagemnts'];
 
 /* @ngInject */
-function adminSelectChannelController($routeParams, $firebaseObject, $location, Database) {
+function adminSelectChannelController($routeParams, $firebaseObject, $location, engagemnts) {
 
 	//	NOTIFY PROGRES
 	console.log('$routeParams', $routeParams)
 
 	//	LOCAL VARIABLES
 	var vm = this;
+
 
     //  LOCAL FUNCTION S
     function downloadChannelData(id) {
@@ -24,24 +25,22 @@ function adminSelectChannelController($routeParams, $firebaseObject, $location, 
         return $firebaseObject(ref);
     };
 
-    Database.get.channelEngagments($routeParams.channelId).then(function(result) {
-        vm.engagementsData = result;
-    });
-
 
 	//	VIEW MODEL VARIABLES
     vm.channelData = downloadChannelData($routeParams.channelId);
-    
+    vm.engagementsData = engagemnts;
+
 
 	//	VIEW MODEL FUNCTIONS
     vm.rowClick = function(id) {
         console.log(id);
-        //$location.path('')
+        $location.path('/admin/engagments/' + id)
     }
 
 
 	//	EXECUTE
 	console.log('in the admin select channel controller ');	    //  TODO: TAKE THIS OUT LATER
 
+    
 
 }

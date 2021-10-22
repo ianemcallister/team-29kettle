@@ -179,7 +179,18 @@ function config($routeProvider, $locationProvider) {
     .when('/admin/schedule/weekly', {
         templateUrl: 'assets/views/admin-weekly-schedule-page.htm',     //  dashboard Page View
         controller: 'adminWeeklyScheduleController',                  //  dashboard Page Controller
-        controllerAs: 'vm'
+        controllerAs: 'vm'//,
+        //resolve: { /* @ngInject */
+        /*    engagemnts: function(Database, $q, $route) {
+                console.log('routing: ',$route.current.params.Wk)
+                var def = $q.defer();
+                Database.get.weeklyEngagments($route.current.params.Wk).then(function(result) {
+                    console.log('got this', result);
+                    def.resolve(result);
+                });
+                return def.promise;
+            }
+        }*/
     }) 
 	.otherwise({
         redirectTo: '/'

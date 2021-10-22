@@ -16,7 +16,8 @@ function Database($q, $http) {
     //  DEFINE METHODS
     var dbMod = {
         get: {
-            channelEngagments: GetChannelEngagments
+            channelEngagments: GetChannelEngagments,
+            weeklyEngagments: GetWeeklyEngagments
         }
     };
 
@@ -32,6 +33,26 @@ function Database($q, $http) {
         $http({
             method: 'GET',
             url: '/db/engagments?channelId=' + channelId
+        }).then(function successCallback(response) {
+            //console.log('got this response');
+            //console.log(response.data);
+            def.resolve(response.data);
+        }, function errorCallback(error) {
+            console.log('Error: ', error);
+        });
+
+        return def.promise;
+    };
+
+    function GetWeeklyEngagments(wk) {
+        //  NOTIFY PROGRESS
+        console.log('GetWeeklyEngagments: ', channelId);
+        //  LOCAL VARIABLES
+        var def = $q.defer();
+
+        $http({
+            method: 'GET',
+            url: '/db/engagments?wk=' + wk
         }).then(function successCallback(response) {
             //console.log('got this response');
             //console.log(response.data);

@@ -29,16 +29,26 @@
 
     <table class="table">
         <thead>
-            <th scope='col'>Kit</th>
-            <th scope='col'>Monday <br>  </th>
-            <th scope='col'>Tuesday</th>
-            <th scope='col'>Wednesday</th>
-            <th scope='col'>Thursday</th>
-            <th scope='col'>Friday</th>
-            <th scope='col'>Saturday</th>
-            <th scope='col'>Sunday</th>
+            <th scope='col'><input list="kitOrChannelPicker" ng-model='vm.kitOrChannel'></th>
+            <th scope='col'>Monday <br> {{vm.days[0] | date : "M/d"}}</th>
+            <th scope='col'>Tuesday <br> {{vm.days[1] | date : "M/d"}}</th>
+            <th scope='col'>Wednesday <br> {{vm.days[2] | date : "M/d"}}</th>
+            <th scope='col'>Thursday <br> {{vm.days[3] | date : "M/d"}}</th>
+            <th scope='col'>Friday <br> {{vm.days[4] | date : "M/d"}}</th>
+            <th scope='col'>Saturday <br> {{vm.days[5] | date : "M/d"}}</th>
+            <th scope='col'>Sunday <br> {{vm.days[6] | date : "M/d"}}</th>
         </thead>
     </table>
 
-    {{vm.days}}
+    {{vm.engagemnts}}
+
+
+    <datalist name="kitOrChannelPicker" id="kitOrChannelPicker">
+        <option ng-repeat="view in ['Kit', 'Channel'] track by $index"
+                style='font-size: 12pt'
+                ng-click=''>
+                {{view}}
+        </option>
+    
+    </datalist>  
 </div>

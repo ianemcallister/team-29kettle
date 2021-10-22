@@ -1,5 +1,44 @@
 <div>
     <h3>Schedule</h3>
 
-    
+
+    <div>
+        <!--Year-->
+        <input  type="text" 
+                ng-model='vm.currentYear'
+                class='center-block'> 
+        <br>
+
+        <!--Left Arrow-->
+        <p class='d-inline' ng-click='vm.leftArrow()'>
+            <i class="arrow left">
+            </i>
+        </p> 
+        
+        <input type="text"
+                ng-model='vm.currentWeek'
+                class='d-inline'>
+        
+        <!--right arrow-->
+        <p class='d-inline' ng-click='vm.rightArrow()'>
+            <i class="arrow right">
+            </i>
+        </p>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <th scope='col'>Kit</th>
+            <th scope='col'>Monday <br>  </th>
+            <th scope='col'>Tuesday</th>
+            <th scope='col'>Wednesday</th>
+            <th scope='col'>Thursday</th>
+            <th scope='col'>Friday</th>
+            <th scope='col'>Saturday</th>
+            <th scope='col'>Sunday</th>
+        </thead>
+    </table>
+
+    {{vm.days}}
 </div>

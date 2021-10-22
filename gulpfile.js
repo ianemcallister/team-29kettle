@@ -62,10 +62,11 @@ function styles() {
       .pipe(less())
       .pipe(cleanCSS())
       // pass in options to the stream
-      .pipe(rename({
+      .pipe(concat('main.min.css'))
+      /*.pipe(rename({
         basename: 'main',
         suffix: '.min'
-      }))
+      }))*/
       .pipe(gulp.dest(paths.styles.dest));
 };
 

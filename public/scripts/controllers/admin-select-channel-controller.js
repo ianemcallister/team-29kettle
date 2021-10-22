@@ -1,10 +1,10 @@
 ckc
-    .controller('adminSelectChannelController', adminChannelsController);
+    .controller('adminSelectChannelController', adminSelectChannelController);
 
-	adminSelectChannelController.$inject = ['$routeParams', '$firebaseObject'];
+	adminSelectChannelController.$inject = ['$routeParams', '$firebaseObject', '$location'];
 
 /* @ngInject */
-function adminSelectChannelController($routeParams, $firebaseObject) {
+function adminSelectChannelController($routeParams, $firebaseObject, $location) {
 
 	//	NOTIFY PROGRES
 	console.log('$routeParams', $routeParams)
@@ -12,19 +12,41 @@ function adminSelectChannelController($routeParams, $firebaseObject) {
 	//	LOCAL VARIABLES
 	var vm = this;
 
-	//	VIEW MODEL VARIABLES
-    vm.channelData = downloadData();
-
-	//	VIEW MODEL FUNCTIONS
-    function downloadData() {
+    //  LOCAL FUNCTION S
+    function downloadChannelData(id) {
         //  NOTIFY PROGRESS
-        //console.log('got this UID: ', uid);
+        //console.log('got this key: ', id);
+
         //  LOCAL VARIABLES
-        var readPath = "Channels/";
+        var readPath = "Channels/" + id;
         var _db     = firebase.database();
         var ref     = _db.ref(readPath);
         return $firebaseObject(ref);
     };
+
+
+
+	//	VIEW MODEL VARIABLES
+    vm.channelData = downloadChannelData($routeParams.channelId);
+    vm.engagementsData = {
+        "aiohgoihwes": {
+            "Yr": 21,
+            "Wk": 42,
+            "D": 6,
+            "date": "2021-10-17"
+        },
+        "osihaweo": {
+            "Yr": 21,
+            "Wk": 43,
+            "D": 6,
+            "date": "2021-10-24"
+        }
+    }
+	//	VIEW MODEL FUNCTIONS
+    vm.rowClock = function(id) {
+        console.log(id);
+        //$location.path('')
+    }
 
 
 	//	EXECUTE

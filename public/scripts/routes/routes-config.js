@@ -161,6 +161,11 @@ function config($routeProvider, $locationProvider) {
         controller: 'adminSelectChannelController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     })
+    .when('/admin/engagments/:engagmentId', {
+        templateUrl: 'assets/views/admin-select-engagment-page.htm',     //  dashboard Page View
+        controller: 'adminSelectEngagmentController',                  //  dashboard Page Controller
+        controllerAs: 'vm'
+    })
 	.otherwise({
         redirectTo: '/'
     });

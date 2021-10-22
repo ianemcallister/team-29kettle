@@ -1,3 +1,21 @@
 <div>
-    select channel
+    <h3>{{vm.channelData.name}}</h3>
+   
+    <h4>Engagments</h4>
+    <table class="table">
+        <thead>
+            <th scope='col'>#</th>
+            <th scope='col'>YrWkD</th>
+            <th scope='col'>Date</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat='(key, value) in vm.engagementsData'
+                ng-click='vm.rowClock(key)'>
+                <th scope='row'>{{$index +1}}</th>
+                <td>{{value.Yr}}{{value.Wk}}{{value.D}}</td>
+                <td>{{value.date | date : "shortDate" }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
 </div>

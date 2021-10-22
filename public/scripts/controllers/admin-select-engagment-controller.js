@@ -29,11 +29,21 @@ function adminSelectEngagmentController($routeParams, $firebaseObject, $location
 	//	VIEW MODEL VARIABLES
     vm.engagmentData = downloadEngagmentData($routeParams.engagmentId);
     
+    
 	//	VIEW MODEL FUNCTIONS
-    vm.rowClock = function(id) {
+    vm.channelClicked = function(id) {
         console.log(id);
-        //$location.path('')
-    }
+        $location.path('/admin/channels/' + id);
+    };
+
+    vm.dateConcatenate = function(date, time) {
+        return date + "T" + time;
+    };
+
+    vm.yrWkDConcatenate = function(yr, wk, d) {
+        if(yr != undefined && wk != undefined && d != undefined)
+        return yr.toString() + wk.toString() + d.toString();
+    };
 
 
 	//	EXECUTE

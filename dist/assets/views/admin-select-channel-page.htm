@@ -10,7 +10,7 @@
         </thead>
         <tbody>
             <tr ng-repeat='(key, value) in vm.engagementsData'
-                ng-click='vm.rowClock(key)'>
+                ng-click='vm.rowClick(key)'>
                 <th scope='row'>{{$index +1}}</th>
                 <td>{{value.Yr}}{{value.Wk}}{{value.D}}</td>
                 <td>{{value.date | date : "shortDate" }}</td>
@@ -18,4 +18,5 @@
             
         </tbody>
     </table>
+
 </div>

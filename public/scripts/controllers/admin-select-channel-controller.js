@@ -1,10 +1,10 @@
 ckc
     .controller('adminSelectChannelController', adminSelectChannelController);
 
-	adminSelectChannelController.$inject = ['$routeParams', '$firebaseObject', '$location'];
+	adminSelectChannelController.$inject = ['$routeParams', '$firebaseObject', '$location', 'Database'];
 
 /* @ngInject */
-function adminSelectChannelController($routeParams, $firebaseObject, $location) {
+function adminSelectChannelController($routeParams, $firebaseObject, $location, Database) {
 
 	//	NOTIFY PROGRES
 	console.log('$routeParams', $routeParams)
@@ -24,26 +24,17 @@ function adminSelectChannelController($routeParams, $firebaseObject, $location) 
         return $firebaseObject(ref);
     };
 
+    Database.get.channelEngagments($routeParams.channelId).then(function(result) {
+        vm.engagementsData = result;
+    });
 
 
 	//	VIEW MODEL VARIABLES
     vm.channelData = downloadChannelData($routeParams.channelId);
-    vm.engagementsData = {
-        "aiohgoihwes": {
-            "Yr": 21,
-            "Wk": 42,
-            "D": 6,
-            "date": "2021-10-17"
-        },
-        "osihaweo": {
-            "Yr": 21,
-            "Wk": 43,
-            "D": 6,
-            "date": "2021-10-24"
-        }
-    }
+    
+
 	//	VIEW MODEL FUNCTIONS
-    vm.rowClock = function(id) {
+    vm.rowClick = function(id) {
         console.log(id);
         //$location.path('')
     }

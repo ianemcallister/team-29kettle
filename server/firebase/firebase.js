@@ -64,6 +64,7 @@ async function query(path, query) {
     //  EXECUTE
     try {
         var result = await queryRef.once('value');
+        //console.log(result.val());
         return result.val();
     } catch (error) {
         console.log('query Error: ', error);

@@ -55,6 +55,14 @@ serverApp.get('/config/firebase', async function(req, res) {
 	res.send(returnString);
 });
 
+//	ROUTING
+/*
+*	To clena up the code we've moved it to externl files
+*/
+//	DATABASE ROUTES
+var databaseRoutes = require('./routes/database');
+serverApp.use('/db', databaseRoutes);
+
 /*
 *	EXECUTE: RUN THE SERVER
 */

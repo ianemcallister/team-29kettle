@@ -11,6 +11,42 @@ function adminWeeklyScheduleController($location, $routeParams, moment, engagemn
 	//	LOCAL VARIABLES
 	var vm = this;
 
+    //  LOCAL FUNCTIONS
+    function consolidateChannelEngagments(allEngagments) {
+        var channelsList = {};
+
+        //  ITERATE OVER ALL ENGAGMENTS
+        Object.keys(allEngagments).forEach(function(key) {
+
+            //  LOOK FOR NEW CHANNEL IDS
+            var channelId = allEngagments[key].channelId;
+            if(channelsList[channelId] == undefined) {
+
+                //  START NEW RECORD FOR NEW CHANNEL IDS
+                channelsList[channelId] = {
+                    channel: allEngagments[key].channel,
+                    channelId: allEngagments[key].channelId,
+                    engagments: [{},{},{},{},{},{},{}]
+                }
+            } 
+
+            //  LOOK AT THE DATE - Sunday as 0, Saturday as 6
+            var wkDay = 0;
+            var engagmentDate = moment(allEngagments[key].date);
+            //console.log(engagmentDate.day() - 1);
+            if(engagmentDate.day() == 0) { wkDay = 6 } else { wkDay = engagmentDate.day() - 1; }
+
+            channelsList[channelId].engagments[wkDay] = allEngagments[key];
+            channelsList[channelId].engagments[wkDay]['engagmentId'] = key;
+
+         
+        })
+
+        console.log('channels list: ', channelsList);
+
+        return channelsList;
+    }
+
 	//	VIEW MODEL VARIABLES
     vm.currentWeek = ''
     vm.currentYear = '';
@@ -46,7 +82,9 @@ function adminWeeklyScheduleController($location, $routeParams, moment, engagemn
             6: moment().year("20" + $routeParams.Yr).week($routeParams.Wk).isoWeekday("Monday").day(7).format(),
         }
     }
-    if(engagemnts != undefined) { vm.engagemnts = engagemnts; }
+    if(engagemnts != undefined) { 
+        vm.engagemnts = consolidateChannelEngagments(engagemnts); 
+    }
     
 
 	//	VIEW MODEL FUNCTIONS

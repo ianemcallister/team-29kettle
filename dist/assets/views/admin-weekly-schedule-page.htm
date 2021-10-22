@@ -27,7 +27,7 @@
     </div>
 
 
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <th scope='col'><input list="kitOrChannelPicker" ng-model='vm.kitOrChannel'></th>
             <th scope='col'>Monday <br> {{vm.days[0] | date : "M/d"}}</th>
@@ -38,10 +38,19 @@
             <th scope='col'>Saturday <br> {{vm.days[5] | date : "M/d"}}</th>
             <th scope='col'>Sunday <br> {{vm.days[6] | date : "M/d"}}</th>
         </thead>
+        <tbody>
+            <tr ng-repeat='(channelKey, channelValue) in vm.engagemnts'>
+                <th scope='row'>{{channelValue.channel}}</th>
+                <td ng-repeat='(engKey, engValue) in channelValue.engagments'
+                    >
+                    {{engValue.channel}}
+                </td>
+            </tr>
+            
+        </tbody>
     </table>
 
-    {{vm.engagemnts}}
-
+    {{vm.engagments}}
 
     <datalist name="kitOrChannelPicker" id="kitOrChannelPicker">
         <option ng-repeat="view in ['Kit', 'Channel'] track by $index"

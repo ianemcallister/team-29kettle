@@ -11,9 +11,6 @@ const Mail        = require('../../mailCenter/mailCenter.js');
 const Fs          = require('fs');
 const Path        = require('path');
 
-//  settings
-Moment().tz("America/Los_Angeles").format();
-
 //  DEFINE MODULE
 var salesMod = {
     square: {
@@ -508,7 +505,7 @@ async function ReportDailySales() {
         await _distributeSalesReports(allReports);
 
         //  END
-        setTimeout(process.exit(), 10000);
+        setTimeout(process.exit(), (20*1000));
 
         
     } catch (error) {

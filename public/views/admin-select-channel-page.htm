@@ -1,5 +1,16 @@
 <div>
+    <a href="/#/admin/channels">Return to Channels</a>
+    
     <h3>{{vm.channelData.name}}</h3>
+
+    <h4>Stats</h4>
+    <table class="table">
+        <thead></thead>
+        <tbody>
+            <th scope='row'>Total Engagments</th>
+            <td>{{vm.sumEngagments(vm.engagementsData)}}</td>
+        </tbody>
+    </table>
    
     <h4>Engagments</h4>
     <table class="table">

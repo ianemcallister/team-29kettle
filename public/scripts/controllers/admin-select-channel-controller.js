@@ -37,6 +37,14 @@ function adminSelectChannelController($routeParams, $firebaseObject, $location, 
         $location.path('/admin/engagments/' + id)
     }
 
+    vm.sumEngagments = function(allEngagments) {
+        var i = 0;
+        Object.keys(allEngagments).forEach(function(keys) {
+            i = keys.length;
+        })
+        return i;
+    }
+
 
 	//	EXECUTE
 	console.log('in the admin select channel controller ');	    //  TODO: TAKE THIS OUT LATER

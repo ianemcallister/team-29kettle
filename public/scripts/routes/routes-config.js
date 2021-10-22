@@ -176,6 +176,11 @@ function config($routeProvider, $locationProvider) {
         controller: 'adminSelectEngagmentController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     })
+    .when('/admin/schedule/weekly', {
+        templateUrl: 'assets/views/admin-weekly-schedule-page.htm',     //  dashboard Page View
+        controller: 'adminWeeklyScheduleController',                  //  dashboard Page Controller
+        controllerAs: 'vm'
+    }) 
 	.otherwise({
         redirectTo: '/'
     });

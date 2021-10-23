@@ -72,10 +72,10 @@ async function xfrTxs(startCursor, endCursor) {
                 };
                 updateObject[payment.id]['collectedAt'] = {
                     "engagmentId": "",
-                    "channelId": "",
-                    "date": Moment.tz(payment.createdAt, "America/Los_Angeles").format("YYYY-MM-DD")
+                    "channelId": ""
                 };
-                updateObject[payment.id]['salesReportId'] = ""
+                updateObject[payment.id]['refDate'] = Moment.tz(payment.createdAt, "America/Los_Angeles").format("YYYY-MM-DD");
+                updateObject[payment.id]['salesReportId'] = "";
 
             });
 

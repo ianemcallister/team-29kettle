@@ -585,7 +585,7 @@ async function listEmployees() {
     //  LOCAL VARIABLES
     const employeesApi = client.employeesApi;
     const locationId = 'RKNMKQF48TA6W';
-    const status = 'ACTIVE';
+    const status = 'INACTIVE';
     const limit = 100;
     const cursor = undefined;
     

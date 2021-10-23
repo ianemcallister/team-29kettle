@@ -3,7 +3,7 @@
         <thead></thead>
         <tbody>
             <tr ng-repeat="(key, value) in vm.collectionsByTeamMember">
-                <th scope="row">{{key}}</th>
+                <th scope="row">{{vm.concatenateName(key)}}</th>
                 <td>{{value.totalCollections}}</td>
                 <td>{{value.totalSalesCollected / 100 | currency : "$" : 2}}</td>
                 <td>{{value.totalTipsCollected / 100 | currency : "$" : 2}}</td>

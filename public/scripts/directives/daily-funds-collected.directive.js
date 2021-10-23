@@ -25,10 +25,10 @@ function dailyFundsCollected() {
         })
     }
     
-    dailyFundsCollectedController.$inject = ['$scope', '$log', 'Database'];
+    dailyFundsCollectedController.$inject = ['$scope', '$log', 'Database', '$firebaseObject'];
 
     /* @ngInject */
-    function dailyFundsCollectedController($scope, $log, Database) {
+    function dailyFundsCollectedController($scope, $log, Database, $firebaseObject) {
         //  NOTIFY PROGRESS
         console.log('in the daily funds collected directive');
         
@@ -36,6 +36,13 @@ function dailyFundsCollected() {
         var vm = this;
 
         //  DEFINE LOCAL FUNCTIONS
+        function loadTeamProfiles() {
+            //  DEFINE LOCAL VARIABLS
+            var readPath = "Members";
+            var _db     = firebase.database();
+            var ref     = _db.ref(readPath);
+            return $firebaseObject(ref);
+        };
 
         function _groupCollections(allPaymentCollections) {
             //  DEFINE LOCAL VARIABLES
@@ -102,8 +109,21 @@ function dailyFundsCollected() {
 
         //  DEFINE VIEW MODEL VARIABLES
         vm.paymentsCollected = '';
+        vm.teamMemberProfiles = loadTeamProfiles();
 
         //  DEFINE VIEWMODEL FUNCTIONS
+        $scope.vm.concatenateName = function(key) {
+            //  NOTIFY PROGRESS
+            //console.log('$scope.vm.concatenateName:', key);
+
+            //  DEFINE LOCAL VARIABLES
+            var returnString = "UNKNOWN";
+
+            if(vm.teamMemberProfiles[key] != undefined) returnString = vm.teamMemberProfiles[key].firstName + " " + vm.teamMemberProfiles[key].lastName;
+            
+            return returnString;
+        };
+
         $scope.vm.loadPayments = function(date) {
             Database.get.dailyCollections(date).then(function (result) {
 

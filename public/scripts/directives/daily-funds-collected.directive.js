@@ -116,6 +116,8 @@ function dailyFundsCollected() {
                 console.log('error: ', error);
             });
         };
+
+        //  EXECUTE
         
     };
 

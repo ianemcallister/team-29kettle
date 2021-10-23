@@ -195,9 +195,9 @@ function config($routeProvider, $locationProvider) {
     .when('/admin/fundsAllocations/daily', {
         templateUrl: 'assets/views/admin-funds-allocations-daily-page.htm',     //  dashboard Page View
         controller: 'adminFundsAllocationsDailyController',                  //  dashboard Page Controller
-        controllerAs: 'vm',
+        controllerAs: 'vm'/*,
         resolve: { /* @ngInject */
-            engagements: function(Database, $q, $route) {
+            /*engagements: function(Database, $q, $route) {
                 //console.log('routing: ',$route.current.params.date)
                 var def = $q.defer();
                 Database.get.dailyEngagments($route.current.params.date).then(function(result) {
@@ -206,7 +206,7 @@ function config($routeProvider, $locationProvider) {
                 });
                 return def.promise;
             }
-        }
+        }*/
     })
 	.otherwise({
         redirectTo: '/'

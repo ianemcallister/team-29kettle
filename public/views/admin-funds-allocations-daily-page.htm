@@ -2,21 +2,42 @@
     
     
     <div class="container">
+        <!--Events-->
         <div class="row">
-            <!--Transactions-->
-            <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
-                <h4>Unassigned Transactions</h4>
-                <daily-funds-collected date='vm.currentDate'></daily-funds-collected>
-            </div>
-            <!--Events-->
-            <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <h4>Events</h4>
-                <div class="row" ng-repeat='(key, value) in vm.engagments'>
+            <h4>Events</h4>
+
+            <daily-allocations-by-event 
+                date='vm.currentDate' 
+                updates="vm.processUpdates">
+            </daily-allocations-by-event>
+
+            <div class="row">
+                <div ng-repeat='(key, value) in vm.engagments'>
                     <a ng-href="#/admin/engagments/{{key}}">{{value.channel}}</a> <br>
                     {{vm.formatTime(value.opensAt)}} - {{vm.formatTime(value.closesAt)}}
                 </div>
             </div>
+            
+
+
         </div>
+
+        <!--Team Members-->
+        <div class="row">
+            <h4>Team Members</h4>
+
+        </div>
+
+        <!--Transactions-->
+        <div class="row">
+            <h4>Funds Collected</h4>
+
+            <daily-funds-collected date='vm.currentDate'></daily-funds-collected>
+
+        </div>
+
     </div>  
+
+    {{vm.txsList}}
 
 </div>

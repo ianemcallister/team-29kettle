@@ -1,21 +1,27 @@
 ckc
     .controller('adminFundsAllocationsDailyController', adminFundsAllocationsDailyController);
 
-	adminFundsAllocationsDailyController.$inject = ['$routeParams', '$location', 'engagements', 'moment'];
+	adminFundsAllocationsDailyController.$inject = ['$routeParams', '$location', 'moment', 'Payments'];
 
 /* @ngInject */
-function adminFundsAllocationsDailyController($routeParams, $location, engagements, moment) {
+function adminFundsAllocationsDailyController($routeParams, $location, moment, Payments) {
 
 	//	NOTIFY PROGRES
-    
+    console.log('Payments:', Payments);
+
 	//	LOCAL VARIABLES
 	var vm = this;
 
 	//	VIEW MODEL VARIABLES
     vm.currentDate  = '';
     vm.engagments   = '';
+    vm.txsList = Payments.data;
 
 	//	VIEW MODEL FUNCTIONS
+    vm.processUpdates = function() {
+
+    };
+    
     vm.formatTime = function(aTime) {
         var dateString = vm.currentDate + "T" + aTime;
         var momentTime = moment(dateString)
@@ -27,8 +33,8 @@ function adminFundsAllocationsDailyController($routeParams, $location, engagemen
     *
     */  
 
-    if($routeParams.date != undefined) { vm.currentDate = $routeParams.date; }
-    if(engagements != undefined) { vm.engagments = engagements; }
+    if($routeParams.date != undefined) { vm.currentDate = $routeParams.date; Payments.init($routeParams.date); }
+    //if(engagements != undefined) { vm.engagments = engagements; }
     
     //  Add Year and week if not present
     if(Object.keys($routeParams) < 1) {
@@ -40,7 +46,7 @@ function adminFundsAllocationsDailyController($routeParams, $location, engagemen
 
 
 	//	EXECUTE
-	console.log('in the adminFundsAllocationsDailyController ');	    //  TODO: TAKE THIS OUT LATER
+	//console.log('in the adminFundsAllocationsDailyController ');	    //  TODO: TAKE THIS OUT LATER
 
 
 }

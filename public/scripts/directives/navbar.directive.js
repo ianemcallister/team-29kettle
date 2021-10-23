@@ -30,7 +30,7 @@ function ckcNavbar() {
         var vm = this;
         vm.user = null;
 
-        console.log('in the navbar directive');
+        //console.log('in the navbar directive');
 
         //  Listen for state changes
         Auth.$onAuthStateChanged(user => {

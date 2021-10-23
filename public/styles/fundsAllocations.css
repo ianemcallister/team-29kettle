@@ -1,0 +1,33 @@
+
+.teamFunds #member {
+    font-size: 1rem;
+}
+#teamFundsSummary {
+    font-size: .75rem;
+    padding-top: 6px;
+}
+#teamFundsTxsBox {
+    height: 100px;
+    font-size: .65rem;
+    padding-left: 20px;
+}
+
+#teamFundsTxCheckbox {
+    width: 10px;
+}
+
+#teamFundstxTime {
+    width: 75px;
+    padding-left:15px;
+    padding-right:5px;
+}
+
+#teamFundstxAmt {
+    width: 60px;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+#teamFundstxNote {
+    width: 250px;
+}

@@ -1,21 +1,22 @@
 <div>
-    Funds allocations page
-
-    <h4>Events</h4>
-    <table class="table table-bordered">
-        <thead></thead>
-        <tbody>
-            <tr ng-repeat='(key, value) in vm.engagments'>
-                <th scope='row'>{{$index + 1}}</th>
-                <td><a ng-href="#/admin/engagments/{{key}}">{{value.channel}}</a> </td>
-                <td>{{vm.formatTime(value.opensAt)}}</td>
-                <td>{{vm.formatTime(value.closesAt)}}</td>
-            </tr>
-            
-        </tbody>
-    </table>
-
-    <h4>Shifts</h4>
-    <daily-funds-collected date='vm.currentDate'></daily-funds-collected>
+    
+    
+    <div class="container">
+        <div class="row">
+            <!--Transactions-->
+            <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                <h4>Unassigned Transactions</h4>
+                <daily-funds-collected date='vm.currentDate'></daily-funds-collected>
+            </div>
+            <!--Events-->
+            <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <h4>Events</h4>
+                <div class="row" ng-repeat='(key, value) in vm.engagments'>
+                    <a ng-href="#/admin/engagments/{{key}}">{{value.channel}}</a> <br>
+                    {{vm.formatTime(value.opensAt)}} - {{vm.formatTime(value.closesAt)}}
+                </div>
+            </div>
+        </div>
+    </div>  
 
 </div>

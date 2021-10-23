@@ -1,0 +1,13 @@
+{
+    "collectedBy": {
+        "teamMemberId": "",
+        "teamMemberName": "",
+        "deviceId": "",
+        "deviceName": ""
+    },
+    "collectedAt": {
+        "engagmentId": "",
+        "channelId": ""
+    },
+    "salesReportId": ""
+}

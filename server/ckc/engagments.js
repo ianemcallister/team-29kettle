@@ -16,6 +16,13 @@ var engagmentsMod = {
     addBulk: AddBulk
 };
 
+function _sanitizeWeekday(date) {
+    var dateMoment = Moment(date);
+    var returnValue = 0;
+    if(dateMoment.day() == 0) { returnValue = 6 } else { returnValue = dateMoment.day() - 1 }
+    return returnValue;
+}
+
 function _buildEngagmentsList(startDate, endDate, frequency) {
     //  NOTIFY PROGRESS
     //  DEFINE LOCAL VARIABLS
@@ -41,6 +48,16 @@ function _buildEngagmentsList(startDate, endDate, frequency) {
             }
             
             break;
+        case 'bi-weekly':
+            while(cursor.isSameOrBefore(ends)) {
+
+                //  ADD THE VALUE
+                allDates.push(cursor.format('YYYY-MM-DD'));
+
+                //  INCRIMENT THE COUNTER
+                cursor = cursor.add(14, 'd');
+            }           
+            break;
         default:
             break;
     }
@@ -49,7 +66,7 @@ function _buildEngagmentsList(startDate, endDate, frequency) {
     return allDates;
 };
 
-function _buildUpdates(channelId, seasonId, datesList, framework) {
+function _buildUpdates(channelId, channel, datesList, framework) {
     //  NOTIFY PROGRESS
     console.log('_buildUpdates', datesList);
 
@@ -61,12 +78,13 @@ function _buildUpdates(channelId, seasonId, datesList, framework) {
 
         allUpdates[Firebase.pushId('Engagments')] = {
             channelId: channelId,
-            seasonId: seasonId,
+            channel: channel,
             date: engagment,
             opensAt: framework.openTime,
             closesAt: framework.closeTime,
-            startsAt: framework.startTime,
-            endsAt: framework.endTime
+            d: parseInt(_sanitizeWeekday(engagment)),
+            wk: parseInt(Moment(engagment).isoWeek("Monday").week()),
+            yr: parseInt(Moment(engagment).format("YY"))
         };
 
     });
@@ -80,11 +98,11 @@ function Add(channelId) {
 
 };
 
-async function AddBulk(channelId, seasonId, startDate, endDate, frequency, framework) {
+async function AddBulk(channelId, channel, startDate, endDate, frequency, framework) {
     //  NOTIFY PROGRESS
     //  DEFINE LOCAL VARIABLES
     var datesList = _buildEngagmentsList(startDate, endDate, frequency);
-    var allUpdates = _buildUpdates(channelId, seasonId, datesList, framework);
+    var allUpdates = _buildUpdates(channelId, channel, datesList, framework);
 
     //  EXECUTE
     try {

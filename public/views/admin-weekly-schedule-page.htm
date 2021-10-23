@@ -43,7 +43,8 @@
                 <th scope='row'>{{channelValue.channel}}</th>
                 <td ng-repeat='(engKey, engValue) in channelValue.engagments'
                     >
-                    {{engValue.channel}}
+                    <a ng-href="#/admin/engagments/{{engValue.engagmentId}}">{{engValue.channel}}</a>
+                    
                 </td>
             </tr>
             

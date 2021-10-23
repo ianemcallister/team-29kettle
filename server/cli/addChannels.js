@@ -10,8 +10,8 @@ const ckcChannels = require('../ckc/channels');
 
 //  DEFINE LOCAL VARIABLES
 const type      = 'farmers_market';
-const name      = 'Salem Saturday';
-const title     = 'Salem Saturday Farmers Market';
+const name      = 'Woodstock';
+const title     = 'Woodstock Farmers Market';
 const options   = {
     contacts: {},
     address: {}

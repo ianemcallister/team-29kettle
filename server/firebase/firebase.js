@@ -80,6 +80,8 @@ async function add() {};
 *   Update Function
 */
 async function update(path, data) {
+    //notify progress
+    console.log('Firebase Update: ', Object.keys(data).length, ' records');
     //  DEFINE LOCAL VARIABLES
     var ref = admin.database().ref(path);
 

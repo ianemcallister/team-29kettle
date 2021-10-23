@@ -107,7 +107,7 @@ async function _SearchLoyalty(params) {
 */
 async function ListPayments(cursor, beginTime, endTime) {
     //  NOTIFY PROGRESS
-    console.log('cursor', cursor, 'begin: ', beginTime, 'end: ', endTime);
+    //console.log('cursor', cursor, 'begin: ', beginTime, 'end: ', endTime);
     //  LOCAL VARIABLES
     const paymentsApi = client.paymentsApi;
     //const beginTime = '2021-07-27T00:00:00-08:00';
@@ -133,12 +133,12 @@ async function ListPayments(cursor, beginTime, endTime) {
         //console.log('found ', newPayments.length, " records");
 
         if(theCursor == undefined || theCursor == "") {
-            console.log('found the bottom');
+            //console.log('found the bottom');
             return newPayments;
 
         } else {
             
-            console.log('going down');
+            //console.log('going down');
             
             paymentsList = await ListPayments(theCursor)
             
@@ -586,7 +586,7 @@ async function listEmployees() {
     const employeesApi = client.employeesApi;
     const locationId = 'RKNMKQF48TA6W';
     const status = 'ACTIVE';
-    const limit = 10;
+    const limit = 100;
     const cursor = undefined;
     
     //  EXECUTE

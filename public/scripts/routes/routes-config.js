@@ -208,6 +208,11 @@ function config($routeProvider, $locationProvider) {
             }
         }*/
     })
+    .when('/admin/accts', {
+        templateUrl: 'assets/views/admin-accts-manage-page.htm',     //  dashboard Page View
+        controller: 'adminAcctsManageController',                  //  dashboard Page Controller
+        controllerAs: 'vm'
+    })
 	.otherwise({
         redirectTo: '/'
     });

@@ -45,7 +45,8 @@ async function get(path) {
 
     //  EXECUTE
     try {
-        
+        var result = ref.once('value');
+        return result;
     } catch (error) {
         console.log('Get Error: ', error);
     }

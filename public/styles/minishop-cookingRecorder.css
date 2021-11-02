@@ -15,5 +15,21 @@
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
+    color: white;
 
+}
+
+#cookingRecorderLauncher {
+    width: 825px;
+    height: 98px;
+    margin-left:25px;
+    margin-right:10px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#cookingRecorderCanceler {
+    height: 98px;
+    width: 98px;
+    margin-top: 10px;
 }

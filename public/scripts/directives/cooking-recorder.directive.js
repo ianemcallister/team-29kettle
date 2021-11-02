@@ -31,18 +31,21 @@ function cookingRecorder() {
         //  DEFINE LOCAL VARIABLES
         var vm = this;
         vm.options = {
-            "1s09ugasoigas": { "title": "", "recipe": "Sweet & Salty", "nut": "Pecans" },
-            "paosjg;oiahwe": { "title": "", "recipe": "Sweet & Salty", "nut": "Almonds" },
-            "pejsg09u2nssd": { "title": "", "recipe": "Sweet & Salty", "nut": "Cashews" },
-            "029ugojsdohbs": { "title": "", "recipe": "Sweet & Salty", "nut": "Hazelnuts" },
-            "Moshdwebosi13": { "title": "", "recipe": "Bourbon", "nut": "Pecans" },
-            "923NGashigbsd": { "title": "", "recipe": "Bourbon", "nut": "Almonds" },
-            "jweoi2#9ssdgw": { "title": "", "recipe": "Bourbon", "nut": "Cashews" },
-            "2ANSgih3sh2#-": { "title": "", "recipe": "Bourbon", "nut": "Hazelnuts" }
+            "1s09ugasoigas": { "title": "", "recipe": "Sweet & Salty", "nut": "Pecans", "style": { 'background-color': '#0000ff'} },
+            "paosjg;oiahwe": { "title": "", "recipe": "Sweet & Salty", "nut": "Almonds", "style": { 'background-color': '#0000ff'}},
+            "pejsg09u2nssd": { "title": "", "recipe": "Sweet & Salty", "nut": "Cashews", "style": { 'background-color': '#0000ff'} },
+            "029ugojsdohbs": { "title": "", "recipe": "Sweet & Salty", "nut": "Hazelnuts", "style": { 'background-color': '#0000ff'} },
+            "Moshdwebosi13": { "title": "", "recipe": "Bourbon", "nut": "Pecans", "style": { 'background-color': '#0000ff'} },
+            "923NGashigbsd": { "title": "", "recipe": "Bourbon", "nut": "Almonds", "style": { 'background-color': '#0000ff'} },
+            "jweoi2#9ssdgw": { "title": "", "recipe": "Bourbon", "nut": "Cashews", "style": { 'background-color': '#0000ff'} },
+            "2ANSgih3sh2#-": { "title": "", "recipe": "Bourbon", "nut": "Hazelnuts", "style": { 'background-color': '#0000ff'} }
         }
 
         //  DEFINE LOCAL METHODS
         //  DEFINE VIEW MODEL METHODS
+        vm.swiped= function(index) {
+            console.log(index, "swiped");
+        }
         
     };
 

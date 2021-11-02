@@ -1,12 +1,24 @@
 <div>
-    <div class="border border-primary rounded-lg" id='cookingRecorderContainer'>
+    <div class="border border-dark rounded-lg" id='cookingRecorderContainer'>
 
-            <div class='cookingOption border border-dark rounded' 
-                ng-repeat='(key, value) in vm.options'>
-                <span>{{value.recipe}}</span> <br>
-                <strong>{{value.nut}}</strong>
-                
+        <div class="row">
+            <div class="border border-dark rounded" id='cookingRecorderLauncher'>
+                [Recipe Launcher]
             </div>
+            <div class="border border-dark rounded" id='cookingRecorderCanceler'>
+
+            </div>
+        </div>
+        
+          
+        <div class='cookingOption border border-dark rounded' 
+            ng-repeat='(key, value) in vm.options'
+            ng-style='value.style'
+            >
+            <span>{{value.recipe}}</span> <br>
+            <strong>{{value.nut}}</strong>
+            
+        </div>
 
     </div>
 </div>

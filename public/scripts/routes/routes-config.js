@@ -151,6 +151,31 @@ function config($routeProvider, $locationProvider) {
         controller: 'resourceController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     }) */
+    .when('/minishop/:engmntId', {
+        templateUrl: 'assets/views/minishop/mdashboard-page.htm',
+        controller: 'minishopDashController',
+        controllerAs: 'vm'
+    })
+    .when('/minishop/:engmntId/settings', {
+        templateUrl: 'assets/views/minishop/settings-page.htm',
+        controller: 'minishopStngsController',
+        controllerAs: 'vm'
+    })
+    .when('/minishop/:engmntId/productionTxs', {
+        templateUrl: 'assets/views/minishop/prod-txs-page.htm',
+        controller: 'minishopProdTxsController',
+        controllerAs: 'vm'
+    })
+    .when('/minishop/:engmntId/salesTxs', {
+        templateUrl: 'assets/views/minishop/sales-txs-page.htm',
+        controller: 'minishopSalesTxsController',
+        controllerAs: 'vm'
+    })
+    .when('/minishop/:engmntId/balanceSheet', {
+        templateUrl: 'assets/views/minishop/balancesheet-page.htm',
+        controller: 'minishopBalancesheetController',
+        controllerAs: 'vm'
+    })
     .when('/admin/channels', {
         templateUrl: 'assets/views/admin-channels-page.htm',     //  dashboard Page View
         controller: 'adminChannelsController',                  //  dashboard Page Controller

@@ -13,7 +13,15 @@ const Epc = require('../../epc/epc');
 /*
 *   DEFINE LOCAL VARIABLES
 */  
-//  To be added is an array of objects values
+/*
+*   toBeAdded 
+*   is an array of objects values
+*
+*   {
+*       "name": "",             This is what the unit is called, how it will be represented
+*       "description": ""       This is a description of the unit, to help understand it
+*   }
+*/
 var toBeAdded = [
     {
         "name": "unit",

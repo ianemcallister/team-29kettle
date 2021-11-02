@@ -1,0 +1,19 @@
+#cookingRecorderContainer {
+    border: black;
+    width: 960px;
+};
+
+.cookingOption {
+    display: inline-block;
+    width: 219px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+
+}

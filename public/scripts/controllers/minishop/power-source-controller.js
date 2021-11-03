@@ -12,7 +12,7 @@ function minishopPowerSourceController() {
 	var vm = this;
 
 	//	VIEW MODEL VARIABLES
-    vm.powerIsOn = true;
+    vm.powerIsOn = false;
     vm.powerSource = "house";
 
 	//	VIEW MODEL FUNCTIONS

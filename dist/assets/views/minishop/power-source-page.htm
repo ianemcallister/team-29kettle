@@ -1,0 +1,66 @@
+<div>
+    <div class="container">
+        <h3 style='margin-top: 30px;'>Power</h3>
+
+        <div class="row powerStatus">
+            
+            <div class="sm-col-6 md-col-6 lg-col-6 xl-col-6 col-6">
+                <h3>Status</h3>
+
+                <!--On-->
+                <div ng-if='vm.powerIsOn'>
+                    <span style='font-size: 3rem; color: green;'><strong>ON</strong></span>
+                    <br>
+                    As of:
+                </div>
+
+                <!--OFF-->
+                <div ng-if='!vm.powerIsOn'>
+                    <span style='font-size: 3rem; color: red;'><strong>OFF</strong></span>
+                    <br>
+                    As of:
+
+                </div>
+
+            </div>
+
+            <div class="sm-col-6 md-col-6 lg-col-6 xl-col-6 col-6">
+                <h3>Source</h3>
+                <select class='custom-select' 
+                        name="powerOptions" 
+                        id="powerOptions" 
+                        ng-model='vm.powerSource'
+                        style='font-size: 2rem;'>
+                    <option value="house">House Power</option>
+                    <option value="generator">Generator</option>
+                </select>
+
+                <div ng-if=''>
+                    
+                </div>
+            </div>
+            
+        </div>
+
+
+        <!--House Power Options-->
+        <div class="row" 
+            ng-if='vm.powerSource=="house"'
+            style='margin-top: 30px;'>
+            House Power Options
+        </div>
+
+        <!--Generator Options-->
+        <div class="row" 
+            ng-if='vm.powerSource=="generator"'
+            style='margin-top: 30px;'>
+            Generator Options
+            <strong>Generator Id:</strong>
+            <select class='custom-select' name="generatorOptions" id="generatorOptions" ng-model=''>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+        </div>
+
+    </div>
+</div>

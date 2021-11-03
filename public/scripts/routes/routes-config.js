@@ -176,6 +176,11 @@ function config($routeProvider, $locationProvider) {
         controller: 'minishopBalancesheetController',
         controllerAs: 'vm'
     })
+    .when('/minishop/:engmntId/power', {
+        templateUrl: 'assets/views/minishop/power-source-page.htm',
+        controller: 'minishopPowerSourceController',
+        controllerAs: 'vm'
+    })
     .when('/admin/channels', {
         templateUrl: 'assets/views/admin-channels-page.htm',     //  dashboard Page View
         controller: 'adminChannelsController',                  //  dashboard Page Controller

@@ -1,5 +1,10 @@
 <div>
+    
     <div class="container">
+        <div style='margin-top: 10px;'>
+            <a ng-href="#/minishop/{{vm.params.engmntId}}" >Return to Dashboard</a>
+        </div>
+        
         <h3 style='margin-top: 30px;'>Power</h3>
 
         <div class="row powerStatus">
@@ -11,14 +16,20 @@
                 <div ng-if='vm.powerIsOn'>
                     <span style='font-size: 3rem; color: green;'><strong>ON</strong></span>
                     <br>
-                    As of:
+                    <div ng-if='vm.txs.length >= 1'>
+                        As of: {{vm.txs[vm.txs.length -1].timestamp | date : "shortTime" }}
+                    </div>
+                    <div ng-if='vm.txs.length < 1'><br> </div>
+                    
                 </div>
 
                 <!--OFF-->
                 <div ng-if='!vm.powerIsOn'>
                     <span style='font-size: 3rem; color: red;'><strong>OFF</strong></span>
-                    <br>
-                    As of:
+                    <div ng-if='vm.txs.length >= 1'>
+                        As of: {{vm.txs[vm.txs.length -1].timestamp | date : "shortTime" }}
+                    </div>
+                    <div ng-if='vm.txs.length < 1'><br> </div>
 
                 </div>
 
@@ -26,10 +37,10 @@
 
             <div class="sm-col-4 md-col-4 lg-col-4 xl-col-4 col-4">
                 <h3>Change</h3>
-                <button class="btn btn-danger" ng-if='vm.powerIsOn' ng-click='vm.powerIsOn=!vm.powerIsOn' style='font-size:2rem;'>
+                <button class="btn btn-danger" ng-if='vm.powerIsOn' ng-click='vm.toggleOnOff()' style='font-size:2rem;'>
                     Turn Off
                 </button>
-                <button class="btn btn-success" ng-if='!vm.powerIsOn' ng-click='vm.powerIsOn=!vm.powerIsOn' style='font-size:2rem;'>
+                <button class="btn btn-success" ng-if='!vm.powerIsOn' ng-click='vm.toggleOnOff()' style='font-size:2rem;'>
                     Turn On
                 </button>
             </div>
@@ -71,14 +82,15 @@
         <div class="row" 
             ng-if='vm.powerSource=="house"'
             style='margin-top: 30px;'>
-            House Power Options
+            <h4>House Power Performance</h4>
+
         </div>
 
         <!--Generator Options-->
         <div class="row" 
             ng-if='vm.powerSource=="generator"'
             style='margin-top: 30px;'>
-            Generator Options
+            <h4>Generator Performance</h4>
             <!--<strong>Generator Id:</strong>
             <select class='custom-select' name="generatorOptions" id="generatorOptions" ng-model=''>
                 <option value="1">1</option>
@@ -87,4 +99,6 @@
         </div>
 
     </div>
+
+    
 </div>

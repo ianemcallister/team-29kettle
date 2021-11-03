@@ -1,10 +1,10 @@
 ckc
     .controller('minishopPowerSourceController', minishopPowerSourceController);
 
-	minishopPowerSourceController.$inject = [];
+	minishopPowerSourceController.$inject = ['$routeParams', 'MiniShop', 'moment'];
 
 /* @ngInject */
-function minishopPowerSourceController() {
+function minishopPowerSourceController($routeParams, MiniShop, moment) {
 
 	//	NOTIFY PROGRES
 
@@ -12,11 +12,21 @@ function minishopPowerSourceController() {
 	var vm = this;
 
 	//	VIEW MODEL VARIABLES
-    vm.powerIsOn = false;
-    vm.powerSource = "house";
+	vm.params = $routeParams;
+    vm.powerIsOn = false
+    vm.powerSource = "generator"
+	vm.txs = []
 
 	//	VIEW MODEL FUNCTIONS
+	vm.toggleOnOff = function() {
+		//	record change
+		vm.txs.push({
+			timestamp: moment(new Date()).format()
+		})
 
+		//	FLIP ON/OFF
+		vm.powerIsOn=!vm.powerIsOn
+	};
 
 	//	EXECUTE
 	console.log('in the power source controller ');	    //  TODO: TAKE THIS OUT LATER

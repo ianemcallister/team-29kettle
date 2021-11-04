@@ -1,125 +1,54 @@
 ckc
     .controller('minishopPowerSourceController', minishopPowerSourceController);
 
-	minishopPowerSourceController.$inject = ['$routeParams', '$interval', '$scope', 'MiniShop', 'moment'];
+	minishopPowerSourceController.$inject = ['$routeParams', '$scope', 'msData', 'moment'];
 
 /* @ngInject */
-function minishopPowerSourceController($routeParams, $interval, $scope, MiniShop, moment) {
+function minishopPowerSourceController($routeParams, $scope, msData, moment) {
 
 	//	NOTIFY PROGRES
 
 	//	LOCAL VARIABLES
 	var vm = this;
 
-	//	VIEW MODEL VARIABLES
+	/*
+	*	VIEW MODEL VARIABLES
+	*
+	*	Math	[$scope]		making Math functions available to the view model
+	*	params	[vm]			making the URL params available to the view model
+	*/	
 	$scope.Math = window.Math;
-	vm.params = $routeParams;
-    vm.powerIsOn = false
-    vm.powerSource = "generator"
-	vm.txs = [];
-	vm.opSeconds = {
-		generator: {
-			continous: 0,
-			total: 0
-		},
-		house: {
-			continous: 0,
-			total: 0
-		}
-	};
-	vm.timeBlocks = buildProgressBar();
+	vm.params = $routeParams
 
-	//	local functions
-	function _isOn(index, txsArray) {
-		let returnValue = false;
-		const newArray = [""];
-		txsArray.forEach(function(tx){ newArray.push(tx)});
-		newArray.push("");
-		if(typeof newArray[index] == 'object') {
-			if(newArray[index].turning == "on") returnValue = true
-		}
-		return returnValue;
-	};
+	/*
+	*	BIND VIEW MODEL VARIABLES
+	*
+	*	powerIsOn	boolean		represents TRUE/FALSE
+	*	powerSource	string		'house' or 'generator'
+	*	txs			object		{
+	*								[key]: {
+	*									source: 	[string] 	"house" or "generator",
+	*									timestamp: 	[string]	"2021-11-04T00:00:00-07:00",
+	*									turning: 	[string]	"off" or "on",
+	*									note:		[string]	"something can go here"
+	*								}
+	*							},...
+	*/	
+	msData.data.power.isOn.$bindTo($scope, 'vm.powerIsOn');
+	msData.data.power.source.$bindTo($scope, 'vm.powerSource');
+	msData.data.power.txs.$bindTo($scope, 'vm.txs');
 
-	function buildProgressBar() {
-		//	NOTIFY PROGRESS
-		//console.log('buildProgressBar', moment(new Date()).format());
+	vm.opSeconds = msData.data.power.opSeconds;
+	vm.timeBlocks = msData.data.power.timeBlocks;
 
-		//	DEFINE LOCAL VARIABLES
-		var startTime = moment(new Date()).hour(0).minute(0).second(0).format();
-		var currentTime = moment(new Date()).format();
-		var timesArray = [];
-		var blocksArray = [];
-		vm.opSeconds['generator'].total = 0;
-		vm.opSeconds['generator'].continous = 0;
-		vm.opSeconds['house'].total = 0;
-		vm.opSeconds['house'].continous = 0;
-	
 
-		timesArray.push(startTime);
-
-		//	iterate over all txs
-		vm.txs.forEach(function(tx) {
-			timesArray.push(moment(tx.timestamp))
-		});
-
-		timesArray.push(currentTime);
-
-		for (let index = 0; index < timesArray.length - 1; index++) {
-			const element = new moment(timesArray[index]);
-			const next = new moment(timesArray[index + 1]);
-			const durationSeconds = moment.duration(next.diff(element));
-			const durationPercentage = (durationSeconds.as('seconds') / (59 + (59 * 60) + (23 * 60 * 60))).toFixed(2);
-			const progressObject = {
-				prcntg: durationPercentage * 100,
-				seconds: durationSeconds.as('seconds'),
-				isOn: _isOn(index, vm.txs),
-				classes: ['progress-bar']
-			};
-			
-			//	MAKE SURE "ON" BLOCKS ARE YELLOW
-			if(progressObject.isOn) progressObject.classes.push('bg-warning')
-
-			if(_isOn(index, vm.txs)) {
-
-				vm.opSeconds['house'].total += durationSeconds.as('seconds');
-				vm.opSeconds['house'].continous = durationSeconds.as('seconds');
-			}
-			
-			//	UPDATE THE ARRAY
-			blocksArray.push(progressObject);
-		}
-
-		//console.log(blocksArray);
-
-		return blocksArray;
-	}
 
 	//	VIEW MODEL FUNCTIONS
 	vm.toggleOnOff = function() {
-		var turning = 'off';
-
-		if(!vm.powerIsOn) turning = "on"
-
-		//	record change
-		vm.txs.push({
-			timestamp: moment(new Date()).format(),
-			source: vm.powerSource,
-			turning: turning
-		})
-
-		//	rebuild time bars
-		vm.timeBlocks = buildProgressBar()
-
-		//	FLIP ON/OFF
-		vm.powerIsOn=!vm.powerIsOn
+		msData.power.togglePower();
 	};
 
 	//	EXECUTE
 	console.log('in the power source controller ');	    //  TODO: TAKE THIS OUT LATER
-	$interval(function(){
-		vm.timeBlocks = buildProgressBar();
-		
-	},1000*10)
 
 }

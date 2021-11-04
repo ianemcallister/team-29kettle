@@ -39,7 +39,10 @@ function minishopPowerSourceController($interval, $routeParams, $scope, msData, 
 	*/	
 	msData.data.power.isOn.$bindTo($scope, 'vm.powerIsOn');
 	msData.data.power.source.$bindTo($scope, 'vm.powerSource');
-	msData.data.power.txs.$bindTo($scope, 'vm.txs');
+	msData.data.power.txs.$bindTo($scope, 'vm.txs').then(function txsLoaded() {
+		console.log('bind finished loading');
+		updatePowerKPIs(vm.txs, vm.opSeconds);
+	});
 
 	/*
     *   PRIVATE: UPDATE POWER KPIs
@@ -159,7 +162,7 @@ function minishopPowerSourceController($interval, $routeParams, $scope, msData, 
 			//	MAKE SURE "ON" BLOCKS ARE YELLOW
 			if(progressObject.isOn) progressObject.classes.push('bg-warning')
 
-			console.log(cleanTxs[firstKey], _isOn(cleanTxs[firstKey]));
+			
 			if(_isOn(cleanTxs[firstKey])) {
 				
 				if(powerKPIs.opSeconds != undefined) {
@@ -185,13 +188,13 @@ function minishopPowerSourceController($interval, $routeParams, $scope, msData, 
 
 
 	//	EXECUTE
-	console.log('in the power source controller ');	    //  TODO: TAKE THIS OUT LATER
+	//console.log('in the power source controller ');	    //  TODO: TAKE THIS OUT LATER
 
 	/*
     *   EXECUTE: UPDATES
     */
 	$scope.$on('powerTxsLoaded', function(event, args) {
-		//console.log('powerTxsLoaded', args)
+		console.log('PowerSourceController: txs data loaded')
 		updatePowerKPIs(args, vm.opSeconds);
 	});
 	
@@ -207,5 +210,11 @@ function minishopPowerSourceController($interval, $routeParams, $scope, msData, 
     *                           be run
     */ 
 	$interval(function powerSourceIntervals() { updatePowerKPIs(vm.txs, vm.opSeconds); }, cadence)
+
+	/*
+	*	EXECUTE: On Page Load
+	*
+	*	If data is pressent
+	*/
 
 }

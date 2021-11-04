@@ -119,12 +119,6 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
     };
 
     //  DEFINE PUBLIC METHODS
-    self.data.power.txs.$loaded()
-    .then(function(data) {
-        $rootScope.$broadcast('powerTxsLoaded', self.data.power.txs)
-    }).catch(function(error){
-
-    });
     
 
     //   RETURN

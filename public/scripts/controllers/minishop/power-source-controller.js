@@ -55,7 +55,6 @@ function minishopPowerSourceController($routeParams, $interval, $scope, MiniShop
 		vm.opSeconds['house'].total = 0;
 		vm.opSeconds['house'].continous = 0;
 	
-		
 
 		timesArray.push(startTime);
 

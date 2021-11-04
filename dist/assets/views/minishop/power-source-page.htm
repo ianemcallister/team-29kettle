@@ -15,22 +15,11 @@
                 <!--On-->
                 <div ng-if='vm.powerIsOn.$value'>
                     <span style='font-size: 3rem; color: green;'><strong>ON</strong></span>
-                    <br>
-                    <div ng-if='vm.txs.$value.length >= 1'>
-                        As of: {{vm.txs.$value[vm.txs.$value.length -1].timestamp | date : "shortTime" }}
-                    </div>
-                    <div ng-if='vm.txs.$value.length < 1'><br> </div>
-                    
                 </div>
 
                 <!--OFF-->
                 <div ng-if='!vm.powerIsOn.$value'>
                     <span style='font-size: 3rem; color: red;'><strong>OFF</strong></span>
-                    <div ng-if='vm.txs.$value.length >= 1'>
-                        As of: {{vm.txs.$value[vm.txs.$value.length -1].timestamp | date : "shortTime" }}
-                    </div>
-                    <div ng-if='vm.txs.$value.length < 1'><br> </div>
-
                 </div>
 
             </div>
@@ -133,6 +122,8 @@
                 </div>
                 
             </div>
+
+            <!---->
         </div>
 
         <!--Generator Options-->

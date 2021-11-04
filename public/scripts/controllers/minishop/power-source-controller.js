@@ -211,10 +211,5 @@ function minishopPowerSourceController($interval, $routeParams, $scope, msData, 
     */ 
 	$interval(function powerSourceIntervals() { updatePowerKPIs(vm.txs, vm.opSeconds); }, cadence)
 
-	/*
-	*	EXECUTE: On Page Load
-	*
-	*	If data is pressent
-	*/
 
 }

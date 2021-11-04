@@ -1,0 +1,47 @@
+<div>
+    <div class="container">
+        <!--Bread Crumbs-->
+        <div style='margin-top: 10px;'>
+            <a ng-href="#/minishop/{{vm.params.engmntId}}" >Return to Dashboard</a>
+        </div>
+
+        <!--Title-->
+        <h3 style='margin-top: 30px;'>Production</h3>
+
+        <!--Launcher-->
+        <div class="row">
+            <div class="col-10 sm-col-10 md-col-10 lg-col-10 xl-col-10">
+                <div class="row">
+                    <button    class="border border-dark rounded col-3 sm-col-3 md-col-3 lg-col-4 xl-col-3 btn btn-outline-dark"
+                            ng-repeat='product in vm.recipes track by $index'
+                            style='text-align: center; padding-top: 20px; padding-bottom: 20px;'>
+                        <span>{{product.recipe}}</span> <br>
+                        <span style='font-size:2rem;'>{{product.nut}}</span>
+                    </button>
+                </div>
+                
+            </div>
+                
+            <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2 ">
+                <button class='border border-dark rounded btn btn-outline-dark' 
+                        style='text-align: center; height: 228px; padding-top: 100px; padding-bottom: 100px; width: 100%;'
+                        >
+                    PREP
+                </button>
+            </div>
+        </div>
+
+        <!--Progress-->
+        <div class="row"></div>
+
+        <!--Txs-->
+        <div class="row"></div>
+
+        <!--Supplies-->
+        <div class="row"></div>
+
+        <!--Produced/Results-->
+        <div class="row"></div>
+
+    </div>
+</div>

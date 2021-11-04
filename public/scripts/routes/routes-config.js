@@ -161,9 +161,9 @@ function config($routeProvider, $locationProvider) {
         controller: 'minishopStngsController',
         controllerAs: 'vm'
     })
-    .when('/minishop/:engmntId/productionTxs', {
-        templateUrl: 'assets/views/minishop/prod-txs-page.htm',
-        controller: 'minishopProdTxsController',
+    .when('/minishop/:engmntId/production', {
+        templateUrl: 'assets/views/minishop/production-page.htm',
+        controller: 'minishopProductionController',
         controllerAs: 'vm'
     })
     .when('/minishop/:engmntId/salesTxs', {

@@ -14,7 +14,10 @@
                 <div class="row">
                     <button    class="border border-dark rounded col-3 sm-col-3 md-col-3 lg-col-4 xl-col-3 btn btn-outline-dark"
                             ng-repeat='product in vm.recipes track by $index'
-                            style='text-align: center; padding-top: 20px; padding-bottom: 20px;'>
+                            style='text-align: center; padding-top: 20px; padding-bottom: 20px;'
+                            ng-click='vm.selectRecipe($index)'
+                            id='recBttn{{$index}}'
+                            >
                         <span>{{product.recipe}}</span> <br>
                         <span style='font-size:2rem;'>{{product.nut}}</span>
                     </button>
@@ -25,11 +28,51 @@
             <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2 ">
                 <button class='border border-dark rounded btn btn-outline-dark' 
                         style='text-align: center; height: 228px; padding-top: 100px; padding-bottom: 100px; width: 100%;'
-                        >
+                        id='recBttn9'>
                     PREP
                 </button>
             </div>
         </div>
+
+        <!--Steps-->
+        <div class="row" style='margin-top: 30px;'>
+
+            <!--Next Up-->
+            <div    class="col-3 sm-col-3 md-col-3 lg-col-3 xl-col-3"
+                    style='padding-left: 0px;'>
+                <div    class='border border-dark rounded'
+                        style='width: 100%; height: 165px;'>
+                    
+                    <div style="width:100%; height: 55px; text-align: center; font-size: 1.25rem; padding-top: 15px;"><strong>Next Up:</strong> </div>
+                    <div    style="width:100%; height: 110px; text-align: center; padding-top: 15px;"
+                            ng-if='vm.batches.ondeck.recipe != undefined'>
+                        <span>{{vm.batches.ondeck.recipe}}</span> <br>
+                        <span style='font-size:2rem;'>{{vm.batches.ondeck.nut}}</span>
+                    </div>
+                    
+
+                </div>
+            </div>
+
+            <!--Currently Cooking-->
+            <div    class="col-6 sm-col-6 md-col-6 lg-col-6 xl-col-6"
+                    >
+                <div    class="border border-dark rounded"
+                        style='height: 165px;'>
+                    Cooking
+                </div>
+            </div>
+
+            <!--Last Batch-->
+            <div    class="col-3 sm-col-3 md-col-3 lg-col-3 xl-col-3"
+                    >
+                <div    class="border border-dark rounded"
+                        style='height: 165px;'>
+                    Last Batch
+                </div>
+            </div>
+        </div>
+
 
         <!--Progress-->
         <div class="row"></div>

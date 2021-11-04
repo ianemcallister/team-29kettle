@@ -1,10 +1,10 @@
 ckc
     .controller('minishopProductionController', minishopProductionController);
 
-	minishopProductionController.$inject = ['$routeParams', '$interval', '$scope', 'msData', 'moment'];
+	minishopProductionController.$inject = ['$routeParams', '$interval', '$scope', '$window', 'msData', 'moment'];
 
 /* @ngInject */
-function minishopProductionController($routeParams, $interval, $scope, msData, moment) {
+function minishopProductionController($routeParams, $interval, $scope, $window, msData, moment) {
 
 	//	NOTIFY PROGRES
 
@@ -22,9 +22,31 @@ function minishopProductionController($routeParams, $interval, $scope, msData, m
 		{recipe: "Bourbon", nut: "Almonds"},
 		{recipe: "Bourbon", nut: "Cashews"},
 		{recipe: "Bourbon", nut: "Hazelnuts"}
-	]
-	//	VIEW MODEL FUNCTIONS
+	];
+	vm.batches = {
+		ondeck: {},
+		cooking: {},
+		finsihed: {}
+	};
 
+	//	VIEW MODEL FUNCTIONS
+	vm.selectRecipe = function(index) {
+		const spotIsOpen = (vm.batches.ondeck.recipe == undefined);
+		const flavorAlreadySelected = ((vm.batches.ondeck.recipe == vm.recipes[index].recipe) && (vm.batches.ondeck.nut == vm.recipes[index].nut))
+		
+		if (spotIsOpen && !flavorAlreadySelected) {
+			// assign this flavor to the spot
+			vm.batches.ondeck = vm.recipes[index];
+		} else if (!spotIsOpen && !flavorAlreadySelected) {
+			//	change the flavor to this new one selected
+			vm.batches.ondeck = vm.recipes[index];
+		} else if (!spotIsOpen && flavorAlreadySelected) {
+			// remove this flavor from the spot
+			vm.batches.ondeck = {};
+
+		};
+		
+	};
 	/*
 	*	PRIVATE: 
 	*/

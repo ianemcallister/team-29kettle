@@ -6,6 +6,10 @@
         </div>
 
         {{vm.txs}}
+        <br>
+        {{vm.timeBlocks}}
+        <br>
+        {{vm.opSeconds}}
         
         <h3 style='margin-top: 30px;'>Power</h3>
 
@@ -110,7 +114,8 @@
                             aria-valuenow="{{block.prcntg}}" 
                             aria-valuemin="0" 
                             aria-valuemax="100">
-                            {{block.prcntg}}%
+                            <span ng-if='!block.isOn'>OFF</span>
+                            <span ng-if='block.isOn'>ON</span>
                     </div>
                 </div>
             </div>
@@ -119,7 +124,7 @@
             <div    class="col-6 sm-col-6 md-col-6 lg-col-6-xl-col-6 powerDetails border border-dark rounded"
                     style='height:100px'>
                 <div style='font-size: 3rem;'>
-                    <strong>0</strong>
+                    <strong>{{ Math.floor(vm.opSeconds.house.total / 60)}}</strong>
                 </div>
                 <div >
                     <strong>Minutes of Operation</strong>
@@ -128,7 +133,7 @@
             </div>
             <div    class="col-6 sm-col-6 md-col-6 lg-col-6-xl-col-6 powerDetails border border-dark rounded"
                     style='height:100px'>
-                <div style='font-size: 3rem;'><strong>0</strong> </div>
+                <div style='font-size: 3rem;'><strong>{{ Math.floor(vm.opSeconds.house.continous / 60) }}</strong> </div>
                 <div >
                     <strong>Minutes of Continuous Operation</strong>
                 </div>

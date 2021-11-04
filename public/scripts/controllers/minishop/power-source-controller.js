@@ -1,10 +1,10 @@
 ckc
     .controller('minishopPowerSourceController', minishopPowerSourceController);
 
-	minishopPowerSourceController.$inject = ['$routeParams', 'MiniShop', 'moment'];
+	minishopPowerSourceController.$inject = ['$routeParams', '$interval', '$scope', 'MiniShop', 'moment'];
 
 /* @ngInject */
-function minishopPowerSourceController($routeParams, MiniShop, moment) {
+function minishopPowerSourceController($routeParams, $interval, $scope, MiniShop, moment) {
 
 	//	NOTIFY PROGRES
 
@@ -12,19 +12,50 @@ function minishopPowerSourceController($routeParams, MiniShop, moment) {
 	var vm = this;
 
 	//	VIEW MODEL VARIABLES
+	$scope.Math = window.Math;
 	vm.params = $routeParams;
     vm.powerIsOn = false
     vm.powerSource = "generator"
 	vm.txs = [];
+	vm.opSeconds = {
+		generator: {
+			continous: 0,
+			total: 0
+		},
+		house: {
+			continous: 0,
+			total: 0
+		}
+	};
 	vm.timeBlocks = buildProgressBar();
 
 	//	local functions
+	function _isOn(index, txsArray) {
+		let returnValue = false;
+		const newArray = [""];
+		txsArray.forEach(function(tx){ newArray.push(tx)});
+		newArray.push("");
+		if(typeof newArray[index] == 'object') {
+			if(newArray[index].turning == "on") returnValue = true
+		}
+		return returnValue;
+	};
+
 	function buildProgressBar() {
+		//	NOTIFY PROGRESS
+		//console.log('buildProgressBar', moment(new Date()).format());
+
 		//	DEFINE LOCAL VARIABLES
 		var startTime = moment(new Date()).hour(0).minute(0).second(0).format();
 		var currentTime = moment(new Date()).format();
 		var timesArray = [];
-		var blocksArray = []
+		var blocksArray = [];
+		vm.opSeconds['generator'].total = 0;
+		vm.opSeconds['generator'].continous = 0;
+		vm.opSeconds['house'].total = 0;
+		vm.opSeconds['house'].continous = 0;
+	
+		
 
 		timesArray.push(startTime);
 
@@ -35,24 +66,32 @@ function minishopPowerSourceController($routeParams, MiniShop, moment) {
 
 		timesArray.push(currentTime);
 
-		for (let index = 0; index < timesArray.length; index++) {
+		for (let index = 0; index < timesArray.length - 1; index++) {
 			const element = new moment(timesArray[index]);
 			const next = new moment(timesArray[index + 1]);
 			const durationSeconds = moment.duration(next.diff(element));
 			const durationPercentage = (durationSeconds.as('seconds') / (59 + (59 * 60) + (23 * 60 * 60))).toFixed(2);
-			let progressObject = {
+			const progressObject = {
 				prcntg: durationPercentage * 100,
+				seconds: durationSeconds.as('seconds'),
+				isOn: _isOn(index, vm.txs),
 				classes: ['progress-bar']
 			};
-			console.log(index, durationSeconds.as('seconds'), durationPercentage);
-			/*if(vm.txs[index + 1].turning != undefined) {
-				if(vm.txs[index + 1].turning == "off") {
-					progressObject.classes.push('bg-warning');
-				}
-			}*/
 			
+			//	MAKE SURE "ON" BLOCKS ARE YELLOW
+			if(progressObject.isOn) progressObject.classes.push('bg-warning')
+
+			if(_isOn(index, vm.txs)) {
+
+				vm.opSeconds['house'].total += durationSeconds.as('seconds');
+				vm.opSeconds['house'].continous = durationSeconds.as('seconds');
+			}
+			
+			//	UPDATE THE ARRAY
 			blocksArray.push(progressObject);
 		}
+
+		//console.log(blocksArray);
 
 		return blocksArray;
 	}
@@ -79,6 +118,9 @@ function minishopPowerSourceController($routeParams, MiniShop, moment) {
 
 	//	EXECUTE
 	console.log('in the power source controller ');	    //  TODO: TAKE THIS OUT LATER
-
+	$interval(function(){
+		vm.timeBlocks = buildProgressBar();
+		
+	},1000*10)
 
 }

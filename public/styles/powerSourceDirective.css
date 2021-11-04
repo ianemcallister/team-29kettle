@@ -1,3 +1,9 @@
 .powerStatus {
     text-align: center;
 }
+
+.powerDetails {
+    text-align: center;
+    margin-top:10px;
+    display: inline-block;
+}

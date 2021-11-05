@@ -10,7 +10,7 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 	//	LOCAL VARIABLES
 	let vm = this;
-	const cadence = 1000 * 10;  //  1000 miliseconds = 1 second x 10 = 10 seconds
+	const cadence = 1000 * 1;  //  1000 miliseconds = 1 second x 1 = 1 second
 
 	//	VIEW MODEL VARIABLES
 	vm.recipes = [
@@ -26,7 +26,12 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 	vm.batches = {
 		ondeck: {},
 		cooking: {},
-		finsihed: {}
+		cooling: {}
+	};
+	vm.cookingMetrics = {
+		startngTime: "",		// i.e. 2021-11-05T10:00:00-07:00
+		timeElapsed: 0,			// in seconds
+		status: "Off"			//	Warming / Cooking / Cleaning / Off
 	};
 
 	//	VIEW MODEL FUNCTIONS
@@ -46,6 +51,28 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 		};
 		
+	};
+
+	vm.startNewBatch = function() {
+		const batchOnDeck = (vm.batches.ondeck.recipe != undefined);
+
+		if(batchOnDeck) {
+			console.log('starting a new batch');
+			//	lastBatch gets set to Cooking value
+			vm.batches.cooling = vm.batches.cooking;
+
+			//	cooking gets set to ondeck value
+			vm.batches.cooking = vm.batches.ondeck;
+			vm.cookingMetrics.status 		= "Cooking";
+			vm.cookingMetrics.startngTime 	= moment().format();
+			vm.cookingMetrics.timeElapsed	= 0;
+
+			//	ondeck gets set to {}
+			vm.batches.ondeck = {};
+
+		} else {
+			console.log('ned to select a batch first');
+		}
 	};
 	/*
 	*	PRIVATE: 

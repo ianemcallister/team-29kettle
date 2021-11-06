@@ -17,7 +17,7 @@ ckc.factory('msData', msData);
 *   $routeParams: used to gather imporant state variables
 *   moment: used to proces dates
 */
-msData.$inject = ['$interval', '$firebaseObject', '$routeParams', '$rootScope','moment'];
+msData.$inject = ['$interval', '$firebaseObject', '$routeParams', '$rootScope','$q' ,'moment', 'Firebase'];
 
 /*
 *   DECLARE THE SERVICE
@@ -25,7 +25,7 @@ msData.$inject = ['$interval', '$firebaseObject', '$routeParams', '$rootScope','
 *   All of the injected modules are now provided to the service
 */  
 /* @ngInject */
-function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
+function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment, Firebase) {
 
     /*
     *   NOTIFY PROGRESS
@@ -42,6 +42,20 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
     *   data    {object}    all the data required for the Mini Shop can be found here      
     */  
     var self = this;
+    self.templates = {
+        prodReport: {
+            ondeck:         { "_hold": "" },
+            cooking:        { "_hold": "" },
+            cooling:        { "_hold": "" },
+            engagmentId:    '',
+            channelName:    '',
+            channelId:      '',
+            yrWk:           0,
+            status:         '',
+            journalEntries: { "_hold": "" },
+            acctsMap:       { "_hold": "" }
+        }
+    };
     self.data = {
         power: {
             isOn: _loadFBObject('Engagments/' + $routeParams.engmntId + '/power/isOn'),
@@ -49,21 +63,7 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
             txs: _loadFBObject('Engagments/' + $routeParams.engmntId + '/power/txs')
         },
         production: {
-            report: _loadProdReport($routeParams.engmntId)
-        }
-    };
-    self.templates ={
-        prodReport: {
-            ondeck:         {},
-            cooking:        {},
-            cooling:        {},
-            engagmentId:    '',
-            channelName:    '',
-            channelId:      '',
-            yrWk:           0,
-            status:         '',
-            journalEntries: {},
-            acctsMap:       {}
+            report: _loadProdReport($routeParams.engmntId, $routeParams.channelId)
         }
     };
     self.models = {
@@ -123,21 +123,50 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
     *   @param  string              i.e. "-ashoi#sy8nGbsad-wbg" is a key for a database object
     *   @return $FirebaseObject     a 2-way binding object with the database
     */
-    function _loadProdReport(engagmentId) {
+    function _loadProdReport(engagmentId, channelId) {
+        console.log('self.templates', self.templates);
         //  DOES A RECORD EXIST
-        const readPath  = 'ProductionReports/' + $routeParams.engmntId;
-        const db        = firebase.database();
-        const ref       = db.ref(readPath);
-        const result    = $firebaseObject(ref);
-        if($firebaseObject == null || $firebaseObject.$value == null) {
-            //  Need to create the record
-            console.log('creating a record')
-        } else {
-            //  A RECORD EXISTS
-            console.log('found a record');
-            return result;
-        }
+        const def                   = $q.defer();
+        const db                    = firebase.database();
+        const ref                   = db.ref('ProductionReports/' + engagmentId);
+        const prodReportRecord      = $firebaseObject(ref);
+        const engagChannelRecord    = Firebase.read('Channels/' + channelId)
+        const newProdReport         = self.templates.prodReport;
+        newProdReport.engagmentId   = engagmentId;
+
+        Promise.all([prodReportRecord, engagChannelRecord]).then(function(data) {
+            const channelRecord = data[1];
+
+            //console.log('channelRecord', channelRecord);
+
+            if(prodReportRecord.$value == null) {
+                //  IF ON RECORD CURRENTLY EXISTS, CREATE A NEW RECORD
+                prodReportRecord.$value         = newProdReport;
+                prodReportRecord.$value.channelName    = channelRecord.name;
+                prodReportRecord.$value.channelId      = channelId;
+                prodReportRecord.$value.acctsMap       = channelRecord.acctsMap;
+    
+                // SAVE THAT NEW RECORD
+                prodReportRecord.$save().then(function(){
+                    //  LAZY LOAD THE OTHER INFORMATION THIS RECORD WILL NEED
+                    console.log('production report saved', prodReportRecord)
+                    def.resolve(prodReportRecord);
+                });
+    
+                
+    
+                return def.promise;
+    
+            } else {
+                //  A RECORD EXISTS
+                console.log('found a record', result);
+                return prodReportRecord;
+            }
+
+        });
+
     };
+
 
     /*
     *   PRIVATE: GET POWER TX KEY
@@ -178,7 +207,7 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
     };
 
     //  DEFINE PUBLIC METHODS
-    
+
 
     //   RETURN
     return msDataMod;

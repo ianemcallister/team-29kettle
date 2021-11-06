@@ -14,6 +14,7 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 	//	VIEW MODEL VARIABLES
 	vm.recipes = _loadRecipes(msData.models.operations);
+	vm.prodReport = msData.data.production.report;
 	vm.batches = {
 		ondeck: {},
 		cooking: {},

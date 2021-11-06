@@ -151,32 +151,32 @@ function config($routeProvider, $locationProvider) {
         controller: 'resourceController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     }) */
-    .when('/minishop/:engmntId', {
+    .when('/minishop/:engmntId/:channelId/', {
         templateUrl: 'assets/views/minishop/mdashboard-page.htm',
         controller: 'minishopDashController',
         controllerAs: 'vm'
     })
-    .when('/minishop/:engmntId/settings', {
+    .when('/minishop/:engmntId/:channelId/settings', {
         templateUrl: 'assets/views/minishop/settings-page.htm',
         controller: 'minishopStngsController',
         controllerAs: 'vm'
     })
-    .when('/minishop/:engmntId/production', {
+    .when('/minishop/:engmntId/:channelId/production', {
         templateUrl: 'assets/views/minishop/production-page.htm',
         controller: 'minishopProductionController',
         controllerAs: 'vm'
     })
-    .when('/minishop/:engmntId/salesTxs', {
+    .when('/minishop/:engmntId/:channelId/salesTxs', {
         templateUrl: 'assets/views/minishop/sales-txs-page.htm',
         controller: 'minishopSalesTxsController',
         controllerAs: 'vm'
     })
-    .when('/minishop/:engmntId/balanceSheet', {
+    .when('/minishop/:engmntId/:channelId/balanceSheet', {
         templateUrl: 'assets/views/minishop/balancesheet-page.htm',
         controller: 'minishopBalancesheetController',
         controllerAs: 'vm'
     })
-    .when('/minishop/:engmntId/power', {
+    .when('/minishop/:engmntId/:channelId/power', {
         templateUrl: 'assets/views/minishop/power-source-page.htm',
         controller: 'minishopPowerSourceController',
         controllerAs: 'vm'

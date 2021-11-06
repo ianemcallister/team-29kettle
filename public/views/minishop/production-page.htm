@@ -2,7 +2,7 @@
     <div class="container">
         <!--Bread Crumbs-->
         <div style='margin-top: 10px;'>
-            <a ng-href="#/minishop/{{vm.params.engmntId}}" >Return to Dashboard</a>
+            <a ng-href="#/minishop/{{vm.params.engmntId}}/{{vm.params.channelId}}" >Return to Dashboard</a>
         </div>
 
         <div class="row">
@@ -11,8 +11,6 @@
                 <h2>PRODUCTION</h2>
             </div>
         </div>
-
-        {{vm.prodReport}}
 
         <!--Section Heading-->
         <h4 style='margin-top: 20px;'>Recipe Selection</h4>
@@ -75,21 +73,21 @@
                     <div class="row" style='padding-top:15px; padding-left: 10px; padding-right: 10px;'>
                         <!--Timer-->
                         <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4" style='padding-left:20px; padding-right: 0px;'>
-                            <div ng-if='vm.cookingMetrics.status == "Cooking"'
+                            <div ng-if='vm.prodReport.lastStatus == "Cooking"'
                                     style='text-align: left;'>
-                                <span class='text-monospace' style='font-size: 1.6rem;'> <strong>{{vm.cookingMetrics.timeElapsed * 1000 | date: "m:ss": 'UTC'}}</strong></span>
+                                <span class='text-monospace' style='font-size: 1.6rem;'> <strong>{{vm.prodReport.cooking.secElapsed * 1000 | date: "m:ss": 'UTC'}}</strong></span>
                             </div>
                         </div>
 
                         <!--Status-->
                         <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4"
                                 style='font-size: 1.5rem; text-align: center;'>
-                            <strong>{{vm.cookingMetrics.status}}</strong>
+                            <strong>{{vm.prodReport.lastStatus}}</strong>
                         </div>
 
                         <!--Finish Button-->
                         <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4" style="padding-right: 20px; padding-left: 0px;">
-                            <div ng-if='vm.cookingMetrics.status == "Cooking"'
+                            <div ng-if='vm.prodReport.lastStatus == "Cooking"'
                                     style='text-align: right;'>
                                 <button class="btn btn-danger" style='font-size:.9rem;'>Finish</button>
                             </div>
@@ -149,11 +147,11 @@
                     
 
                     <div class="col-6 sm-col-6 md-col-6 lg-col-6 xl-col-6" style='text-align: left;'>
-                        <strong>{{vm.cookingMetrics.startngTime | date: "h:mm a"}}</strong>
+                        <strong>{{vm.prodReport.cooking.startAt | date: "h:mm a"}}</strong>
                     </div>
 
                     <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4" style='text-align: center;'>
-                        <strong>{{ vm.calculateCookingDone(vm.cookingMetrics.startngTime) }}</strong>
+                        <strong>{{ vm.calculateCookingDone(vm.prodReport.cooking.startAt) }}</strong>
                     </div>
 
                     <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2" style='text-align: right;'>
@@ -168,9 +166,9 @@
                                     role='progressbar'
                                     aria-valuemin="0"
                                     aria-valuemax="100"
-                                    aria-valuenow='{{ vm.cookingMetrics.prcntPrgs }}'
-                                    ng-style="{width: ({{ vm.cookingMetrics.prcntPrgs  }} + '%') }"
-                                    style='width: {{vm.cookingMetrics.prcntPrgs + "%" }}'>
+                                    aria-valuenow='{{ vm.validatePercentProgress(vm.prodReport.cooking.prcntPrgs) }}'
+                                    ng-style="{width: ({{ vm.validatePercentProgress(vm.prodReport.cooking.prcntPrgs)  }} + '%') }"
+                                    style='width: {{ vm.validatePercentProgress(vm.prodReport.cooking.prcntPrgs) + "%" }}'>
 
                             </div>
                         </div>

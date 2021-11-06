@@ -53,7 +53,8 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
             yrWk:           0,
             status:         '',
             journalEntries: { "_hold": "" },
-            acctsMap:       { "_hold": "" }
+            acctsMap:       { "_hold": "" },
+            lastStatus:     "Off"
         }
     };
     self.data = {
@@ -68,18 +69,18 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
     };
     self.models = {
         operations: {
-            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "" },
-            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "" },
-            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "" },
-            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "" },
-            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "" },
-            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "" },
-            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "" },
-            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "" },
-            8: {type: "oprtns", proces: "warming",                              startAt: "", endAt: "" },
-            9: {type: "oprtns", proces: "cleaning",                             startAt: "", endAt: "" },
-            10:{type: "oprtns", proces: "off",                                  startAt: "", endAt: "" },
-            11:{type: "errors", proces: "burnt",                                startAt: "", endAt: "" }
+            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0 },
+            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
+            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
+            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
+            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
+            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
+            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
+            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
+            8: {type: "oprtns", proces: "warming",                              startAt: "", endAt: ""  },
+            9: {type: "oprtns", proces: "cleaning",                             startAt: "", endAt: ""  },
+            10:{type: "oprtns", proces: "off",                                  startAt: ""  },
+            11:{type: "errors", proces: "burnt",                                startAt: ""  }
         }
     }
     

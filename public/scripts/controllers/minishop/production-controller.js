@@ -1,3 +1,8 @@
+/*
+*	MINI SHOP PRODUCTION CONTROLLER
+*
+*	Status can be: Warming / Cooking / Cleaning / Off
+*/
 ckc
     .controller('minishopProductionController', minishopProductionController);
 
@@ -10,23 +15,11 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 	//	LOCAL VARIABLES
 	let vm = this;
+	vm.params = $routeParams;
 	const cadence = 1000 * 1;  //  1000 miliseconds = 1 second x 1 = 1 second
 
 	//	VIEW MODEL VARIABLES
 	vm.recipes = _loadRecipes(msData.models.operations);
-	/*vm.batches = {
-		ondeck: {},
-		cooking: {},
-		cooling: {}
-	};*/
-	vm.cookingMetrics = {
-		startngTime: 	"",		// i.e. 2021-11-05T10:00:00-07:00
-		expiresAt:		"",		// i.e. 2021-11-05T10:20:00-07:00
-		timeElapsed: 	0,		// in seconds
-		status: 		"Off",	//	Warming / Cooking / Cleaning / Off
-		prcntPrgs: 		0,
-
-	};
 
 	/*
 	*	BIND VIEW MODEL VARIABLES
@@ -67,9 +60,9 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 			//	cooking gets set to ondeck value
 			vm.prodReport.cooking = vm.prodReport.ondeck;
-			vm.cookingMetrics.status 		= "Cooking";
-			vm.cookingMetrics.startngTime 	= moment().format();
-			vm.cookingMetrics.timeElapsed	= 0;
+			vm.prodReport.lastStatus 		= "Cooking";
+			vm.prodReport.cooking.startAt 	= moment().format();
+			vm.prodReport.cooking.secElapsed	= 0;
 
 			//	ondeck gets set to {}
 			vm.prodReport.ondeck = { "_hold": "" };
@@ -100,6 +93,11 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 	};
 
+	vm.validatePercentProgress = function(percentage) {
+		if(percentage == undefined || percentage == NaN) return 0;
+		else return percentage
+	};
+
 	/*
 	*	PRIVATE: LOAD RECIPES
 	*/
@@ -119,19 +117,19 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 	*/
 	function updateBatchProgress() {
 		
-		const startTime = moment(vm.cookingMetrics.startngTime);
+		const startTime = moment(vm.prodReport.cooking.startAt);
 		const crrntTime = moment();
 		const scndsDurn	= moment.duration(crrntTime.diff(startTime)).as('seconds');
 		const percentageProgress = (scndsDurn / 1200).toFixed(2) * 100
-		vm.cookingMetrics.prcntPrgs = percentageProgress;
+		vm.prodReport.cooking.prcntPrgs = percentageProgress;
 	};
 
 	/*
 	*	PRIVATE: INCRIMENT COOKING TIMER
 	*/
 	function incrimentCookingTimer() { 
-		if(vm.cookingMetrics.status == 'Cooking') {
-			vm.cookingMetrics.timeElapsed++;
+		if(vm.prodReport.lastStatus == 'Cooking') {
+			vm.prodReport.cooking.secElapsed++;
 			updateBatchProgress(); 
 		}
 	}

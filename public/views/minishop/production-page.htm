@@ -32,7 +32,7 @@
                 
             </div>
                 
-            <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2 ">
+            <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2 " style='padding-right:0px;'>
                 <button class='border border-dark rounded btn btn-outline-dark' 
                         style='text-align: center; height: 215px; padding-top: 100px; padding-bottom: 100px; width: 100%;'
                         id='recBttn9'>
@@ -108,7 +108,7 @@
 
             <!--Last Batch-->
             <div    class="col-3 sm-col-3 md-col-3 lg-col-3 xl-col-3"
-                    >
+                    style='padding-right: 0px;'>
                 <div    class='border border-dark rounded'
                     style='width: 100%; height: 145px;'
                     >
@@ -124,9 +124,90 @@
             </div>
         </div>
 
+        <!--Section Heading-->
+        <h4 style='margin-top: 20px;'>Batch Progress</h4>
 
-        <!--Target bar-->
-        <!--Actual Bar-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12 border rounded border-dark">
+                
+                <!--Actual Bar-->
+                <div class="row">
+                    <div ng-if='vm.batches.cooking.recipe == undefined' style='height: 24px; width: 100%;'></div>
+                    
+                    <div class="col-6 sm-col-6 md-col-6 lg-col-6 xl-col-6" style='text-align: left;'>
+                        <strong>{{vm.cookingMetrics.startngTime | date: "h:mm a"}}</strong>
+                    </div>
+
+                    <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4" style='text-align: center;'>
+                        <strong>{{ vm.calculateCookingDone(vm.cookingMetrics.startngTime) }}</strong>
+                    </div>
+
+                    <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2" style='text-align: right;'>
+                        <strong>{{ vm.calculateCookingError() }}</strong>
+                    </div>
+
+                    <!--Progress Bar-->
+                    <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-bottom:15px;'>
+                        
+                        <div class="progress" style='width:100%; height: 25px;'>
+                            <div    class='progress-bar'
+                                    role='progressbar'
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    aria-valuenow='10'
+                                    style="width: 10%">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--Target bar-->
+                <div class="row">
+                    <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                        <!--Cooking-->
+                        <div class="progress" style='width:100%; height: 25px;'>
+                            <div    class='progress-bar bg-info'
+                                    role='progressbar'
+                                    aria-valuemin="0"
+                                    aria-valuemax="1200"
+                                    aria-valuenow='660'
+                                    style="width: 55%">
+                                <strong>Wet Stage / Dry Stage / Oiley Stage</strong>
+                            </div>
+                             <!--Complete-->
+                            <div    class='progress-bar bg-warning'
+                                    role='progressbar'
+                                    aria-valuemin="0"
+                                    aria-valuemax="1200"
+                                    aria-valuenow='540'
+                                    style="width: 25%">
+                                <strong> Normal Complete Range</strong>
+                            </div>
+                            <!--Issue-->
+                            <div    class='progress-bar bg-danger'
+                                    role='progressbar'
+                                    aria-valuemin="0"
+                                    aria-valuemax="1200"
+                                    aria-valuenow='240'
+                                    style="width: 20%">
+                                <strong>Burnt or Other Issues</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 sm-col-6 md-col-6 lg-col-6 xl-col-6" style='text-align: left;'>0 minutes</div>
+                    <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4" style='text-align: center;'>12-16 minutes</div>
+                    <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2" style='text-align: right;'>16-20 min</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        
+        
         <!--Start Time-->
 
 

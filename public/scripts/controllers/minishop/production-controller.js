@@ -76,6 +76,27 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 	};
 
 	/*
+	*	VIEW MODEL FUNCTION: CALCULATE COOKING DONE
+	*/
+	vm.calculateCookingDone = function(dateTime) {
+		if(dateTime != "") {
+			const currentTime = moment(dateTime);
+			const frstEndTime = currentTime.add(12, 'minutes').format('h:mm a');
+			const scndEndTime = currentTime.add(16, 'minutes').format('h:mm a');
+			return frstEndTime + " - " + scndEndTime;
+		} else {
+			return "";
+		}
+	};
+
+	/*
+	*	VIEW MODEL FUNCTION: CALCULATE COOKING ERROR
+	*/
+	vm.calculateCookingError = function(dateTime) {
+
+	};
+
+	/*
 	*	PRIVATE: INCRIMENT COOKING TIMER
 	*/
 	function incrimentCookingTimer() { 

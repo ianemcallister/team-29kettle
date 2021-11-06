@@ -69,14 +69,14 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
     };
     self.models = {
         operations: {
-            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0 },
-            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
-            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
-            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
-            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
-            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
-            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
-            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", secElapsed: 0, prcntPrgs: 0  },
+            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "", expiresAt: "" },
+            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "", expiresAt: "" },
+            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "", expiresAt: "" },
+            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "" },
+            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "", expiresAt: "" },
+            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "", expiresAt: "" },
+            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "", expiresAt: "" },
+            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "" },
             8: {type: "oprtns", proces: "warming",                              startAt: "", endAt: ""  },
             9: {type: "oprtns", proces: "cleaning",                             startAt: "", endAt: ""  },
             10:{type: "oprtns", proces: "off",                                  startAt: ""  },

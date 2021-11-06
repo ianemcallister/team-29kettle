@@ -75,7 +75,7 @@
                         <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4" style='padding-left:20px; padding-right: 0px;'>
                             <div ng-if='vm.prodReport.lastStatus == "Cooking"'
                                     style='text-align: left;'>
-                                <span class='text-monospace' style='font-size: 1.6rem;'> <strong>{{vm.prodReport.cooking.secElapsed * 1000 | date: "m:ss": 'UTC'}}</strong></span>
+                                <span class='text-monospace' style='font-size: 1.6rem;'> <strong>{{vm.batch.secElapsed * 1000 | date: "m:ss": 'UTC'}}</strong></span>
                             </div>
                         </div>
 
@@ -166,9 +166,9 @@
                                     role='progressbar'
                                     aria-valuemin="0"
                                     aria-valuemax="100"
-                                    aria-valuenow='{{ vm.validatePercentProgress(vm.prodReport.cooking.prcntPrgs) }}'
-                                    ng-style="{width: ({{ vm.validatePercentProgress(vm.prodReport.cooking.prcntPrgs)  }} + '%') }"
-                                    style='width: {{ vm.validatePercentProgress(vm.prodReport.cooking.prcntPrgs) + "%" }}'>
+                                    aria-valuenow='{{ vm.validatePercentProgress(vm.batch.prcntPrgs) }}'
+                                    ng-style="{width: ({{ vm.validatePercentProgress(vm.batch.prcntPrgs)  }} + '%') }"
+                                    style='width: {{ vm.validatePercentProgress(vm.batch.prcntPrgs) + "%" }}'>
 
                             </div>
                         </div>

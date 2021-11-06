@@ -20,7 +20,10 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 	//	VIEW MODEL VARIABLES
 	vm.recipes = _loadRecipes(msData.models.operations);
-
+	vm.batch = {
+		prcntPrgs: 0,
+		secElapsed: 0
+	}
 	/*
 	*	BIND VIEW MODEL VARIABLES
 	*
@@ -56,13 +59,15 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 		if(batchOnDeck) {
 			console.log('starting a new batch');
 			//	lastBatch gets set to Cooking value
-			vm.prodReport.cooling = vm.prodReport.cooking;
+			vm.prodReport.cooling 				= vm.prodReport.cooking;
+			vm.prodReport.cooling.endAt 		= moment().format();
 
 			//	cooking gets set to ondeck value
-			vm.prodReport.cooking = vm.prodReport.ondeck;
-			vm.prodReport.lastStatus 		= "Cooking";
-			vm.prodReport.cooking.startAt 	= moment().format();
-			vm.prodReport.cooking.secElapsed	= 0;
+			vm.prodReport.cooking 				= vm.prodReport.ondeck;
+			vm.prodReport.lastStatus 			= "Cooking";
+			vm.prodReport.cooking.startAt 		= moment().format();
+			vm.prodReport.cooking.expiresAt		= moment(vm.prodReport.cooking.startAt).add(20, 'minutes').format();	
+			vm.batch.secElapsed					= 0;
 
 			//	ondeck gets set to {}
 			vm.prodReport.ondeck = { "_hold": "" };
@@ -121,7 +126,7 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 		const crrntTime = moment();
 		const scndsDurn	= moment.duration(crrntTime.diff(startTime)).as('seconds');
 		const percentageProgress = (scndsDurn / 1200).toFixed(2) * 100
-		vm.prodReport.cooking.prcntPrgs = percentageProgress;
+		vm.batch.prcntPrgs = percentageProgress;
 	};
 
 	/*
@@ -129,7 +134,9 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 	*/
 	function incrimentCookingTimer() { 
 		if(vm.prodReport.lastStatus == 'Cooking') {
-			vm.prodReport.cooking.secElapsed++;
+			const startedAt 	= moment(vm.prodReport.cooking.startAt);
+			const currentTime	= moment();
+			vm.batch.secElapsed = moment.duration(currentTime.diff(startedAt)).as('seconds');
 			updateBatchProgress(); 
 		}
 	}

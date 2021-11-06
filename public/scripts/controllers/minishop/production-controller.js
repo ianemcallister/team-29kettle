@@ -14,11 +14,11 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 	//	VIEW MODEL VARIABLES
 	vm.recipes = _loadRecipes(msData.models.operations);
-	vm.batches = {
+	/*vm.batches = {
 		ondeck: {},
 		cooking: {},
 		cooling: {}
-	};
+	};*/
 	vm.cookingMetrics = {
 		startngTime: 	"",		// i.e. 2021-11-05T10:00:00-07:00
 		expiresAt:		"",		// i.e. 2021-11-05T10:20:00-07:00
@@ -35,45 +35,44 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 	*	powerSource	string		'house' or 'generator'
 	*/
 	msData.data.production.report.$bindTo($scope, 'vm.prodReport').then(function reportLoaded() {
-		console.log('bind finished loading');
-		
+		//console.log('bind finished loading');
 	});
 
 	//	VIEW MODEL FUNCTIONS
 	vm.selectRecipe = function(key) {
-		const spotIsOpen = (vm.batches.ondeck.recipe == undefined);
-		const flavorAlreadySelected = ((vm.batches.ondeck.recipe == vm.recipes[key].recipe) && (vm.batches.ondeck.nut == vm.recipes[key].nut))
+		const spotIsOpen = (vm.prodReport.ondeck.recipe == undefined);
+		const flavorAlreadySelected = ((vm.prodReport.ondeck.recipe == vm.recipes[key].recipe) && (vm.prodReport.ondeck.nut == vm.recipes[key].nut))
 		
 		if (spotIsOpen && !flavorAlreadySelected) {
 			// assign this flavor to the spot
-			vm.batches.ondeck = vm.recipes[key];
+			vm.prodReport.ondeck = vm.recipes[key];
 		} else if (!spotIsOpen && !flavorAlreadySelected) {
 			//	change the flavor to this new one selected
-			vm.batches.ondeck = vm.recipes[key];
+			vm.prodReport.ondeck = vm.recipes[key];
 		} else if (!spotIsOpen && flavorAlreadySelected) {
 			// remove this flavor from the spot
-			vm.batches.ondeck = {};
+			vm.prodReport.ondeck = { "_hold":  "" };
 
 		};
 		
 	};
 
 	vm.startNewBatch = function() {
-		const batchOnDeck = (vm.batches.ondeck.recipe != undefined);
+		const batchOnDeck = (vm.prodReport.ondeck.recipe != undefined);
 
 		if(batchOnDeck) {
 			console.log('starting a new batch');
 			//	lastBatch gets set to Cooking value
-			vm.batches.cooling = vm.batches.cooking;
+			vm.prodReport.cooling = vm.prodReport.cooking;
 
 			//	cooking gets set to ondeck value
-			vm.batches.cooking = vm.batches.ondeck;
+			vm.prodReport.cooking = vm.prodReport.ondeck;
 			vm.cookingMetrics.status 		= "Cooking";
 			vm.cookingMetrics.startngTime 	= moment().format();
 			vm.cookingMetrics.timeElapsed	= 0;
 
 			//	ondeck gets set to {}
-			vm.batches.ondeck = {};
+			vm.prodReport.ondeck = { "_hold": "" };
 
 		} else {
 			console.log('ned to select a batch first');

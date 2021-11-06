@@ -14,7 +14,6 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 
 	//	VIEW MODEL VARIABLES
 	vm.recipes = _loadRecipes(msData.models.operations);
-	vm.prodReport = msData.data.production.report;
 	vm.batches = {
 		ondeck: {},
 		cooking: {},
@@ -28,6 +27,17 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 		prcntPrgs: 		0,
 
 	};
+
+	/*
+	*	BIND VIEW MODEL VARIABLES
+	*
+	*	powerIsOn	boolean		represents TRUE/FALSE
+	*	powerSource	string		'house' or 'generator'
+	*/
+	msData.data.production.report.$bindTo($scope, 'vm.prodReport').then(function reportLoaded() {
+		console.log('bind finished loading');
+		
+	});
 
 	//	VIEW MODEL FUNCTIONS
 	vm.selectRecipe = function(key) {

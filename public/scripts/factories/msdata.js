@@ -124,47 +124,13 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
     *   @return $FirebaseObject     a 2-way binding object with the database
     */
     function _loadProdReport(engagmentId, channelId) {
-        console.log('self.templates', self.templates);
-        //  DOES A RECORD EXIST
+        
         const def                   = $q.defer();
         const db                    = firebase.database();
         const ref                   = db.ref('ProductionReports/' + engagmentId);
         const prodReportRecord      = $firebaseObject(ref);
-        const engagChannelRecord    = Firebase.read('Channels/' + channelId)
-        const newProdReport         = self.templates.prodReport;
-        newProdReport.engagmentId   = engagmentId;
-
-        Promise.all([prodReportRecord, engagChannelRecord]).then(function(data) {
-            const channelRecord = data[1];
-
-            //console.log('channelRecord', channelRecord);
-
-            if(prodReportRecord.$value == null) {
-                //  IF ON RECORD CURRENTLY EXISTS, CREATE A NEW RECORD
-                prodReportRecord.$value         = newProdReport;
-                prodReportRecord.$value.channelName    = channelRecord.name;
-                prodReportRecord.$value.channelId      = channelId;
-                prodReportRecord.$value.acctsMap       = channelRecord.acctsMap;
-    
-                // SAVE THAT NEW RECORD
-                prodReportRecord.$save().then(function(){
-                    //  LAZY LOAD THE OTHER INFORMATION THIS RECORD WILL NEED
-                    console.log('production report saved', prodReportRecord)
-                    def.resolve(prodReportRecord);
-                });
-    
-                
-    
-                return def.promise;
-    
-            } else {
-                //  A RECORD EXISTS
-                console.log('found a record', result);
-                return prodReportRecord;
-            }
-
-        });
-
+        
+        return prodReportRecord;
     };
 
 

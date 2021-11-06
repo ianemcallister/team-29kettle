@@ -74,11 +74,19 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 			console.log('ned to select a batch first');
 		}
 	};
+
+	/*
+	*	PRIVATE: INCRIMENT COOKING TIMER
+	*/
+	function incrimentCookingTimer() { 
+		if(vm.cookingMetrics.status == 'Cooking') vm.cookingMetrics.timeElapsed++; 
+	}
+
 	/*
 	*	PRIVATE: 
 	*/
 	function updateProductionKPIs() {
-
+		incrimentCookingTimer();
 	};
 
 	//	EXECUTE

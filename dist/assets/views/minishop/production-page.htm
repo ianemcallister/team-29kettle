@@ -20,13 +20,13 @@
             <div class="col-10 sm-col-10 md-col-10 lg-col-10 xl-col-10">
                 <div class="row">
                     <button    class="border border-dark rounded col-3 sm-col-3 md-col-3 lg-col-4 xl-col-3 btn btn-outline-dark"
-                            ng-repeat='product in vm.recipes track by $index'
+                            ng-repeat='(key, value) in vm.recipes'
                             style='text-align: center; padding-top: 20px; padding-bottom: 20px;'
-                            ng-click='vm.selectRecipe($index)'
-                            id='recBttn{{$index}}'
+                            ng-click='vm.selectRecipe(key)'
+                            id='recBttn{{key}}'
                             >
-                        <span>{{product.recipe}}</span> <br>
-                        <span style='font-size:1.75rem;'>{{product.nut}}</span>
+                        <span>{{value.recipe}}</span> <br>
+                        <span style='font-size:1.75rem;'>{{value.nut}}</span>
                     </button>
                 </div>
                 
@@ -36,7 +36,7 @@
                 <button class='border border-dark rounded btn btn-outline-dark' 
                         style='text-align: center; height: 215px; padding-top: 100px; padding-bottom: 100px; width: 100%;'
                         id='recBttn9'>
-                    PREP
+                    Operations
                 </button>
             </div>
         </div>
@@ -162,7 +162,7 @@
                     <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-bottom:15px;'>
                         
                         <div class="progress" style='width:100%; height: 25px;'>
-                            <div    class='progress-bar'
+                            <div    class='progress-bar progress-bar-striped progress-bar-animated'
                                     role='progressbar'
                                     aria-valuemin="0"
                                     aria-valuemax="100"
@@ -219,22 +219,75 @@
         </div>
 
 
-        
-        
-        <!--Start Time-->
-
-
-
         <!--Progress-->
-        <div class="row"></div>
+        <h4 style='margin-top: 20px;'>Cooking Efficiency</h4>
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12 border rounded border-dark">
+                
+                <div class="progress" style='width:100%; height: 25px;'>
+                    <!--Warm Kettle-->
+                    <div    class='progress-bar'
+                            role='progressbar'
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow='6.25'
+                            style="width: 6.25%">
+                    </div>
+                    <!--Warm Kettle-->
+                    <div    class='progress-bar bg-warning'
+                            role='progressbar'
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow='6.25'
+                            style="width: 6.25%">
+                        <strong>Warm</strong>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
         <!--Txs-->
-        <div class="row"></div>
+        <h4 style='margin-top: 20px;'>All Batches</h4>
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12 border rounded border-dark">
+                
+                <div style='margin-top:15px;'>
+                    <strong>Total Batches:</strong>
+                </div>
+                
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope='col'>#</th>
+                            <th scope='col'>Started</th>
+                            <th scope='col'>Batch</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class='table-striped'>
+                        <tr>
+                            <th scope='row' style='padding-top:16px;'>1</th>
+                            <td style='padding-top:16px;'>9:07 am</td>
+                            <td style='padding-top:16px;'>Sweet & Salty Hazelnuts</td>
+                            <td><button class="btn btn-info btn-sm">Details</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <!--Supplies-->
+        <h4 style='margin-top: 20px;'>Supplies</h4>
         <div class="row"></div>
 
         <!--Produced/Results-->
+        <h4 style='margin-top: 20px;'>Produced</h4>
+        <div class="row"></div>
+
+        <!--Results-->
+        <h4 style='margin-top: 20px;'>Consumed</h4>
         <div class="row"></div>
 
     </div>

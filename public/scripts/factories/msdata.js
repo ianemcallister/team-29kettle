@@ -47,6 +47,39 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
             isOn: _loadFBObject('Engagments/' + $routeParams.engmntId + '/power/isOn'),
             source: _loadFBObject('Engagments/' + $routeParams.engmntId + '/power/source'),
             txs: _loadFBObject('Engagments/' + $routeParams.engmntId + '/power/txs')
+        },
+        production: {
+            report: _loadProdReport($routeParams.engmntId)
+        }
+    };
+    self.templates ={
+        prodReport: {
+            ondeck:         {},
+            cooking:        {},
+            cooling:        {},
+            engagmentId:    '',
+            channelName:    '',
+            channelId:      '',
+            yrWk:           0,
+            status:         '',
+            journalEntries: {},
+            acctsMap:       {}
+        }
+    };
+    self.models = {
+        operations: {
+            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "" },
+            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "" },
+            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "" },
+            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "" },
+            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "" },
+            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "" },
+            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "" },
+            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "" },
+            8: {type: "oprtns", proces: "warming",                              startAt: "", endAt: "" },
+            9: {type: "oprtns", proces: "cleaning",                             startAt: "", endAt: "" },
+            10:{type: "oprtns", proces: "off",                                  startAt: "", endAt: "" },
+            11:{type: "errors", proces: "burnt",                                startAt: "", endAt: "" }
         }
     }
     
@@ -59,7 +92,9 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
     *   power: [ojbect] all functions pertaining to the power needs of a mini shop can be found here
     */  
     var msDataMod = {
-        data: self.data,
+        data:       self.data,
+        models:     self.models,
+        templates:  self.templates,
         power: {
             togglePower: togglePower
         }
@@ -78,6 +113,30 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, moment) {
         var _db     = firebase.database();
         var ref     = _db.ref(readPath);
         return $firebaseObject(ref);
+    };
+
+    /*
+    *   PRIVATE: LOAD PRODUCTION REPORT
+    *
+    *   Each engagment gets one production report.
+    * 
+    *   @param  string              i.e. "-ashoi#sy8nGbsad-wbg" is a key for a database object
+    *   @return $FirebaseObject     a 2-way binding object with the database
+    */
+    function _loadProdReport(engagmentId) {
+        //  DOES A RECORD EXIST
+        const readPath  = 'ProductionReports/' + $routeParams.engmntId;
+        const db        = firebase.database();
+        const ref       = db.ref(readPath);
+        const result    = $firebaseObject(ref);
+        if($firebaseObject == null || $firebaseObject.$value == null) {
+            //  Need to create the record
+            console.log('creating a record')
+        } else {
+            //  A RECORD EXISTS
+            console.log('found a record');
+            return result;
+        }
     };
 
     /*

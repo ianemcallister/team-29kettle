@@ -42,7 +42,7 @@
         </div>
 
         <!--Section Heading-->
-        <h4 style='margin-top: 20px;'>Production Flow</h4>
+        <h4 style='margin-top: 20px;'>Cooking Flow</h4>
 
         <!--Steps-->
         <div class="row">
@@ -125,15 +125,27 @@
         </div>
 
         <!--Section Heading-->
-        <h4 style='margin-top: 20px;'>Batch Progress</h4>
+        <h4 style='margin-top: 20px;'>Current Batch</h4>
 
         <div class="row">
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12 border rounded border-dark">
                 
                 <!--Actual Bar-->
                 <div class="row">
-                    <div ng-if='vm.batches.cooking.recipe == undefined' style='height: 24px; width: 100%;'></div>
+
                     
+
+                    <div ng-if='vm.batches.cooking.recipe == undefined' style='height: 72px; width: 100%;'></div>
+                    
+                    <div    class="col-9 sm-col-9 md-col-9 lg-col-9 xl-col-9"
+                            style='font-size: 2rem;'>
+                        {{vm.batches.cooking.recipe}} {{vm.batches.cooking.nut}}
+                    </div>
+                    <div class="col-3 sm-col-3 md-col-3 lg-col-3 xl-col-3 text-monospace">
+                        {{}}
+                    </div>
+                    
+
                     <div class="col-6 sm-col-6 md-col-6 lg-col-6 xl-col-6" style='text-align: left;'>
                         <strong>{{vm.cookingMetrics.startngTime | date: "h:mm a"}}</strong>
                     </div>
@@ -154,8 +166,9 @@
                                     role='progressbar'
                                     aria-valuemin="0"
                                     aria-valuemax="100"
-                                    aria-valuenow='10'
-                                    style="width: 10%">
+                                    aria-valuenow='{{ vm.cookingMetrics.prcntPrgs }}'
+                                    ng-style="{width: ({{ vm.cookingMetrics.prcntPrgs  }} + '%') }"
+                                    style='width: {{vm.cookingMetrics.prcntPrgs + "%" }}'>
 
                             </div>
                         </div>

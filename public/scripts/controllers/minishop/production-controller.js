@@ -31,7 +31,8 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 	vm.cookingMetrics = {
 		startngTime: "",		// i.e. 2021-11-05T10:00:00-07:00
 		timeElapsed: 0,			// in seconds
-		status: "Off"			//	Warming / Cooking / Cleaning / Off
+		status: "Off",			//	Warming / Cooking / Cleaning / Off
+		prcntPrgs: 0
 	};
 
 	//	VIEW MODEL FUNCTIONS
@@ -97,10 +98,25 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 	};
 
 	/*
+	*	PRIVATE: UPDATE BATCH PROGRESS
+	*/
+	function updateBatchProgress() {
+		
+		const startTime = moment(vm.cookingMetrics.startngTime);
+		const crrntTime = moment();
+		const scndsDurn	= moment.duration(crrntTime.diff(startTime)).as('seconds');
+		const percentageProgress = (scndsDurn / 1200).toFixed(2) * 100
+		vm.cookingMetrics.prcntPrgs = percentageProgress;
+	};
+
+	/*
 	*	PRIVATE: INCRIMENT COOKING TIMER
 	*/
 	function incrimentCookingTimer() { 
-		if(vm.cookingMetrics.status == 'Cooking') vm.cookingMetrics.timeElapsed++; 
+		if(vm.cookingMetrics.status == 'Cooking') {
+			vm.cookingMetrics.timeElapsed++;
+			updateBatchProgress(); 
+		}
 	}
 
 	/*

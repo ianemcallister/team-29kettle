@@ -17,6 +17,12 @@ function adminABoMController($firebaseObject, $routeParams, $scope) {
 	//	VIEW MODEL VARIABLES
     vm.record       = $firebaseObject(bomRef);
     vm.roleOptions  = $firebaseObject(rolRef);
+	vm.aNewResource	= {
+		id:			"",
+		name:		"",
+		UoM:		"",
+		qty:		""
+	}
 
 	//	VIEW MODEL FUNCTIONS
 

@@ -3,7 +3,25 @@
         <div class="row">
 
             <!--Header-->
-            <h3>Bill of Materials List</h3>
+            <div class="row">
+                <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                    <h3>Bill of Materials List</h3>
+                </div>
+            </div>
+            
+            <!-- Create REcord-->
+            <div class="row">
+                <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                    <label for="Name">
+                        Name:
+                        <input type="text" style='width:400px' ng-model="vm.newRecord"> 
+                    </label>
+                    <button class="btn btn-success" ng-click='vm.createNewRecord(vm.newRecord)'>Add</button>
+                </div>
+            </div>
+            
+            
+
 
             <table class="table">
                 <thead>

@@ -31,26 +31,43 @@
         <div class="row">
             
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:20px;'>
-                <h4>Resources</h4>
-                <div>
-                    <input list="resourcePicker" placehoulder='resource'>
-                    <input type="text" placeholder='qty'>
-                    <button class="btn btn-success">Add</button>
-                </div>
-
-                
-                <table class="table table-sm">
+                <h5>Resources</h5>
+               
+                <table class="table table-sm" style='font-size:.75rem;'>
                     <thead>
                         <tr>
                             <th scope='col'>Name</th>
+                            <th></th>
                             <th scope='col'>Qty</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody class="table-striped">
-                        <tr ng-repeat='resource in vm.record.resources track by $index'>
-                            <td>{{resource.name}}</td>
-                            <td>{{resource.qty}} {{resource.unit}}</td>
+                    <tbody class="table-striped form-group">
+                        <tr>
+                            <!--New Resource Picker-->
+                            <td>
+                                <select class='custom-select' name="resourcePicker" id="resourcePicker" style='width:300px;' ng-model='vm.aNewResource.id'>
+                                    <option ng-repeat="(key, value) in vm.roleOptions"
+                                            value="{{key}}"
+                                            >
+                                        {{value.name}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td style="padding-top:10px;">
+                                {{vm.roleOptions[vm.aNewResource.id].UoM}}
+                            </td>
+                            <td>
+                                <input class='form-control' type="text" placeholder='qty'>
+                            </td>
+                            <td>
+                                <button class="btn btn-success">Add</button>
+                            </td>
+                        </tr>
+                        <tr ng-repeat='(key, value) in vm.record.resources'>
+                            <td>{{vm.roleOptions[key].name}}</td>
+                            <td>{{vm.roleOptions[key].UoM}}</td>
+                            <td>{{value}}</td>
                             <td>
                                 <button class="btn btn-danger">Remove</button>
                             </td>
@@ -131,12 +148,4 @@
         
     </div>
 
-    <datalist name="resourcePicker" id="resourcePicker">
-        <option ng-repeat="(key, value) in vm.roleOptions"
-                style='font-size: 12pt'
-                ng-click=''>
-                {{value.name}}
-        </option>
-    
-    </datalist>  
 </div>

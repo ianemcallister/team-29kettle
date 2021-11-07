@@ -264,7 +264,7 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
                         updatedAt:     '',
                         createdBy:     '',
                         updatedBy:     '',
-                        debit:         bom.resources[key].qty,
+                        debit:         bom.resources[key],
                         credit:        0,
                         description:   '',
                         engagmentId:   productionData.engagmentId,

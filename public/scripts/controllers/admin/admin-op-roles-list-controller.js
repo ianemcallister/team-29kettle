@@ -16,19 +16,41 @@ function adminOpRolesListContoller($firebaseObject, $scope) {
 	//	VIEW MODEL VARIABLES
     vm.opRolesList  = $firebaseObject(opRolList);
 	vm.currentRecord = {
+		id: "",
 		name: "",
-		UofM: "",
+		UoM: "",
 		description: "",
 		notes: ""
 	}
 
+	function _validateField(data) {
+		const returnValue = ""
+		if(data != undefined) returnValue = data
+		return returnValue;
+	}
+
 	//	VIEW MODEL FUNCTIONS
+	vm.editRecord = function(key) {
+		vm.currentRecord = {
+			id: 			key,
+			name: 			_validateField(vm.opRolesList[key].name),
+			UoM: 			_validateField(vm.opRolesList[key].UoM),
+			description: 	_validateField(vm.opRolesList[key].description),
+			notes: 			_validateField(vm.opRolesList[key].notes)
+		}
+	}
 	vm.addSelection = function() {
-		const newKey = firebase.database().ref().child("OpRoles").push().key;
-		vm.opRolesList[newKey] = vm.currentRecord;
+		if(vm.currentRecord.id == "") {
+			const newKey = firebase.database().ref().child("OpRoles").push().key;
+			vm.opRolesList[newKey] = vm.currentRecord;
+		} else {
+			vm.opRolesList[vm.currentRecord.id] = vm.currentRecord;
+		}
+		
 		vm.opRolesList.$save().then(function saveNewRole() {
 			console.log('saved successfully');
 			vm.currentRecord = {
+				id:	"",
 				name: "",
 				UoM: "",
 				description: "",

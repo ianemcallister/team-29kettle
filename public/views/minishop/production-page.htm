@@ -267,10 +267,10 @@
                         </tr>
                     </thead>
                     <tbody class='table-striped'>
-                        <tr>
-                            <th scope='row' style='padding-top:16px;'>1</th>
-                            <td style='padding-top:16px;'>9:07 am</td>
-                            <td style='padding-top:16px;'>Sweet & Salty Hazelnuts</td>
+                        <tr ng-repeat='batch in vm.cookingList track by $index'>
+                            <th scope='row' style='padding-top:16px;'>{{$index + 1}}</th>
+                            <td style='padding-top:16px;'>{{batch.startAt | date: "h:mm a"}}</td>
+                            <td style='padding-top:16px;'>{{batch.recipe}} {{batch.nut}}</td>
                             <td><button class="btn btn-info btn-sm">Details</button></td>
                         </tr>
                     </tbody>

@@ -35,6 +35,7 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	*/
 	msData.data.production.report.$bindTo($scope, 'vm.prodReport').then(function reportLoaded() {
 		//console.log('bind finished loading');
+		_loadCookingList();
 	});
 
 	//	VIEW MODEL FUNCTIONS
@@ -106,6 +107,23 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 		if(percentage == undefined || percentage == NaN) return 0;
 		else return percentage
 	};
+
+	/*
+	*	PRIVATE: LOAD COOKING LIST
+	*/
+	function _loadCookingList() {
+		vm.cookingList = [];
+		Object.keys(vm.prodReport.journalEntries).forEach(function(key) {
+			
+			if(key != '_hold') {
+				const readPath = '/JournalEntries/' + vm.prodReport.journalEntries[key];
+				const db = firebase.database();
+				const ref = db.ref(readPath);
+				vm.cookingList.push($firebaseObject(ref));
+			};
+
+		});
+	}
 
 	/*
 	*	PRIVATE: MOVE COOKING TO COOLING

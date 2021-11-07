@@ -274,7 +274,7 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
 
                     allUpdates['/Transactions/' + cookingTxId] = newCookingTx;
 
-                    newJE.txs[moment().format()] = cookingTxId;
+                    newJE.txs[cookingTxId] = cookingTxId;
 
                 });
 

@@ -28,9 +28,9 @@ const Epc = require('../../epc/epc');
 var toBeAdded = [
     {
         "id": "",
-        "name": "Staged Products",
-        "description": "Products that are staged for internal purposes",
-        "type": "Capital",
+        "name": "Misc",
+        "description": "Miscelaneous Expense",
+        "type": "Expense",
         "prefix": ""            //  DSCGVN -> 
     }
 ];

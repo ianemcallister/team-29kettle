@@ -8,15 +8,19 @@
             </div>
         </div>
 
-        {{vm.activeSelection}}
-
         <!--Add -->
-        <div class="row">
+        <div class="row form-group">
             <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2">
                 <!--Type-->
                 <label for="typePicker">
                     Type:
-                    <input list="typePicker" style="width:100px;" ng-model='vm.activeSelection.type'>
+                    <select class='custom-select' name="typePicker" id="typePicker" ng-model='vm.activeSelection.type'>
+                        <option ng-repeat="(key, value) in {0: 'Asset', 1: 'Liability', 2: 'Revenue', 3: 'Expense', 4: 'Capital'}"
+                                value="{{value}}"
+                                >
+                            {{value}}
+                        </option>
+                    </select>
                 </label>
                 
             </div>
@@ -24,9 +28,21 @@
                 <!--Account-->
                 <label for="acctPicker">
                     Acct / Sub-Acct:
-                    <input list="acctPicker" style='width: 220px;' ng-model='vm.activeSelection.acct'>
+                    <select class='custom-select' name="acctPicker" id="acctPicker" ng-model='vm.activeSelection.acct'>
+                        <option ng-repeat="(key, value) in vm.acctsList"
+                                value="{{key}}"
+                                >
+                            {{value.name}}
+                        </option>
+                    </select>
                     <!--Sub-Acct-->
-                    <input list="subPicker" style='width: 220px;' ng-model='vm.activeSelection.sact'>
+                    <select class='custom-select' name="subPicker" id="subPicker" ng-model='vm.activeSelection.sact'>
+                        <option ng-repeat="(key, value) in vm.subAcctsList"
+                                value="{{key}}"
+                                >
+                            {{value.name}}
+                        </option>
+                    </select>
                 </label>
                 
             </div>
@@ -34,14 +50,23 @@
                 <!--Channel-->
                 <label for="channelPicker">
                     Channel:
-                    <input list="channelPicker" style='width: 220px;' ng-model='vm.activeSelection.chnl'>
+                    <select class='custom-select' name="channelPicker" id="channelPicker" ng-model='vm.activeSelection.chnl'>
+                        <option ng-repeat="(key, value) in vm.channelsList"
+                                value="{{key}}"
+                                >
+                            {{value.name}}
+                        </option>
+                    </select>
                 </label>
                 
             </div>
             <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2">
                 <div style='margin-top:20px;'></div>
                 <!--Add-->
-                <button class="btn btn-success">Add</button>
+                <button class="btn btn-success"
+                        ng-click='vm.addLedger(vm.activeSelection)'>
+                    Add
+                </button>
             </div>
 
         </div>
@@ -75,45 +100,5 @@
         </div>
 
     </div>
-
-<!--Type Picker-->
-<datalist name="typePicker" id="typePicker">
-    <option ng-repeat="type in ['Asset', 'Liability', 'Revenue', 'Expense', 'Capital'] track by $index"
-            style='font-size: 12pt'
-            ng-click=''
-            >
-            {{type}}
-    </option>
-</datalist>  
-
-<!--ACct Picker-->
-<datalist name="acctPicker" id="acctPicker">
-    <option ng-repeat="(key, value) in vm.acctsList"
-            style='font-size: 12pt'
-            ng-click=''
-            >
-            {{value.name}}
-    </option>
-</datalist>  
-
-<!--Sub Picker-->
-<datalist name="subPicker" id="subPicker">
-    <option ng-repeat="(key, value) in vm.subAcctsList"
-            style='font-size: 12pt'
-            ng-click=''
-            >
-            {{value.name}}
-    </option>
-</datalist>  
-
-<!--Channel Picker-->
-<datalist name="channelPicker" id="channelPicker">
-    <option ng-repeat="(key, value) in vm.channelsList"
-            style='font-size: 12pt'
-            ng-click=''
-            >
-            {{value.name}}
-    </option>
-</datalist>  
 
 </div>

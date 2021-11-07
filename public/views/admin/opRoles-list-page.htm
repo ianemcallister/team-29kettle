@@ -2,9 +2,55 @@
     <div class="container">
         <!--Header-->
         <div class="row">
-            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+            <div class="col-10 sm-col-10 md-col-10 lg-col-10 xl-col-10">
                 <h3>Roles</h3>
             </div>
+        </div>
+
+        <!--Add-->
+        <div class="row">
+            <div class="col-10 sm-col-10 md-col-10 lg-col-10 xl-col-10">
+                <!--Name-->
+                <label for="name">
+                    Name:
+                    <input  type="text" 
+                            ng-model='vm.currentRecord.name'
+                            style='margin-left:80px; width: 400px;'>
+                </label>
+
+                <!--Description-->
+                <label for="name">
+                    Description:
+                    <input  type="text" 
+                            ng-model='vm.currentRecord.description'
+                            style='margin-left:40px; width: 400px;'>
+                </label>
+
+                <!--UoM-->
+                <label for="UoM">
+                    Unit of Measure:
+                    <input  type="text" 
+                            ng-model='vm.currentRecord.UoM'
+                            style='margin-left:10px; width: 400px;'>
+                </label>
+
+                <!--Notes-->
+                <label for="notes">
+                    Notes:
+                    <input  type="text" 
+                            ng-model='vm.currentRecord.notes'
+                            style="margin-left:82px; width: 400px;">
+                </label>
+            </div>
+            
+            <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2">
+                <button class="btn btn-success" 
+                        style='width:100%; margin-top:50px;'
+                        ng-click='vm.addSelection()'>
+                        Add
+                    </button>
+            </div>
+
         </div>
 
         <!--List-->
@@ -13,22 +59,25 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope='col'>#</th>
+                            <th scope='col'>id</th>
                             <th scope='col'>Name</th>
-                            <th scope='col'></th>
+                            <th scope='col'>UofM</th>
                             <th scope='col'></th>
                         </tr>
                     </thead>
                     <tbody class="table-striped">
                         <tr ng-repeat='(key, value) in vm.opRolesList'>
-                            <td>{{$index + 1 }}</td>
+                            <td>{{key}}</td>
                             <td>{{value.name}}</td>
+                            <td>{{value.UoM}}</td>
                             <td>
                                 <a ng-href="#/admin/role/{{key}}">Edit</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                
             </div>
         </div>
 

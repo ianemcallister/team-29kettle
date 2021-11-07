@@ -1,0 +1,95 @@
+<div>
+    <div class="container">
+        <!--Breadcrumbs-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <a href="/#/admin/channels">Return to Channels</a>
+            </div>
+        </div>
+
+        <!--Header-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <h3>{{vm.channelData.name}}</h3>
+            </div>
+        </div>
+
+        <!--Ledger Mapping-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                
+                <h5>Role/Ledger Mapping</h5>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope='col'>Role</th>
+                            <th></th>
+                            <th scope='col'>Acct</th>
+                            <th scope='col'>Sub-Acct</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        <tr ng-repeat='(key, value) in vm.channelData.ledgersMap' style='font-size: .75rem;'>
+                            <td>{{vm.allRoles[key].name}}</td>
+                            <td>--></td>
+                            <td>{{vm.allLedgers[value].acctName}}</td>
+                            <td>{{vm.allLedgers[value].subAcctName}}</td>
+                            <td>
+                                <!--<a ng-href="#/admin/acct/{{key}}">Edit</a>-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+        <!--STats-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                
+                <h5>Stats</h5>
+
+                <table class="table">
+                    <thead></thead>
+                    <tbody>
+                        <th scope='row'>Total Engagments</th>
+                        <td>{{vm.sumEngagments(vm.engagementsData)}}</td>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!--Engagments-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                
+                <h5>Engagments</h5>
+
+                <table class="table">
+                    <thead>
+                        <th scope='col'>#</th>
+                        <th scope='col'>YrWkD</th>
+                        <th scope='col'>Date</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='(key, value) in vm.engagementsData'
+                            ng-click='vm.rowClick(key)'>
+                            <th scope='row'>{{$index +1}}</th>
+                            <td>{{value.Yr}}{{value.Wk}}{{value.D}}</td>
+                            <td>{{value.date | date : "shortDate" }}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+    
+</div>

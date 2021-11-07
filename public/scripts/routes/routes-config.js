@@ -182,12 +182,14 @@ function config($routeProvider, $locationProvider) {
         controllerAs: 'vm'
     })
     .when('/admin/channels', {
-        templateUrl: 'assets/views/admin-channels-page.htm',     //  dashboard Page View
+        title: "Admin: Channels",
+        templateUrl: 'assets/views/admin/channels-page.htm',     //  dashboard Page View
         controller: 'adminChannelsController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     })
     .when('/admin/channels/:channelId', {
-        templateUrl: 'assets/views/admin-select-channel-page.htm',     //  dashboard Page View
+        title: "Admin: Channels",
+        templateUrl: 'assets/views/admin/select-channel-page.htm',     //  dashboard Page View
         controller: 'adminSelectChannelController',                  //  dashboard Page Controller
         controllerAs: 'vm',
         resolve: { /* @ngInject */
@@ -245,19 +247,22 @@ function config($routeProvider, $locationProvider) {
         controllerAs: 'vm'
     })
     .when('/admin/BoM', {
+        title: "Admin: Bill Of Materials",
         templateUrl: 'assets/views/admin/bom-list-page.htm',
         controller: 'adminBoMListController',
         controllerAs: "vm"
     })
     .when('/admin/BoM/:bomId', {
+        title: "Admin: Bill Of Materials",
         templateUrl: 'assets/views/admin/a-bom-page.htm',
         controller: 'adminABoMController',
         controllerAs: "vm"
     })
     .when('/admin/operationRoles', {
+        title: "Admin: Roles",
         templateUrl: 'assets/views/admin/opRoles-list-page.htm',
         controller: 'adminOpRolesListContoller',
-        controlerAs: "vm"
+        controllerAs: "vm"
     })
     .when('/admin/ledgers', {
         title: "Admin: Ledgers",

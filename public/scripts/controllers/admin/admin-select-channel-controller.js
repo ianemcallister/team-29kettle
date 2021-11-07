@@ -10,26 +10,20 @@ function adminSelectChannelController($routeParams, $firebaseObject, $location, 
 	console.log('$routeParams', $routeParams)
 
 	//	LOCAL VARIABLES
-	var vm = this;
+	const vm        = this;
+    const db        = firebase.database();
+    const chanRef   = db.ref("Channels/" + $routeParams.channelId);
+    const rolesRef  = db.ref('OpRoles');
+    const ledgerRef = db.ref('Ledgers');
 
+    //	VIEW MODEL VARIABLES
+    vm.channelData      = $firebaseObject(chanRef);
+    vm.allRoles         = $firebaseObject(rolesRef);
+    vm.allLedgers       = $firebaseObject(ledgerRef);
+    vm.engagementsData  = engagemnts;
 
     //  LOCAL FUNCTION S
-    function downloadChannelData(id) {
-        //  NOTIFY PROGRESS
-        //console.log('got this key: ', id);
-
-        //  LOCAL VARIABLES
-        var readPath = "Channels/" + id;
-        var _db     = firebase.database();
-        var ref     = _db.ref(readPath);
-        return $firebaseObject(ref);
-    };
-
-
-	//	VIEW MODEL VARIABLES
-    vm.channelData = downloadChannelData($routeParams.channelId);
-    vm.engagementsData = engagemnts;
-
+    
 
 	//	VIEW MODEL FUNCTIONS
     vm.rowClick = function(id) {

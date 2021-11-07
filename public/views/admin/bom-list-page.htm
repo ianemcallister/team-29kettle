@@ -28,7 +28,7 @@
                     <tr>
                         <th scope='col'>#</th>
                         <th scope='col'>Name</th>
-                        <th scope='col'></th>
+                        <th scope='col'>id</th>
                         <th scope='col'></th>
                     </tr>
                 </thead>
@@ -36,6 +36,7 @@
                     <tr ng-repeat='bom in vm.bomsList track by $index'>
                         <td>{{$index +1 }}</td>
                         <td>{{bom.name}}</td>
+                        <td>{{bom.id}}</td>
                         <td>
                             <a ng-href="#/admin/BoM/{{bom.id}}">Edit</a>
                         </td>

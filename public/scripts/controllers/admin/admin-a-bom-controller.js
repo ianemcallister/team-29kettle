@@ -17,15 +17,42 @@ function adminABoMController($firebaseObject, $routeParams, $scope) {
 	//	VIEW MODEL VARIABLES
     vm.record       = $firebaseObject(bomRef);
     vm.roleOptions  = $firebaseObject(rolRef);
-	vm.aNewResource	= {
-		id:			"",
-		name:		"",
-		UoM:		"",
-		qty:		""
-	}
+	vm.aNewResource	= { id: "", qty: "" };
+	vm.aNewSuccess	= { id: "", qty: "" };
+	vm.aNewFailure	= { id: "", qty: "" };
 
 	//	VIEW MODEL FUNCTIONS
+	vm.addBtn = function(section, data) {
+		console.log("adding a new", section, data);
+		if(vm.record[section] == '') vm.record[section] = {}
+		vm.record[section][data.id] = parseInt(data.qty);
+		vm.record.$save().then(function sucessfulUpdate() {
+			console.log('new values saved successfully');
+			switch(section) {
+				case 'resource':
+					vm.aNewResource = { id: "", qty: "" };
+					break;
+				case 'success':
+					vm.aNewSuccess	= { id: "", qty: "" };
+					break;
+				case 'failure':
+					vm.aNewFailure	= { id: "", qty: "" };
+					break;
+				default:
+					break;
+			}
 
+		})
+
+	}
+
+	vm.removeButton = function(section, id) {
+		console.log('removing', section, id);
+		vm.record[section][id] = null;
+		vm.record.$save().then(function sucessfulUpdate() {
+			console.log('removal saved successfully');
+		});
+	}
 
 	//	EXECUTE
 

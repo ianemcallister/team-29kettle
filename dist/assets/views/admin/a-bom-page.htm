@@ -5,25 +5,34 @@
             <a href="#/admin/BoM" >Return to List</a>
         </div>
 
-        <!--Heading-->
         <div class="row">
-            <div class='col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12'
-                    style='text-align: center;'>
-                <h3>
-                    <input type="text" ng-model='vm.record.name' ng-blur='vm.record.$save()'>
-                </h3>
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12"
+            style='text-align:center'>
+                <h3>Bill of Materials</h3>
+            </div>
+        </div>
+
+        <!--Name-->
+        <div class="row form-group" style='margin-top:20px;'> 
+            <div class='col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12' >
+                    
+                <label for="bomName">
+                    <strong>Name:</strong>
+                    <input class='form-control' type="text" ng-model='vm.record.name' ng-blur='vm.record.$save()' style='width:500px'>
+                </label>
+                    
             </div>
         </div>  
 
         <!--Details-->
-        <div class="row">
+        <div class="row form-group">
             <div class='col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4'>
                 <strong>Production Time (sec):</strong>
-                <input type="text" ng-model='vm.record.prodSeconds' ng-blur='vm.record.$save()'>
+                <input class='form-control' type="text" ng-model='vm.record.prodSeconds' ng-blur='vm.record.$save()'>
             </div>
-            <div class='col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4'>
+            <div class='col-8 sm-col-8 md-col-8 lg-col-8 xl-col-8'>
                 <strong>Description:</strong>
-                <input type="text" ng-model='vm.record.description' ng-blur='vm.record.$save()'>
+                <input class='form-control' type="text" ng-model='vm.record.description' ng-blur='vm.record.$save()'>
             </div>
         </div>
 
@@ -58,10 +67,14 @@
                                 {{vm.roleOptions[vm.aNewResource.id].UoM}}
                             </td>
                             <td>
-                                <input class='form-control' type="text" placeholder='qty'>
+                                <input class='form-control' type="text" placeholder='qty' ng-model="vm.aNewResource.qty">
                             </td>
                             <td>
-                                <button class="btn btn-success">Add</button>
+                                <button class="btn btn-success" 
+                                        style='width: 84.05px;'
+                                        ng-click='vm.addBtn("resources", vm.aNewResource)'>
+                                        Add
+                                </button>
                             </td>
                         </tr>
                         <tr ng-repeat='(key, value) in vm.record.resources'>
@@ -69,7 +82,10 @@
                             <td>{{vm.roleOptions[key].UoM}}</td>
                             <td>{{value}}</td>
                             <td>
-                                <button class="btn btn-danger">Remove</button>
+                                <button class="btn btn-danger"
+                                        ng-click="vm.removeButton('resource', key)">
+                                        Remove
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -82,28 +98,52 @@
         <div class="row">
             
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:20px;'>
-                <h4>Success</h4>
-                <div>
-                    <input list="resourcePicker" placehoulder='resource'>
-                    <input type="text" placeholder='qty'>
-                    <button class="btn btn-success">Add</button>
-                </div>
+                <h5>Success</h5>
 
-                
-                <table class="table table-sm">
+                <table class="table table-sm" style='font-size:.75rem;'>
                     <thead>
                         <tr>
                             <th scope='col'>Name</th>
+                            <th></th>
                             <th scope='col'>Qty</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody class="table-striped">
-                        <tr ng-repeat='asuccess in vm.record.success track by $index'>
-                            <td>{{asuccess.name}}</td>
-                            <td>{{asuccess.qty}} {{asuccess.unit}}</td>
+                    <tbody class="table-striped form-group">
+                        <tr>
+                            <!--New Resource Picker-->
                             <td>
-                                <button class="btn btn-danger">Remove</button>
+                                <select class='custom-select' name="successPicker" id="successPicker" style='width:300px;' ng-model='vm.aNewSuccess.id'>
+                                    <option ng-repeat="(key, value) in vm.roleOptions"
+                                            value="{{key}}"
+                                            >
+                                        {{value.name}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td style="padding-top:10px;">
+                                {{vm.roleOptions[vm.aNewResource.id].UoM}}
+                            </td>
+                            <td>
+                                <input class='form-control' type="text" placeholder='qty' ng-model='vm.aNewSuccess.qty'>
+                            </td>
+                            <td>
+                                <button class="btn btn-success"  
+                                        style='width: 84.05px;'
+                                        ng-click='vm.addBtn("success", vm.aNewSuccess)'>
+                                        Add
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-repeat='(key, value) in vm.record.success'>
+                            <td>{{vm.roleOptions[key].name}}</td>
+                            <td>{{vm.roleOptions[key].UoM}}</td>
+                            <td>{{value}}</td>
+                            <td>
+                                <button class="btn btn-danger"
+                                        ng-click="vm.removeButton('success', key)">
+                                        Remove
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -116,34 +156,59 @@
         <div class="row">
             
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:20px;'>
-                <h4>Failure</h4>
-                <div>
-                    <input list="resourcePicker" placehoulder='resource'>
-                    <input type="text" placeholder='qty'>
-                    <button class="btn btn-success">Add</button>
-                </div>
+                <h5>Failure</h5>
 
-                
-                <table class="table table-sm">
+                <table class="table table-sm" style='font-size:.75rem;'>
                     <thead>
                         <tr>
                             <th scope='col'>Name</th>
+                            <th></th>
                             <th scope='col'>Qty</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody class="table-striped">
-                        <tr ng-repeat='afailure in vm.record.failure track by $index'>
-                            <td>{{afailure.name}}</td>
-                            <td>{{afailure.qty}} {{afailure.unit}}</td>
+                    <tbody class="table-striped form-group">
+                        <tr>
+                            <!--New Resource Picker-->
                             <td>
-                                <button class="btn btn-danger">Remove</button>
+                                <select class='custom-select' name="failurePicker" id="failurePicker" style='width:300px;' ng-model='vm.aNewFailure.id'>
+                                    <option ng-repeat="(key, value) in vm.roleOptions"
+                                            value="{{key}}"
+                                            >
+                                        {{value.name}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td style="padding-top:10px;">
+                                {{vm.roleOptions[vm.aNewResource.id].UoM}}
+                            </td>
+                            <td>
+                                <input class='form-control' type="text" placeholder='qty' ng-model="vm.aNewFailure.qty">
+                            </td>
+                            <td>
+                                <button class="btn btn-success"  
+                                        style='width: 84.05px;'
+                                        ng-click='vm.addBtn("failure", vm.aNewFailure)'>
+                                        Add
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-repeat='(key, value) in vm.record.failure'>
+                            <td>{{vm.roleOptions[key].name}}</td>
+                            <td>{{vm.roleOptions[key].UoM}}</td>
+                            <td>{{value}}</td>
+                            <td>
+                                <button class="btn btn-danger"
+                                        ng-click="vm.removeButton('failure', key)">
+                                        Remove
+                                </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
 
             </div>
+
         </div>
         
     </div>

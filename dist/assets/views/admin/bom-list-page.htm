@@ -1,0 +1,29 @@
+<div>
+    <div class="container">
+        <div class="row">
+
+            <!--Header-->
+            <h3>Bill of Materials List</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope='col'>#</th>
+                        <th scope='col'>Name</th>
+                        <th scope='col'></th>
+                        <th scope='col'></th>
+                    </tr>
+                </thead>
+                <tbody class="table-striped">
+                    <tr ng-repeat='bom in vm.bomsList track by $index'>
+                        <td>{{$index +1 }}</td>
+                        <td>{{bom.name}}</td>
+                        <td>
+                            <a ng-href="#/admin/BoM/{{bom.id}}">Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+<div>
+    <div class="container">
+        <!--Bread Crumbs-->
+        <div style='margin-top: 10px;'>
+            <a href="#/admin/BoM" >Return to List</a>
+        </div>
+
+        <!--Heading-->
+        <div class="row">
+            <div class='col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12'
+                    style='text-align: center;'>
+                <h3>
+                    <input type="text" ng-model='vm.record.name' ng-blur='vm.record.$save()'>
+                </h3>
+            </div>
+        </div>  
+
+        <!--Details-->
+        <div class="row">
+            <div class='col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4'>
+                <strong>Production Time (sec):</strong>
+                <input type="text" ng-model='vm.record.prodSeconds' ng-blur='vm.record.$save()'>
+            </div>
+            <div class='col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4'>
+                <strong>Description:</strong>
+                <input type="text" ng-model='vm.record.description' ng-blur='vm.record.$save()'>
+            </div>
+        </div>
+
+        <!--Resources-->
+        <div class="row">
+            
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:20px;'>
+                <h4>Resources</h4>
+                <div>
+                    <input list="resourcePicker" placehoulder='resource'>
+                    <input type="text" placeholder='qty'>
+                    <button class="btn btn-success">Add</button>
+                </div>
+
+                
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope='col'>Name</th>
+                            <th scope='col'>Qty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        <tr ng-repeat='resource in vm.record.resources track by $index'>
+                            <td>{{resource.name}}</td>
+                            <td>{{resource.qty}} {{resource.unit}}</td>
+                            <td>
+                                <button class="btn btn-danger">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!--Success-->
+        <div class="row">
+            
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:20px;'>
+                <h4>Success</h4>
+                <div>
+                    <input list="resourcePicker" placehoulder='resource'>
+                    <input type="text" placeholder='qty'>
+                    <button class="btn btn-success">Add</button>
+                </div>
+
+                
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope='col'>Name</th>
+                            <th scope='col'>Qty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        <tr ng-repeat='asuccess in vm.record.success track by $index'>
+                            <td>{{asuccess.name}}</td>
+                            <td>{{asuccess.qty}} {{asuccess.unit}}</td>
+                            <td>
+                                <button class="btn btn-danger">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!--Failur-->
+        <div class="row">
+            
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:20px;'>
+                <h4>Failure</h4>
+                <div>
+                    <input list="resourcePicker" placehoulder='resource'>
+                    <input type="text" placeholder='qty'>
+                    <button class="btn btn-success">Add</button>
+                </div>
+
+                
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope='col'>Name</th>
+                            <th scope='col'>Qty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        <tr ng-repeat='afailure in vm.record.failure track by $index'>
+                            <td>{{afailure.name}}</td>
+                            <td>{{afailure.qty}} {{afailure.unit}}</td>
+                            <td>
+                                <button class="btn btn-danger">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        
+    </div>
+
+    <datalist name="resourcePicker" id="resourcePicker">
+        <option ng-repeat="(key, value) in vm.roleOptions"
+                style='font-size: 12pt'
+                ng-click=''>
+                {{value.name}}
+        </option>
+    
+    </datalist>  
+</div>

@@ -239,9 +239,31 @@ function config($routeProvider, $locationProvider) {
         }*/
     })
     .when('/admin/accts', {
-        templateUrl: 'assets/views/admin-accts-manage-page.htm',     //  dashboard Page View
+        title: "Admin: Accounts",
+        templateUrl: 'assets/views/admin/accts-manage-page.htm',     //  dashboard Page View
         controller: 'adminAcctsManageController',                  //  dashboard Page Controller
         controllerAs: 'vm'
+    })
+    .when('/admin/BoM', {
+        templateUrl: 'assets/views/admin/bom-list-page.htm',
+        controller: 'adminBoMListController',
+        controllerAs: "vm"
+    })
+    .when('/admin/BoM/:bomId', {
+        templateUrl: 'assets/views/admin/a-bom-page.htm',
+        controller: 'adminABoMController',
+        controllerAs: "vm"
+    })
+    .when('/admin/operationRoles', {
+        templateUrl: 'assets/views/admin/opRoles-list-page.htm',
+        controller: 'adminOpRolesListContoller',
+        controlerAs: "vm"
+    })
+    .when('/admin/ledgers', {
+        title: "Admin: Ledgers",
+        templateUrl: "assets/views/admin/ledgers-list-page.htm", 
+        controller: 'adminLedgerslistController',
+        controllerAs: "vm"
     })
 	.otherwise({
         redirectTo: '/'

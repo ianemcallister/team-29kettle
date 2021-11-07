@@ -1,0 +1,36 @@
+<div>
+    <div class="container">
+        <!--Header-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <h3>Roles</h3>
+            </div>
+        </div>
+
+        <!--List-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope='col'>#</th>
+                            <th scope='col'>Name</th>
+                            <th scope='col'></th>
+                            <th scope='col'></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        <tr ng-repeat='(key, value) in vm.opRolesList'>
+                            <td>{{$index + 1 }}</td>
+                            <td>{{value.name}}</td>
+                            <td>
+                                <a ng-href="#/admin/role/{{key}}">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

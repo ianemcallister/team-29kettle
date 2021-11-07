@@ -264,6 +264,7 @@
                             <th scope='col'>Started</th>
                             <th scope='col'>Batch</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody class='table-striped'>
@@ -271,6 +272,7 @@
                             <th scope='row' style='padding-top:16px;'>{{$index + 1}}</th>
                             <td style='padding-top:16px;'>{{batch.startAt | date: "h:mm a"}}</td>
                             <td style='padding-top:16px;'>{{batch.recipe}} {{batch.nut}}</td>
+                            <td>(PENDING) </td>
                             <td><button class="btn btn-info btn-sm">Details</button></td>
                         </tr>
                     </tbody>

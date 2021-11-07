@@ -17,8 +17,86 @@ const Epc = require('../../epc/epc');
 var toBeAdded = [
     {
         "id": "",
-        "name": "Canopies",
+        "name": "33oz Staged Pecans",
         "acct": "-MnrcHbO37Uu4qx5AMln",
+        "description": "A Full 33oz (12oz Sugar + 21oz Pecans) Batch of Pecans"
+    },
+    {
+        "id": "",
+        "name": "Sea Salt",
+        "acct": "-MnDwVNkGSKQMqx53mLu",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Sweet & Salty Mix",
+        "acct": "-MnrcHbO37Uu4qx5AMln",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Bourbon Mix",
+        "acct": "-MnrcHbO37Uu4qx5AMln",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Sweet & Salty Pecans",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Sweet & Salty Almonds",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Sweet & Salty Cashews",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Sweet & Salty Peanuts",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Sweet & Salty Hazelnuts",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Bourbon Pecans",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Bourbon Almonds",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Bourbon Cashews",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Bourbon Peanuts",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
+        "description": ""
+    },
+    {
+        "id": "",
+        "name": "Cooked Bourbon Hazelnuts",
+        "acct": "-MnDwVNs0PvBOkgspQyQ",
         "description": ""
     }
 ];

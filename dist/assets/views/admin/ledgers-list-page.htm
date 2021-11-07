@@ -1,0 +1,119 @@
+<div>
+    <div class="container">
+        
+        <!--Header-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <h3>Ledgers</h3>
+            </div>
+        </div>
+
+        {{vm.activeSelection}}
+
+        <!--Add -->
+        <div class="row">
+            <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2">
+                <!--Type-->
+                <label for="typePicker">
+                    Type:
+                    <input list="typePicker" style="width:100px;" ng-model='vm.activeSelection.type'>
+                </label>
+                
+            </div>
+            <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4">
+                <!--Account-->
+                <label for="acctPicker">
+                    Acct / Sub-Acct:
+                    <input list="acctPicker" style='width: 220px;' ng-model='vm.activeSelection.acct'>
+                    <!--Sub-Acct-->
+                    <input list="subPicker" style='width: 220px;' ng-model='vm.activeSelection.sact'>
+                </label>
+                
+            </div>
+            <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4">
+                <!--Channel-->
+                <label for="channelPicker">
+                    Channel:
+                    <input list="channelPicker" style='width: 220px;' ng-model='vm.activeSelection.chnl'>
+                </label>
+                
+            </div>
+            <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2">
+                <div style='margin-top:20px;'></div>
+                <!--Add-->
+                <button class="btn btn-success">Add</button>
+            </div>
+
+        </div>
+
+        <!--List-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope='col'>Type</th>
+                            <th scope='col'>Account</th>
+                            <th scope='col'>Sub-Acct</th>
+                            <th scope='col'>Channel</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        <tr ng-repeat='(key, value) in vm.ledgersList'>
+                            <td>{{value.type}}</td>
+                            <td>{{value.acctName}}</td>
+                            <td>{{value.subAcctName}}</td>
+                            <td>{{value.channelName}}</td>
+                            <td>
+                                <a ng-href="#/admin/ledger/{{key}}">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+<!--Type Picker-->
+<datalist name="typePicker" id="typePicker">
+    <option ng-repeat="type in ['Asset', 'Liability', 'Revenue', 'Expense', 'Capital'] track by $index"
+            style='font-size: 12pt'
+            ng-click=''
+            >
+            {{type}}
+    </option>
+</datalist>  
+
+<!--ACct Picker-->
+<datalist name="acctPicker" id="acctPicker">
+    <option ng-repeat="(key, value) in vm.acctsList"
+            style='font-size: 12pt'
+            ng-click=''
+            >
+            {{value.name}}
+    </option>
+</datalist>  
+
+<!--Sub Picker-->
+<datalist name="subPicker" id="subPicker">
+    <option ng-repeat="(key, value) in vm.subAcctsList"
+            style='font-size: 12pt'
+            ng-click=''
+            >
+            {{value.name}}
+    </option>
+</datalist>  
+
+<!--Channel Picker-->
+<datalist name="channelPicker" id="channelPicker">
+    <option ng-repeat="(key, value) in vm.channelsList"
+            style='font-size: 12pt'
+            ng-click=''
+            >
+            {{value.name}}
+    </option>
+</datalist>  
+
+</div>

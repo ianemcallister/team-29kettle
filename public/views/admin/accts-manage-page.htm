@@ -1,0 +1,38 @@
+<div>
+    <div class="container">
+
+       <!--Header-->
+       <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <h3>Accounts</h3>
+            </div>
+        </div>
+
+        <!--Table-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope='col'>Id</th>
+                            <th scope='col'>Type</th>
+                            <th scope='col'>Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        <tr ng-repeat='(key, value) in vm.allAccts'>
+                            <td>{{key}}</td>
+                            <td>{{value.type}}</td>
+                            <td>{{value.name}}</td>
+                            <td>
+                                <a ng-href="#/admin/acct/{{key}}">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

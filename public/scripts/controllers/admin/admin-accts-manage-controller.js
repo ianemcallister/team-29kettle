@@ -1,18 +1,21 @@
 ckc
     .controller('adminAcctsManageController', adminAcctsManageController);
 
-	adminAcctsManageController.$inject = [];
+	adminAcctsManageController.$inject = ['$firebaseObject'];
 
 /* @ngInject */
-function adminAcctsManageController() {
+function adminAcctsManageController($firebaseObject) {
 
 	//	NOTIFY PROGRES
 	console.log()
 
 	//	LOCAL VARIABLES
 	var vm = this;
+	const db        = firebase.database();
+    const acctRef   = db.ref('Accts');
 
 	//	VIEW MODEL VARIABLES
+	vm.allAccts		= $firebaseObject(acctRef);
 
 	//	VIEW MODEL FUNCTIONS
 

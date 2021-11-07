@@ -3,13 +3,14 @@
 *
 *	Status can be: Warming / Cooking / Cleaning / Off
 */
+
 ckc
     .controller('minishopProductionController', minishopProductionController);
 
-	minishopProductionController.$inject = ['$routeParams', '$interval', '$scope', '$window', 'msData', 'moment'];
+	minishopProductionController.$inject = ['$firebaseObject', '$routeParams', '$interval', '$scope', '$window', 'msData', 'moment'];
 
 /* @ngInject */
-function minishopProductionController($routeParams, $interval, $scope, $window, msData, moment) {
+function minishopProductionController($firebaseObject, $routeParams, $interval, $scope, $window, msData, moment) {
 
 	//	NOTIFY PROGRES
 
@@ -23,7 +24,9 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 	vm.batch = {
 		prcntPrgs: 0,
 		secElapsed: 0
-	}
+	};
+	vm.cookingList = [];
+
 	/*
 	*	BIND VIEW MODEL VARIABLES
 	*
@@ -53,27 +56,28 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 		
 	};
 
+	/*
+	*	VIEW MODEL FUNCTION: START A NEW BATCH
+	*
+	*	
+	*/
 	vm.startNewBatch = function() {
+		//	DEFINE LOCAL VARIABLES
 		const batchOnDeck = (vm.prodReport.ondeck.recipe != undefined);
 
 		if(batchOnDeck) {
-			console.log('starting a new batch');
-			//	lastBatch gets set to Cooking value
-			vm.prodReport.cooling 				= vm.prodReport.cooking;
-			vm.prodReport.cooling.endAt 		= moment().format();
+			
+			//	1) Move The currently cooking batch to cooling
+			_moveCookingToCooling();
+			
+			//	2) Move the on Deck batch to the cooking station
+			_moveOnDeckToCooking();
 
-			//	cooking gets set to ondeck value
-			vm.prodReport.cooking 				= vm.prodReport.ondeck;
-			vm.prodReport.lastStatus 			= "Cooking";
-			vm.prodReport.cooking.startAt 		= moment().format();
-			vm.prodReport.cooking.expiresAt		= moment(vm.prodReport.cooking.startAt).add(20, 'minutes').format();	
-			vm.batch.secElapsed					= 0;
-
-			//	ondeck gets set to {}
-			vm.prodReport.ondeck = { "_hold": "" };
+			//	3) Reset on deck value for more production capacity
+			_resetOnDeckStation();
 
 		} else {
-			console.log('ned to select a batch first');
+			console.log('need to select a batch first');
 		}
 	};
 
@@ -102,6 +106,52 @@ function minishopProductionController($routeParams, $interval, $scope, $window, 
 		if(percentage == undefined || percentage == NaN) return 0;
 		else return percentage
 	};
+
+	/*
+	*	PRIVATE: MOVE COOKING TO COOLING
+	*/
+	function _moveCookingToCooling(){
+		vm.prodReport.cooling 				= vm.prodReport.cooking;
+		vm.prodReport.cooling.endAt 		= moment().format();
+	}
+
+	/*
+	*	PRIVATE: MOVE ON DECK TO COOKING
+	*/
+	function _moveOnDeckToCooking() {
+		//	cooking gets set to ondeck value
+		vm.prodReport.cooking 				= vm.prodReport.ondeck;
+		vm.prodReport.lastStatus 			= "Cooking";
+		vm.prodReport.cooking.startAt 		= moment().format();
+		vm.prodReport.cooking.expiresAt		= moment(vm.prodReport.cooking.startAt).add(20, 'minutes').format();	
+		
+		vm.batch.secElapsed					= 0;
+
+		msData.production.journalBatchStart(vm.prodReport).then(function journalBatchStart(entryId) {
+			
+			//	DEFINE LOCAL VARIABLES
+			const readPath = 'JournalEntries/' + entryId;
+			console.log('readPath', readPath)
+			const db = firebase.database();
+			const ref = db.ref(readPath);
+			const jeRecord = $firebaseObject(ref);
+
+			//	Add the journal entry to the local list
+			vm.cookingList.push(jeRecord)
+
+			//	Record the JE as related to this report via key value pair [timestap]: [entryId]
+			vm.prodReport.journalEntries[moment().format()] = entryId
+
+		});
+	}
+
+	/*
+	*	PRIVATE: CLEAR ON DECK STATION
+	*/
+	function _resetOnDeckStation() {
+		//	ondeck gets set to {}
+		vm.prodReport.ondeck = { "_hold": "" };
+	}
 
 	/*
 	*	PRIVATE: LOAD RECIPES

@@ -23,12 +23,14 @@ function Firebase() {
     //  DEFINE METHODS
     var firebaseMod = {
         read: Read,
+        update: Update,
         query: {
             child: QueryChild
         }
     };
 
     function Read(path) {
+        console.log('reading', path);
         const ref = firebase.database().ref(path);
         return new Promise(function(resolve, reject){ 
             ref.on('value', function FirebaseRead(snapshot) {
@@ -36,7 +38,20 @@ function Firebase() {
                 resolve(data);
             });
         });
-        
+    }
+
+    function Update(updates) {
+        return new Promise(function(resolve, reject) {
+            firebase.database().ref().update(updates, function updateCallBack(error) {
+                if(error) {
+                    console.log('Firebase Update Error', error);
+                    reject();
+                } else {
+                    resolve();
+                }
+            });
+
+        });
     }
 
     function QueryChild(path, key, value) {

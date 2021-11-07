@@ -53,8 +53,42 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
             yrWk:           0,
             status:         '',
             journalEntries: { "_hold": "" },
-            acctsMap:       { "_hold": "" },
+            ledgersMap:     { "_hold": "" },
             lastStatus:     "Off"
+        },
+        cookingJE: {
+            id:         '',
+            startAt:    '',
+            endedAt:    '',
+            type:       'cooking',
+            recipe:     '',
+            nut:        '',
+            engagmentId:'',
+            channelId:  '',
+            channelName:'',
+            yrwk:       '',
+            teamMembrId:'',
+            teamMemName:'',
+            temperature:0,
+            wind:       '',
+            powerSource:'',
+            BoMId:      '',
+            isComplete: false,
+            txs:        {}
+        },
+        cookingTx: {
+            journalEntryId: '',
+            ledgerId:         '',
+            createdAt:      '',
+            updatedAt:      '',
+            createdBy:      '',
+            updatedBy:      '',
+            debit:          0,
+            credit:         0,
+            description:    '',
+            engagmentId:    '',
+            channelName:    '',
+            channelId:      ''
         }
     };
     self.data = {
@@ -69,14 +103,14 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
     };
     self.models = {
         operations: {
-            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "", expiresAt: "" },
-            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "", expiresAt: "" },
-            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "", expiresAt: "" },
-            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "" },
-            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "", expiresAt: "" },
-            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "", expiresAt: "" },
-            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "", expiresAt: "" },
-            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "" },
+            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", bomid: "-MmdKHDHWZAwg3TZbKmL" },
+            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", bomid: "" },
+            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", bomid: "" },
+            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", bomid: "" },
+            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", bomid: "" },
+            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", bomid: "" },
+            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", bomid: "" },
+            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", bomid: "" },
             8: {type: "oprtns", proces: "warming",                              startAt: "", endAt: ""  },
             9: {type: "oprtns", proces: "cleaning",                             startAt: "", endAt: ""  },
             10:{type: "oprtns", proces: "off",                                  startAt: ""  },
@@ -93,11 +127,18 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
     *   power: [ojbect] all functions pertaining to the power needs of a mini shop can be found here
     */  
     var msDataMod = {
-        data:       self.data,
-        models:     self.models,
-        templates:  self.templates,
+        _loadFBObject:          _loadFBObject,
+        _loadProdReport:        _loadProdReport,
+        _getPowerTxKey:         _getPowerTxKey,
+        data:                   self.data,
+        models:                 self.models,
+        templates:              self.templates,
         power: {
-            togglePower: togglePower
+            togglePower:        togglePower
+        },
+        production: {
+            journalBatchStart:  journalBatchStart,
+            journalBatchEnd:    journalBatchEnd
         }
     };
 
@@ -170,6 +211,94 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
 
         //  3) REBUILD PROGRESS BARS
         $rootScope.$broadcast('powerTxsLoaded', self.data.power.txs)
+
+    };
+
+    /*
+    *   PUBLIC: JOURNAL BATCH START
+    *
+    *   This 
+    */
+    function journalBatchStart(productionData) {
+        
+        //  DEFINE LOCAL VARIABLES
+        const BoMreadPath   = '/BOMs/' + productionData.cooking.bomid;
+        //const db            = firebase.database();
+        //const BoMref        = db.ref(BoMreadPath);
+        const allUpdates    = {};
+        const newJE         = {
+            id:         firebase.database().ref().child("JournalEntries").push().key,
+            startAt:    productionData.cooking.startAt,
+            endedAt:    '',
+            type:       'cooking',
+            recipe:     productionData.cooking.recipe,
+            nut:        productionData.cooking.nut,
+            engagmentId:productionData.engagmentId,
+            channelId:  productionData.channelId,
+            channelName:productionData.channelName,
+            yrwk:       productionData.yrWk,
+            teamMembrId:'',
+            teamMemName:'',
+            temperature:0,
+            wind:       '',
+            powerSource:'',
+            BoMId:      productionData.cooking.bomid,
+            isComplete: false,
+            txs:        {}
+        }
+
+
+        //  RETURN ASYNC WORK
+        return new Promise(function(resolve, reject) {
+
+            //  COLLECT THE BILL OF MATERIALS FOR THIS JOURNAL ENTRY
+            Firebase.read(BoMreadPath).then(function journalBatchStartBMOFBRead(bom) {
+                
+                //  ITERATE OVER EACH OF THE RESOURCES
+                Object.keys(bom.resources).forEach(function(key) {
+                    const cookingTxId  = firebase.database().ref().child('Transactions').push().key;
+                    const newCookingTx = {
+                        journalEntryId:newJE.id,
+                        ledgerId:      productionData.ledgersMap[key],
+                        createdAt:     moment().format(),
+                        updatedAt:     '',
+                        createdBy:     '',
+                        updatedBy:     '',
+                        debit:         bom.resources[key].qty,
+                        credit:        0,
+                        description:   '',
+                        engagmentId:   productionData.engagmentId,
+                        channelName:   productionData.channelName,
+                        channelId:     productionData.channelId
+                    };
+
+                    allUpdates['/Transactions/' + cookingTxId] = newCookingTx;
+
+                    newJE.txs[moment().format()] = cookingTxId;
+
+                });
+
+                allUpdates['/JournalEntries/' + newJE.id ] = newJE;
+
+                console.log(allUpdates);
+
+                Firebase.update(allUpdates).then(function() {
+                    resolve(newJE.id);
+                })
+
+            });
+
+            
+        });
+
+    };
+
+    /*
+    *   PUBLIC: JOURNAL BATCH END
+    *
+    *   This 
+    */
+    function journalBatchEnd() {
 
     };
 

@@ -28,101 +28,10 @@ const Epc = require('../../epc/epc');
 var toBeAdded = [
     {
         "id": "",
-        "name": "Discounts Given",
-        "description": "This account tracks all discounts given",
-        "type": "Expense",
+        "name": "Staged Products",
+        "description": "Products that are staged for internal purposes",
+        "type": "Capital",
         "prefix": ""            //  DSCGVN -> 
-    },
-    {
-        "id": "",
-        "name": "Accounts Payable",
-        "description": "This account tracks bills.",
-        "type": "Liability",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Accounts Receivable",
-        "description": "This account tracks invoices.",
-        "type": "Revenue",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Cash on Hand",
-        "description": "This account tracks liquid cash assets.",
-        "type": "Asset",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Alternte Currency on Hand",
-        "description": "This account tracks exchangable currency assets that have not yet been exchanged.",
-        "type": "Asset",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Raw Materials",
-        "description": "This account tracks physical food products that end up in our finished products.",
-        "type": "Capital",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Raw Materials",
-        "description": "This account tracks physical food products that end up in our finished products.",
-        "type": "Capital",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Packaging",
-        "description": "This account tracks physical packaging that end up in our finished products.",
-        "type": "Capital",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Retail Products",
-        "description": "This account tracks all of our finished retail products.",
-        "type": "Capital",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Wholesale Products",
-        "description": "This account tracks all of our finished wholesaleproducts.",
-        "type": "Capital",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "E-Commerce Products",
-        "description": "This account tracks all of our finished e-commerce products.",
-        "type": "Capital",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Value Added Products",
-        "description": "This account tracks all of our value added products, otherwise known as our mid-stage products. They exist between raw materials and finished products.",
-        "type": "Capital",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Job Supplies",
-        "description": "Ultimatly disposable but usually multi-use supplies that assist in the creation of our finished products.",
-        "type": "Capital",
-        "prefix": ""
-    },
-    {
-        "id": "",
-        "name": "Equipment",
-        "description": "Multi-use supplies and tools intended for regular use and not frequently disposed of.",
-        "type": "Capital",
-        "prefix": ""
     }
 ];
 

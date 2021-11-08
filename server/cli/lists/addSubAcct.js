@@ -17,9 +17,63 @@ const Epc = require('../../epc/epc');
 var toBeAdded = [
     {
         "id": "",
-        "name": "33oz Staged Pecans",
-        "acct": "-MnrcHbO37Uu4qx5AMln",
-        "description": "A Full 33oz (12oz Sugar + 21oz Pecans) Batch of Pecans"
+        "name": "Burned Batch SS Pecans",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch SS Almonds",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch SS Cashews",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch SS Peanuts",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch SS Hazelnuts",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch BB Pecans",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch BB Almonds",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch BB Cashews",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch BB Peanuts",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
+    },
+    {
+        "id": "",
+        "name": "Burned Batch BB Hazelnuts",
+        "acct": "-MnwjhS6H72MNDPva0sE",
+        "description": "A failed batch"
     }
 ];
 

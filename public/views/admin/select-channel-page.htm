@@ -9,7 +9,7 @@
 
         <!--Header-->
         <div class="row">
-            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='text-align: center;'>
                 <h3>{{vm.channelData.name}}</h3>
             </div>
         </div>
@@ -19,6 +19,36 @@
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
                 
                 <h5>Role/Ledger Mapping</h5>
+                
+                <div class="row form-group">
+                    
+                    <div class="col-5 sm-col-5 md-col-5 lg-col-5 xl-col-5">
+                        <select class='custom-select' name="rolePicker" id="rolePicker" ng-model='vm.newRLSelections.roleid'>
+                            <option ng-repeat="(key, value) in vm.allRoles"
+                                    value="{{key}}"
+                                    >
+                                {{value.name}}
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-5 sm-col-5 md-col-5 lg-col-5 xl-col-5">
+                        <select class='custom-select' name="ledgerPicker" id="ledgerPicker" ng-model='vm.newRLSelections.ledgerId'>
+                            <option ng-repeat="(key, value) in vm.allLedgers"
+                                    value="{{key}}"
+                                    >
+                                {{value.acctName}}: {{value.subAcctName}}: {{value.channelName}}
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-2 sm-col-2 md-col-2 lg-col-2 xl-col-2">
+                        <button class="btn btn-success"
+                                ng-click='vm.addRLMap(vm.newRLSelections)'>
+                                Add
+                        </button>
+                    </div>
+                </div>
 
                 <table class="table table-sm">
                     <thead>

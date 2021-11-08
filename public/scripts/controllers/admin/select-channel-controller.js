@@ -21,11 +21,21 @@ function adminSelectChannelController($routeParams, $firebaseObject, $location, 
     vm.allRoles         = $firebaseObject(rolesRef);
     vm.allLedgers       = $firebaseObject(ledgerRef);
     vm.engagementsData  = engagemnts;
+    vm.newRLSelections  = { roleid: '', ledgerId: '' }
 
     //  LOCAL FUNCTION S
     
 
 	//	VIEW MODEL FUNCTIONS
+    vm.addRLMap = function(data) {
+        console.log('adding role Ledger map', data);
+        vm.channelData.ledgersMap[data.roleid] = data.ledgerId;
+        vm.channelData.$save().then(function saveRLMap() {
+            console.log('RL Map saved sucessfully');
+            vm.newRLSelections  = { roleid: '', ledgerId: '' };
+        });
+    };
+
     vm.rowClick = function(id) {
         console.log(id);
         $location.path('/admin/engagments/' + id)

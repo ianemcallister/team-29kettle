@@ -103,14 +103,14 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
     };
     self.models = {
         operations: {
-            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", bomid: "-MmdKHDHWZAwg3TZbKmL" },
-            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", bomid: "-Mnwvwcyoz5iCJDU_3Ce" },
-            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", bomid: "-Mnx5dHnnvnx2uh08fmS" },
-            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", bomid: "-Mnx747NXrpQtFrHzR2R" },
-            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", bomid: "-MnvKrSaKkbyRpMRDNRe" },
-            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", bomid: "-MnwvyQ-6pGjq1KmyG5I" },
-            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", bomid: "-Mnx5eocalohdz-DSEDQ" },
-            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", bomid: "-Mnx74ufhXcxGL-ZLK4J" },
+            0: {type: "recipe", recipe: "Sweet & Salty",    nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", bomid: "-MmdKHDHWZAwg3TZbKmL", roleId: '-MjSoxLGadkQpxtTuhCK' },
+            1: {type: "recipe", recipe: "Sweet & Salty",    nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", bomid: "-Mnwvwcyoz5iCJDU_3Ce", roleId: '-MnwvGpt6TTehfomFo18' },
+            2: {type: "recipe", recipe: "Sweet & Salty",    nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", bomid: "-Mnx5dHnnvnx2uh08fmS", roleId: '-MnwvK9M4P5v_9w_2cSa' },
+            3: {type: "recipe", recipe: "Sweet & Salty",    nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", bomid: "-Mnx747NXrpQtFrHzR2R", roleId: '-MnwvNdZ2xqY2_8u9Ub7' },
+            4: {type: "recipe", recipe: "Bourbon",          nut: "Pecans",      startAt: "", endAt: "", expiresAt: "", bomid: "-MnvKrSaKkbyRpMRDNRe", roleId: '-MnvHa-65LfIp63akaI-' },
+            5: {type: "recipe", recipe: "Bourbon",          nut: "Almonds",     startAt: "", endAt: "", expiresAt: "", bomid: "-MnwvyQ-6pGjq1KmyG5I", roleId: '-MnwvSTpy0dJAU5S_vgi' },
+            6: {type: "recipe", recipe: "Bourbon",          nut: "Cashews",     startAt: "", endAt: "", expiresAt: "", bomid: "-Mnx5eocalohdz-DSEDQ", roleId: '-MnwvTh3Ax5g7KuZL8SB' },
+            7: {type: "recipe", recipe: "Bourbon",          nut: "Hazelnuts",   startAt: "", endAt: "", expiresAt: "", bomid: "-Mnx74ufhXcxGL-ZLK4J", roleId: '-MnwvXyu20U9VpKhWoJB' },
             8: {type: "oprtns", proces: "warming",                              startAt: "", endAt: ""  },
             9: {type: "oprtns", proces: "cleaning",                             startAt: "", endAt: ""  },
             10:{type: "oprtns", proces: "off",                                  startAt: ""  },

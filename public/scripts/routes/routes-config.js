@@ -162,6 +162,7 @@ function config($routeProvider, $locationProvider) {
         controllerAs: 'vm'
     })
     .when('/minishop/:engmntId/:channelId/production', {
+        title: "Minishop: Production",
         templateUrl: 'assets/views/minishop/production-page.htm',
         controller: 'minishopProductionController',
         controllerAs: 'vm'

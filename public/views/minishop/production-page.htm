@@ -167,9 +167,9 @@
                                     aria-valuemin="0"
                                     aria-valuemax="100"
                                     aria-valuenow='{{ vm.validatePercentProgress(vm.batch.prcntPrgs) }}'
-                                    ng-style="{width: ({{ vm.validatePercentProgress(vm.batch.prcntPrgs)  }} + '%') }"
-                                    style='width: {{ vm.validatePercentProgress(vm.batch.prcntPrgs) + "%" }}'>
-
+                                    ng-style='{width: ( vm.validatePercentProgress(vm.batch.prcntPrgs) + "%") }'
+                                    >
+                                    
                             </div>
                         </div>
                     </div>
@@ -282,7 +282,20 @@
 
         <!--Supplies-->
         <h4 style='margin-top: 20px;'>Supplies</h4>
-        <div class="row"></div>
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <div class="row">
+                    <div    ng-repeat='(key, value) in vm.recipes'
+                            class="col-3 sm-col-3 md-col-3 lg-col-3 xl-col-3 border border-dark rounded cooked-nuts-supplies"
+                            style='text-align: center;'>
+                        <strong>{{value.recipe}} {{value.nut}}</strong> <br>
+                        <strong>{{value.roleId}}</strong>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
 
         <!--Produced/Results-->
         <h4 style='margin-top: 20px;'>Produced</h4>

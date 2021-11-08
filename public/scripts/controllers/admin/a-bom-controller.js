@@ -25,11 +25,11 @@ function adminABoMController($firebaseObject, $routeParams, $scope) {
 	vm.addBtn = function(section, data) {
 		console.log("adding a new", section, data);
 		if(vm.record[section] == '') vm.record[section] = {}
-		vm.record[section][data.id] = parseInt(data.qty);
+		vm.record[section][data.id] = _cleanQty(data.qty);
 		vm.record.$save().then(function sucessfulUpdate() {
 			console.log('new values saved successfully');
 			switch(section) {
-				case 'resource':
+				case 'resources':
 					vm.aNewResource = { id: "", qty: "" };
 					break;
 				case 'success':
@@ -52,6 +52,16 @@ function adminABoMController($firebaseObject, $routeParams, $scope) {
 		vm.record.$save().then(function sucessfulUpdate() {
 			console.log('removal saved successfully');
 		});
+	}
+
+	/*
+	*	PRIVATE: CLEAN QTY
+	*/
+	function _cleanQty(qty) {
+		let returnValue = 0;
+		if(qty > 1 ) returnValue = parseInt(qty);
+		else returnValue = parseFloat(qty);
+		return returnValue;
 	}
 
 	//	EXECUTE

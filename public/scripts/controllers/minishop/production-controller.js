@@ -29,27 +29,35 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	};
 	vm.txsSummary = {
 		debits: {
-			"-MmdFOUdWJKSaiY8qSBP": 0,	//	STAGED PECANS
-			"-Mnwy1lULD6uf9qPLb7w": 0,	//	STAGED ALMONDS
-			"-Mnwy9s4CdquFHL4EBpJ": 0,	//	STAGED CASHEWS
-			"-MnwyPKyV9j1riq3z_Jv": 0,	//	STAGED HAZELNUTS
-			"-Mo9ypVIJTf09YLBRGTd": 0,	//	PINT CUPS
-			"-Mo9yxhpuLbnJLqsjZfo": 0,	//	PINT LIDS
-			"-Mo9zUaMv11hJrJ4tref": 0,	//	HALF PINT CUPS
-			"-Mo9zW4ShhozB04JDoh8": 0,	//	HALF PINT LIDS
-			"-Mo9zXdi2ZCUqPG6iTh-": 0,	//	PLATTER LIDS
-			"-Mo9zYz8loLwGvu8fGB2": 0,	//	PLATTER BOTTOMS
-			"-MjSoxKn1xrLk8L1b8PK": 0,	//	SS MIX
-			"-Mnv9B2Eip7PPZaN7aYa": 0,	//	BB MIX
-			"-MjSoxKn1xrLk8L1b8PK": 0,	//	SALT
-			"-Mo9zo0gB2vNAwGThDbe": 0,	//	GASOLINE
-			"-Mo9zsxpeHi8estWW0bG": 0	//	PAPER TOWEL ROLLS
+			nuts: {
+				pecans: 	{ id: "-MmdFOUdWJKSaiY8qSBP", value: 0 },
+				almonds: 	{ id: "-Mnwy1lULD6uf9qPLb7w", value: 0 },
+				cashews: 	{ id: "-Mnwy9s4CdquFHL4EBpJ", value: 0 },
+				hazelnuts: 	{ id: "-MnwyPKyV9j1riq3z_Jv", value: 0 }
+			},
+			packaging: {
+				pintcups: 	{ id: "-Mo9ypVIJTf09YLBRGTd", value: 0 },
+				pintLids: 	{ id: "-Mo9yxhpuLbnJLqsjZfo", value: 0 },
+				halfCups: 	{ id: "-Mo9zUaMv11hJrJ4tref", value: 0 },
+				halfLids: 	{ id: "-Mo9zW4ShhozB04JDoh8", value: 0 },
+				platTops: 	{ id: "-Mo9zXdi2ZCUqPG6iTh-", value: 0 },
+				platBots: 	{ id: "-Mo9zYz8loLwGvu8fGB2", value: 0 }
+			},
+			cooking: {
+				ssMix: 		{ id: "-MjSoxKn1xrLk8L1b8PK", value: 0 },
+				bbMix: 		{ id: "-Mnv9B2Eip7PPZaN7aYa", value: 0 },
+				salt: 		{ id: "-MjSoxKn1xrLk8L1b8PK", value: 0 }
+			},
+			misc: {
+				paperTowel: { id: "-Mo9zsxpeHi8estWW0bG", value: 0 },
+				gasoline: 	{ id: "-Mo9zo0gB2vNAwGThDbe", value: 0 }
+			}
 		},
 		credits: {},
 		balances: {
 			"-MjSoxLGadkQpxtTuhCK":	0,	//	SWEET & SALTY PECANS
 			"-MnwvGpt6TTehfomFo18": 0,	// 	SWEET & SALTY ALMONDS
-			"-MnwvK9M4P5v_9w_2cSa": 0,	//	SWEET & SALTY CASHEWS
+			"-MnwvK9M4P5v_9w_2cSa": 22,	//	SWEET & SALTY CASHEWS
 			"-MnwvNdZ2xqY2_8u9Ub7": 0,	//	SWEET & SALTY HAZELNUTS
 			"-MnvHa-65LfIp63akaI-": 0,	// 	BOURBON PECAN
 			"-MnwvSTpy0dJAU5S_vgi": 0,	//	BOURBON ALMONDS
@@ -179,7 +187,10 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 				const readPath 	= "Transactions/" + txId;
 				const db		= firebase.database();
 				const ref		= db.ref(readPath);
-				vm.txsList.push($firebaseObject(ref));
+				const txObject 	= $firebaseObject(ref).$loaded().then(function(data) {
+					_updateTxsSummaryValues(data);
+				});
+				vm.txsList.push(txObject);
 			};
 
 		});
@@ -228,7 +239,9 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 				const readPath 	= "Transactions/" + txId;
 				const db		= firebase.database();
 				const ref		= db.ref(readPath);
-				const txRecord	= $firebaseObject(ref);
+				const txRecord	= $firebaseObject(ref).$loaded().then(function(data) {
+					_updateTxsSummaryValues(data);
+				});
 
 				//	Add the tx to the local list
 				vm.txsList.push(txRecord);
@@ -263,6 +276,41 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 		});
 
 		return returnList;
+	};
+
+	/*
+	*	PRIVATE: UPDATE TRANSACTIONS SUMMARY VALUES
+	*/
+	function _updateTxsSummaryValues(tx) {
+
+		//	ITERATE OVER THE SUMMARY OBJECT
+		Object.keys(vm.txsSummary).forEach(function(typeKey) {
+			const typeObject = vm.txsSummary[typeKey];
+
+			//	IERATE OVER EACH CATEOGRY OJECT
+			Object.keys(typeObject).forEach(function(catKey) {
+				const catObject = typeObject[catKey];
+
+				Object.keys(catObject).forEach(function(roleKey) {
+					const thisRole = catObject[roleKey];
+
+					//	LOOK FOR MATCHING ROLE ID AND TX.ROLEID PAIRS
+					if(thisRole.id == tx.roleId) {
+
+						//	CREDIT THE VALUE
+						vm.txsSummary[typeKey][catKey][roleKey].value += tx.credit;
+
+						//	DEBIT THE VALUE
+						vm.txsSummary[typeKey][catKey][roleKey].value -= tx.debit;
+
+					}
+
+				});
+
+			});
+
+		});
+
 	}
 
 	/*

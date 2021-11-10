@@ -4,7 +4,7 @@
         <div style='margin-top: 10px;'>
             <a ng-href="#/minishop/{{vm.params.engmntId}}/{{vm.params.channelId}}" >Return to Dashboard</a>
         </div>
-
+        
         <div class="row">
             <div class='col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12'
                     style='text-align: center;'>
@@ -288,8 +288,23 @@
                     <div    ng-repeat='(key, value) in vm.recipes'
                             class="col-3 sm-col-3 md-col-3 lg-col-3 xl-col-3 border border-dark rounded cooked-nuts-supplies"
                             style='text-align: center;'>
-                        <strong>{{value.recipe}} {{value.nut}}</strong> <br>
-                        <strong>{{value.roleId}}</strong>
+                        <!--Recipe-->
+                        <div>
+                            <span ng-if='value.recipe == "Sweet & Salty"'>  <strong>SS</strong> </span>
+                            <span ng-if='value.recipe == "Bourbon"'>        <strong>BB</strong> </span>
+                        </div>
+
+                        <!--Nut-->
+                        <div>
+                            <strong>{{value.nut}}</strong>
+                        </div>
+
+                        <!--Value-->
+                        <div>
+                            <span ng-if='vm.txsSummary.balances[value.roleId] >= 16'> {{ (vm.txsSummary.balances[value.roleId] / 16).toFixed(2) }} # </span>
+                            <span ng-if='vm.txsSummary.balances[value.roleId] < 16'>  {{ (vm.txsSummary.balances[value.roleId] / 1)  }} oz</span>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -501,7 +516,7 @@
             </div>
             
         </div>
-        {{vm.txsList}}
+        
         <!--Results: Debits-->
         <h4 style='margin-top: 20px;'>Consumed</h4>
         <div class="row">
@@ -514,13 +529,13 @@
                         <!--Staged Pecans-->
                         <tr>
                             <th scope='row'>Pecans:</th>
-                            <td>4</td>
+                            <td>{{vm.txsSummary.debits.nuts.pecans.value}}</td>
                         </tr>
 
                         <!--Staged Almonds-->
                         <tr>
                             <th scope='row'>Almonds:</th>
-                            <td>12</td>
+                            <td>{{vm.txsSummary.debits.nuts.almonds.value}}</td>
                         </tr>
 
                         <!--Staged Cashews-->

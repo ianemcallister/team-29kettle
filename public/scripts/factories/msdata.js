@@ -53,7 +53,6 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
             yrWk:           0,
             status:         '',
             journalEntries: { "_hold": "" },
-            ledgersMap:     { "_hold": "" },
             lastStatus:     "Off"
         },
         cookingJE: {
@@ -75,20 +74,6 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
             BoMId:      '',
             isComplete: false,
             txs:        {}
-        },
-        cookingTx: {
-            journalEntryId: '',
-            ledgerId:         '',
-            createdAt:      '',
-            updatedAt:      '',
-            createdBy:      '',
-            updatedBy:      '',
-            debit:          0,
-            credit:         0,
-            description:    '',
-            engagmentId:    '',
-            channelName:    '',
-            channelId:      ''
         }
     };
     self.data = {
@@ -255,16 +240,16 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
             Firebase.read(BoMreadPath).then(function journalBatchStartBMOFBRead(bom) {
                 
                 //  ITERATE OVER EACH OF THE RESOURCES
-                Object.keys(bom.resources).forEach(function(key) {
+                Object.keys(bom.resources).forEach(function(roleId) {
                     const cookingTxId  = firebase.database().ref().child('Transactions').push().key;
                     const newCookingTx = {
                         journalEntryId:newJE.id,
-                        ledgerId:      productionData.ledgersMap[key],
+                        roleId:        roleId,
                         createdAt:     moment().format(),
                         updatedAt:     '',
                         createdBy:     '',
                         updatedBy:     '',
-                        debit:         bom.resources[key],
+                        debit:         bom.resources[roleId],
                         credit:        0,
                         description:   '',
                         engagmentId:   productionData.engagmentId,

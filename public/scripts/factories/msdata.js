@@ -54,26 +54,6 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
             status:         '',
             journalEntries: { "_hold": "" },
             lastStatus:     "Off"
-        },
-        cookingJE: {
-            id:         '',
-            startAt:    '',
-            endedAt:    '',
-            type:       'cooking',
-            recipe:     '',
-            nut:        '',
-            engagmentId:'',
-            channelId:  '',
-            channelName:'',
-            yrwk:       '',
-            teamMembrId:'',
-            teamMemName:'',
-            temperature:0,
-            wind:       '',
-            powerSource:'',
-            BoMId:      '',
-            isComplete: false,
-            txs:        {}
         }
     };
     self.data = {
@@ -203,13 +183,14 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
     *   PUBLIC: JOURNAL BATCH START
     *
     *   This 
+    * 
+    *   @params productionData
+    *   @returns
     */
     function journalBatchStart(productionData) {
         
         //  DEFINE LOCAL VARIABLES
         const BoMreadPath   = '/BOMs/' + productionData.cooking.bomid;
-        //const db            = firebase.database();
-        //const BoMref        = db.ref(BoMreadPath);
         const allUpdates    = {};
         const newJE         = {
             id:         firebase.database().ref().child("JournalEntries").push().key,
@@ -230,7 +211,14 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
             BoMId:      productionData.cooking.bomid,
             isComplete: false,
             txs:        {}
-        }
+        };
+        const returnObject = {
+            jeId: "",
+            txIds: []
+        };
+
+        //  IDENTIFY JOURNAL ENTRY ID FOR RETURN OBJECT
+        returnObject.jeId = newJE.id;
 
 
         //  RETURN ASYNC WORK
@@ -241,6 +229,8 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
                 
                 //  ITERATE OVER EACH OF THE RESOURCES
                 Object.keys(bom.resources).forEach(function(roleId) {
+
+                    //  DEFINE LOCAL VARIABLES
                     const cookingTxId  = firebase.database().ref().child('Transactions').push().key;
                     const newCookingTx = {
                         journalEntryId:newJE.id,
@@ -257,18 +247,26 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
                         channelId:     productionData.channelId
                     };
 
+                    //  REGISTER TRANSACTION UPDATES BEING PUSHED
                     allUpdates['/Transactions/' + cookingTxId] = newCookingTx;
 
+                    //  ADD THE ID OF EACH OF THESE TRANSACTIONS TO THE JOURNAL ENTRY RECORD
                     newJE.txs[cookingTxId] = cookingTxId;
+
+                    //  ADD THE ID OF EACH OF THESE TRANSACTIONS TO THE RETURN OBJECT FOR VIEW MODEL MANAGMENT
+                    returnObject.txIds.push(cookingTxId);
 
                 });
 
+                //  ASSIGN THE FINAL JOURNAL ENTRY VALUE NOW THAT ALL VALUES HAVE BEEN ADDED
                 allUpdates['/JournalEntries/' + newJE.id ] = newJE;
 
-                console.log(allUpdates);
-
+                //  PROCESS ALL UPDATES
                 Firebase.update(allUpdates).then(function() {
-                    resolve(newJE.id);
+                    
+                    //  SEND BACK THE RETURN OBJECT AFTER ALL UPDATES HAVE PROCESSED SUCESSFULLY
+                    resolve(returnObject);
+
                 })
 
             });

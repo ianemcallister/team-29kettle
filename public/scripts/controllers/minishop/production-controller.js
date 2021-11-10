@@ -20,12 +20,45 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	const cadence = 1000 * 1;  //  1000 miliseconds = 1 second x 1 = 1 second
 
 	//	VIEW MODEL VARIABLES
-	vm.recipes = _loadRecipes(msData.models.operations);
+	vm.recipes 		= _loadRecipes(msData.models.operations);
+	vm.cookingList 	= [];
+	vm.txsList 		= [];
 	vm.batch = {
 		prcntPrgs: 0,
 		secElapsed: 0
 	};
-	vm.cookingList = [];
+	vm.txsSummary = {
+		debits: {
+			"-MmdFOUdWJKSaiY8qSBP": 0,	//	STAGED PECANS
+			"-Mnwy1lULD6uf9qPLb7w": 0,	//	STAGED ALMONDS
+			"-Mnwy9s4CdquFHL4EBpJ": 0,	//	STAGED CASHEWS
+			"-MnwyPKyV9j1riq3z_Jv": 0,	//	STAGED HAZELNUTS
+			"-Mo9ypVIJTf09YLBRGTd": 0,	//	PINT CUPS
+			"-Mo9yxhpuLbnJLqsjZfo": 0,	//	PINT LIDS
+			"-Mo9zUaMv11hJrJ4tref": 0,	//	HALF PINT CUPS
+			"-Mo9zW4ShhozB04JDoh8": 0,	//	HALF PINT LIDS
+			"-Mo9zXdi2ZCUqPG6iTh-": 0,	//	PLATTER LIDS
+			"-Mo9zYz8loLwGvu8fGB2": 0,	//	PLATTER BOTTOMS
+			"-MjSoxKn1xrLk8L1b8PK": 0,	//	SS MIX
+			"-Mnv9B2Eip7PPZaN7aYa": 0,	//	BB MIX
+			"-MjSoxKn1xrLk8L1b8PK": 0,	//	SALT
+			"-Mo9zo0gB2vNAwGThDbe": 0,	//	GASOLINE
+			"-Mo9zsxpeHi8estWW0bG": 0	//	PAPER TOWEL ROLLS
+		},
+		credits: {},
+		balances: {
+			"-MjSoxLGadkQpxtTuhCK":	0,	//	SWEET & SALTY PECANS
+			"-MnwvGpt6TTehfomFo18": 0,	// 	SWEET & SALTY ALMONDS
+			"-MnwvK9M4P5v_9w_2cSa": 0,	//	SWEET & SALTY CASHEWS
+			"-MnwvNdZ2xqY2_8u9Ub7": 0,	//	SWEET & SALTY HAZELNUTS
+			"-MnvHa-65LfIp63akaI-": 0,	// 	BOURBON PECAN
+			"-MnwvSTpy0dJAU5S_vgi": 0,	//	BOURBON ALMONDS
+			"-MnwvTh3Ax5g7KuZL8SB": 0,	//	BOURBON CASHEWS
+			"-MnwvXyu20U9VpKhWoJB": 0,	//	BOURBON HAZELNUTS	
+			"-MjSoxKn1xrLk8L1b8PK": 0,	//	SWEET & SALTY MIX
+			"-Mnv9B2Eip7PPZaN7aYa": 0	//	BOURBON MIX
+		}
+	}
 
 	/*
 	*	BIND VIEW MODEL VARIABLES
@@ -36,6 +69,7 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	msData.data.production.report.$bindTo($scope, 'vm.prodReport').then(function reportLoaded() {
 		//console.log('bind finished loading');
 		_loadCookingList();
+		_loadTxsList();
 	});
 
 	//	VIEW MODEL FUNCTIONS
@@ -112,7 +146,11 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	*	PRIVATE: LOAD COOKING LIST
 	*/
 	function _loadCookingList() {
+		//	INITIALIZE VALUES
 		vm.cookingList = [];
+		if(vm.prodReport.journalEntries == undefined || vm.prodReport.journalEntries == null) vm.prodReport.journalEntries = {};
+		
+		//	ITERATE OVER THE LIST
 		Object.keys(vm.prodReport.journalEntries).forEach(function(key) {
 			
 			if(key != '_hold') {
@@ -123,7 +161,30 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 			};
 
 		});
-	}
+
+	};
+
+	/*
+	*	PRIVATE: LOAD TXS LIST
+	*/
+	function _loadTxsList() {
+		//	INITIALIZE VALUE
+		vm.txsList = [];
+		if(vm.prodReport.txs == undefined || vm.prodReport.txs == null) vm.prodReport.txs = {};
+
+		// ITERATE OVER THE LIST
+		Object.keys(vm.prodReport.txs).forEach(function(txId) {
+
+			if(txId != '_hold') {
+				const readPath 	= "Transactions/" + txId;
+				const db		= firebase.database();
+				const ref		= db.ref(readPath);
+				vm.txsList.push($firebaseObject(ref));
+			};
+
+		});
+
+	};
 
 	/*
 	*	PRIVATE: MOVE COOKING TO COOLING
@@ -142,23 +203,42 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 		vm.prodReport.lastStatus 			= "Cooking";
 		vm.prodReport.cooking.startAt 		= moment().format();
 		vm.prodReport.cooking.expiresAt		= moment(vm.prodReport.cooking.startAt).add(20, 'minutes').format();	
-		
 		vm.batch.secElapsed					= 0;
 
-		msData.production.journalBatchStart(vm.prodReport).then(function journalBatchStart(entryId) {
+		//	PROCESS THE JOURNAL ENTRY
+		msData.production.journalBatchStart(vm.prodReport).then(function journalBatchStart(data) {
 			
-			//	DEFINE LOCAL VARIABLES
-			const readPath = 'JournalEntries/' + entryId;
-			console.log('readPath', readPath)
-			const db = firebase.database();
-			const ref = db.ref(readPath);
-			const jeRecord = $firebaseObject(ref);
+			//	TRACK THE NEW JOURNAL ENTRY VIA A NEW FIREBASE OBJECT
+			const readPath 	= 'JournalEntries/' + data.jeId;
+			const db 		= firebase.database();
+			const ref 		= db.ref(readPath);
+			const jeRecord 	= $firebaseObject(ref);
 
 			//	Add the journal entry to the local list
 			vm.cookingList.push(jeRecord)
 
 			//	Record the JE as related to this report via key value pair [timestap]: [entryId]
-			vm.prodReport.journalEntries[moment().format()] = entryId
+			vm.prodReport.journalEntries[moment().format()] = data.jeId
+
+			//	TRACK ALL OF THE NEW TRANSACTIONS VIA NEW FIREBASE OBJECTS
+			//	ITERATE OVER THE LIST OF TRANSACTIONS
+			data.txIds.forEach(function unpackNewTxIds(txId) {
+
+				//	DEFINE LOCAL VARIABLES
+				const readPath 	= "Transactions/" + txId;
+				const db		= firebase.database();
+				const ref		= db.ref(readPath);
+				const txRecord	= $firebaseObject(ref);
+
+				//	Add the tx to the local list
+				vm.txsList.push(txRecord);
+
+				//	MAKE SURE WE CAN WRITE TO THIS RECORD
+				if(vm.prodReport.txs == undefined || vm.prodReport.txs == null) vm.prodReport.txs = {};	
+
+				//	THEN START WRITING
+				vm.prodReport.txs[txId] = txId;
+			});
 
 		});
 	}

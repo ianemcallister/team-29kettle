@@ -1,5 +1,51 @@
 <div>
     <div class="container">
-        This is the account settings page
+        
+        <!--Breakcrumbs-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top: 20px;'>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a ng-href="#/member/{{vm.routeParams.uid}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Settings</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!--Heading-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top: 10px;'>
+                <h4>Account Settings</h4>
+            </div>
+        </div>
+
+        <!--Heading-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top: 10px;'>
+                <ul class='form-group'>
+                    <li>
+                        Display name:
+                        <label for="name">
+                            <input  type="text" 
+                                    class='form-control' 
+                                    placeholder='name' 
+                                    ng-model='vm.user.displayName'
+                                    ng-blur='vm.saveChanges()'>
+                        </label>
+                    </li>
+                    <li>phone:</li>
+                    <li>photo:</li>
+                    <li>
+                        email:
+                        <label for="email">
+                            <input type="email" class="form-control" ng-model='vm.user.email'>
+                        </label>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
     </div>
 </div>

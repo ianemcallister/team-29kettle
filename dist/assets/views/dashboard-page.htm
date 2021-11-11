@@ -1,10 +1,28 @@
 <div>
     <div class="container">
 
-        <h3>Team Member Dashboard</h3>
+        <!--Heading-->
+        <div class="row">
+            <!--Greating-->
+            <div class="col-9 sm-col-9 md-col-9 lg-col-9 xl-col-9" style='margin-top:20px;'>
+                <h2>Howdy {{vm.user.displayName}}</h2>
+            </div>
+            
+            <!--Date/Time-->
+            <div class="col-3 sm-col-3 md-col-3 lg-col-3 xl-col-3" style='margin-top:20px;'>
+                <strong>{{ vm.today() | date: "EEEE" }}</strong> <br>
+                {{ vm.today() | date: "MMMM d" }} <br>
+                <a ng-href="#/member/{{vm.routeParams.uid}}/settings">Settings</a>
+            </div>
+        </div>
         
-        <!--Top Monitor-->
-        <activity></activity>
+        <!---->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style="margin-top: 15px;">
+                <h4>Your Schedule</h4>
+
+            </div>
+        </div>
         
     </div>
 </div>

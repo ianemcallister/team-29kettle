@@ -11,18 +11,31 @@ function adminSelectChannelController($routeParams, $firebaseObject, $location, 
 
 	//	LOCAL VARIABLES
 	const vm        = this;
-    const db        = firebase.database();
-    const chanRef   = db.ref("Channels/" + $routeParams.channelId);
 
     //	VIEW MODEL VARIABLES
-    vm.channelData      = $firebaseObject(chanRef);
+    vm.channelData      = $firebaseObject(firebase.database().ref("Channels/" + $routeParams.channelId));
+    vm.allChannels      = $firebaseObject(firebase.database().ref("Channels"));
     vm.engagementsData  = engagemnts;
     vm.newRLSelections  = { roleid: '', ledgerId: '' }
-
+    vm.frequency = {
+        0: "Daily",
+        1: "Weekly",
+        2: "Bi-Weekly",
+        3: "Monthly",
+        4: "Yearly",
+        5: "Other"
+    };
     //  LOCAL FUNCTION S
     
 
 	//	VIEW MODEL FUNCTIONS
+    vm.saveData = function() {
+        vm.channelData.$save().then(function success() {
+            console.log('data saved successfully');
+        }).catch(function failure(error) {
+            console.log('Error Saving Data', error);
+        })
+    }
 
     vm.rowClick = function(id) {
         console.log(id);

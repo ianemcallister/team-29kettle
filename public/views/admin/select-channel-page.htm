@@ -1,7 +1,7 @@
 <div>
     <div class="container">
         <!--Breadcrumbs-->
-        <div class="row">
+        <div class="row" style="margin-top: 15px;">
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
                 <a href="/#/admin/channels">Return to Channels</a>
             </div>
@@ -12,6 +12,126 @@
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='text-align: center;'>
                 <h3>{{vm.channelData.name}}</h3>
             </div>
+        </div>
+
+        <!--Format-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <h5>Format</h5>
+                <button class="btn btn-success"'>+</button>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope='col'>#</th>
+                            <th scope='col'>Frequency</th>
+                            <th scope='col'>Starts</th>
+                            <th scope='col'>Ends</th>
+                            <th scope='col'>Opens</th>
+                            <th scope='col'>Closes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{$index + 1}}</td>
+                            <td>
+                                <!--Pickers-->
+                            </td>
+                            <td>
+                                <!--Start Date-->
+                                <!--Start Week-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+
+        <!--Details-->
+        <div class="row">
+            <!--Address-->
+            <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4">
+                <h5>Address</h5>
+
+                <label for="zip">
+                    <input type="text" id='zip' ng-model='vm.channelData.address.zip' ng-blur='vm.saveData()' placeholder='Zipcode'>
+                </label>
+
+                <label for="city">
+                    <input type="text" id='city' ng-model='vm.channelData.address.city' ng-blur='vm.saveData()' placeholder='City'>
+                </label>
+
+                <label for="state">
+                    <input type="text" id='state' ng-model='vm.channelData.address.state' ng-blur='vm.saveData()' placeholder='State'>
+                </label>
+
+                <label for="Street1">
+                    <input type="text" id='street1' ng-model='vm.channelData.address.street1' ng-blur='vm.saveData()' placeholder='Street1'>
+                </label>
+
+                <label for="Street2">
+                    <input type="text" id='street2' ng-model='vm.channelData.address.street2' ng-blur='vm.saveData()' placeholder='Street2'>
+                </label>
+
+            </div>
+
+            <!--Coordinates-->
+            <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4">
+                <h5>Coordinate</h5>
+                <label for="lat">
+                    <input type="text" id='lat' ng-model='vm.channelData.coord.lat' ng-blur='vm.saveData()' placeholder='Latitude'>
+                </label>
+                <label for="lon">
+                    <input type="text" id='lon' ng-model='vm.channelData.coord.lon' ng-blur='vm.saveData()' placeholder='Longitude'>
+                </label>
+            </div>
+
+            <!--Structure-->
+            <div class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4">
+                <h5>Structure</h5>
+
+                <!--Parent Location-->
+                <div class="form-check">
+                    <input type="checkbox" class='form-check-input' value='' ng-model='vm.channelData.hasParent' ng-change='vm.saveData()'>
+                    <label for="hasParent">
+                        Has A Parent Location?
+                    </label>
+                </div>
+
+                <!--Assign Parent-->
+                <div class="form-group" ng-if='vm.channelData.hasParent'>
+                    <label for="parentPicker">
+                        Parent Location:
+                        <select name="parentPicker" id="parentPicker" class="custom-select">
+                            <option     value="{{key}}" 
+                                        ng-repeat='(key, value) in vm.allChannels'
+                                        ng-model='vm.channelData.parentLocation'
+                                        ng-change='vm.saveData()'>
+                                {{value.name}}
+                            </option>
+                        </select>
+                    </label>
+                </div>
+
+                <!--Inside / Outside-->
+                <div class="form-check">
+                    <input type="checkbox" id='isInside' class='form-check-input' value='' ng-model='vm.channelData.isInside' ng-change='vm.saveData()'>
+                    <label for="isInside">
+                        This Location Is Inside?
+                    </label>
+                </div>
+
+                <!--House Power-->
+                <div class="form-check">
+                    <input type="checkbox" id='hasHousePower' class='form-check-input' value='' ng-model='vm.channelData.hasHousePower' ng-change='vm.saveData()'>
+                    <label for="hasHousePower">
+                        House Power Is Available?
+                    </label>
+                </div>
+
+            </div>
+
         </div>
 
         <!--STats-->

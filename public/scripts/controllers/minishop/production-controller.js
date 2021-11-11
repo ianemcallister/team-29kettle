@@ -7,10 +7,10 @@
 ckc
     .controller('minishopProductionController', minishopProductionController);
 
-	minishopProductionController.$inject = ['$firebaseObject', '$routeParams', '$interval', '$scope', '$window', 'msData', 'moment'];
+	minishopProductionController.$inject = ['$firebaseObject', '$routeParams', '$interval', '$scope', '$window', 'msData', 'moment', '$http'];
 
 /* @ngInject */
-function minishopProductionController($firebaseObject, $routeParams, $interval, $scope, $window, msData, moment) {
+function minishopProductionController($firebaseObject, $routeParams, $interval, $scope, $window, msData, moment, $http) {
 
 	//	NOTIFY PROGRES
 
@@ -20,6 +20,8 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	const cadence = 1000 * 1;  //  1000 miliseconds = 1 second x 1 = 1 second
 
 	//	VIEW MODEL VARIABLES
+	vm.channel		= $firebaseObject(firebase.database().ref('Channels/' + $routeParams.channelId));
+	vm.engagment	= $firebaseObject(firebase.database().ref('Engagments/' + $routeParams.engmntId));
 	vm.recipes 		= _loadRecipes(msData.models.operations);
 	vm.cookingList 	= [];
 	vm.txsList 		= [];
@@ -149,6 +151,28 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 		if(percentage == undefined || percentage == NaN) return 0;
 		else return percentage
 	};
+
+	/*
+	*	VIEW MODEL: DATE ENDING
+	*
+	*	Determines what ending the number of the date should have
+	*/
+	vm.dateEnding = function(aDate) {
+		/*const returnValue = "th";
+		let monthDate = moment(aDate).date();
+		console.log('monthDate', monthDate);
+		switch(monthDate) {
+			case 1: returnValue = "st"; break;
+			case 2: returnValue = "nd"; break;
+			case 3: returnValue = "rd"; break;
+			case 21: returnValue = "st"; break;
+			case 22: returnValue = "nd"; break;
+			case 23: returnValue = "rd"; break;
+			case 31: returnValue = "st"; break;
+			default: break;
+		}*/
+		//return returnValue;
+	}
 
 	/*
 	*	PRIVATE: LOAD COOKING LIST
@@ -336,6 +360,7 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 			updateBatchProgress(); 
 		}
 	}
+	
 
 	/*
 	*	PRIVATE: 

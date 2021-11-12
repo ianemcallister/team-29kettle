@@ -233,8 +233,9 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	*	PRIVATE: MOVE COOKING TO COOLING
 	*/
 	function _moveCookingToCooling(){
+		console.log('moving cooking to cooling', vm.prodReport);
 		vm.prodReport.cooling 		= vm.prodReport.cooking;
-		vm.prodReport.cooling.endAt = moment().format();
+		//vm.prodReport.cooling.endAt = moment().format();
 	}
 
 	/*

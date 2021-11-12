@@ -91,6 +91,7 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 
 	//	VIEW MODEL FUNCTIONS
 	vm.selectRecipe = function(key) {
+		console.log('vm.prodReport', vm.prodReport);
 		const spotIsOpen = (vm.prodReport.ondeck.recipe == undefined);
 		const flavorAlreadySelected = ((vm.prodReport.ondeck.recipe == vm.recipes[key].recipe) && (vm.prodReport.ondeck.nut == vm.recipes[key].nut))
 		

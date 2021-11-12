@@ -103,11 +103,9 @@
                 <div class="form-group" ng-if='vm.channelData.hasParent'>
                     <label for="parentPicker">
                         Parent Location:
-                        <select name="parentPicker" id="parentPicker" class="custom-select">
+                        <select name="parentPicker" id="parentPicker" class="custom-select" ng-model='vm.channelData.parentLocation' ng-change='vm.saveData()'>
                             <option     value="{{key}}" 
-                                        ng-repeat='(key, value) in vm.allChannels'
-                                        ng-model='vm.channelData.parentLocation'
-                                        ng-change='vm.saveData()'>
+                                        ng-repeat='(key, value) in vm.allChannels'>
                                 {{value.name}}
                             </option>
                         </select>
@@ -157,7 +155,51 @@
                 
                 <h5>Engagments</h5>
 
-                <table class="table">
+                <ol>
+                    <li ng-repeat="(key, value) in vm.chnlEngagments">
+                        {{value.date}}
+                    </li>
+                </ol>
+                
+                <div class="form-group">
+                    <label for="">
+                        Add:
+                        <select class='form-control' name="engagmentAddPicker" id="engagmentAddPicker" ng-model='vm.newEngagmentsOptions.type' ng-change='vm.buildNewEngagments()'>
+                            <option value="single">Single</option>
+                            <option value="series">Series</option>
+                        </select>
+                    </label>
+
+                    <div ng-if='vm.newEngagmentsOptions.type == "single"'>
+                        <label for="month">
+                            Month: 
+                            <input id='month' type="text" class='form-control' placeholder="month" ng-model='vm.newEngagmentsOptions.instances[0].m'>
+                        </label>
+                        <label for="day">
+                            Day:
+                            <input id="day" type="text" class='form-control' placeholder="day" ng-model='vm.newEngagmentsOptions.instances[0].d'>
+                        </label>
+                        <label for="year">
+                            Year:
+                            <input id="year" type="text" class='form-control' placeholder="year" ng-model='vm.newEngagmentsOptions.instances[0].y'>
+                        </label>
+                        <label for="startTime">
+                            Starts At:
+                            <input id='startTime' type="text" class='form-control' placeholder='hour' ng-model='vm.newEngagmentsOptions.instances[0].startsAtHr'>
+                            <input id='startTime' type="text" class='form-control' placeholder='minute' ng-model='vm.newEngagmentsOptions.instances[0].startsAtMn'>
+                        </label>
+                        <label for="endTime">
+                            Ends At:
+                            <input id='endTime' type="text" class='form-control' placeholder='hour' ng-model='vm.newEngagmentsOptions.instances[0].endsAtHr'>
+                            <input id='endTime' type="text" class='form-control' placeholder='minute' ng-model='vm.newEngagmentsOptions.instances[0].endsAtMn'>
+                        </label>
+                        
+                        <button class="btn btn-success" ng-click="vm.addNewEngagments()">Add</button>
+                        
+                    </div>
+                </div>
+
+                <table class="table table-sm">
                     <thead>
                         <th scope='col'>#</th>
                         <th scope='col'>YrWkD</th>

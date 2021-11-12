@@ -13,18 +13,11 @@ function adminChannelsController($routeParams, $firebaseObject, $location) {
 	var vm = this;
 
     //  LOCAL FUNCTIONS
-    function downloadData() {
-        //  NOTIFY PROGRESS
-        //console.log('got this UID: ', uid);
-        //  LOCAL VARIABLES
-        var readPath = "Channels";
-        var _db     = firebase.database();
-        var ref     = _db.ref(readPath);
-        return $firebaseObject(ref);
-    };
 
 	//	VIEW MODEL VARIABLES
-    vm.channelsData = downloadData();
+    vm.channelsData     = $firebaseObject(firebase.database().ref('Channels'));
+    vm.routeParams      = $routeParams;
+    vm.newRecord        = { name: "", type: "" };
 
 	//	VIEW MODEL FUNCTIONS
     vm.rowClicked = function(id) {
@@ -32,6 +25,15 @@ function adminChannelsController($routeParams, $firebaseObject, $location) {
         $location.path('/admin/channels/' + id);
     };
     
+    vm.addChannel = function() {
+        const newKey = firebase.database().ref('Channels').push().key;
+        vm.channelsData[newKey] = vm.newRecord;
+        vm.channelsData.$save().then(function success() {
+            console.log('new record saved successfully');
+        }).catch(function failure(error) {
+            console.log('error saving', error);
+        });
+    }
 
 
 	//	EXECUTE

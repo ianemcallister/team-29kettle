@@ -1,25 +1,76 @@
 <div>
     <div class="container">
-        <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
-            <h2>Channels</h2>
-
-            <table class="table">
-                <thead>
-                    <th scope='col'>#</th>
-                    <th scope='col'>Name</th>
-                    <th scope='col'>Type</th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat='(key, value) in vm.channelsData'
-                        ng-click='vm.rowClicked(key)'>
-                        <th scope='row'>{{$index + 1}}</th>
-                        <td>{{value.name}}</td>
-                        <td>{{value.type}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!--Breakcrumbs-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a ng-href="#/member/{{vm.routeParams.uid}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Channels</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
-        
+
+        <!--Heading-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px;'>
+                <h2>Channels</h2>
+            </div>
+        </div>
+
+        <!--New Record-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12 form-group" style='margin-top:10px;'>
+                <h4>New Record</h4>
+                <label for="name">
+                    <input class='form-control' type="text" ng-model='vm.newRecord.name' placehold='name'>
+                </label>
+
+                <label for="type">
+                    <select name="channelType" id="channelType" class='form-control' ng-model='vm.newRecord.type'>
+                        <option value="farmers_market">Farmers Market</option>
+                        <option value="retail_partner">Retail Partner</option>
+                        <option value="event">Event</option>
+                        <option value="night_market">Night Market</option>
+                        <option value="production">Production Kitchen</option>
+                    </select>
+                </label>
+
+                <button class="btn btn-success" ng-click='vm.addChannel()'>Add</button>
+            </div>
+        </div>
+
+        <!--Filters-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px;'>
+                <h4>Filters</h4>
+            </div>
+        </div>
+
+        <!--Body-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12 " style='margin-top:10px;'>
+                <table class="table table-sm">
+                    <thead>
+                        <th scope='col'>#</th>
+                        <th scope='col'>Name</th>
+                        <th scope='col'>Type</th>
+                        <th scope='col'>Frequency</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='(key, value) in vm.channelsData'
+                            ng-click='vm.rowClicked(key)'>
+                            <th scope='row'>{{$index + 1}}</th>
+                            <td>{{value.name}}</td>
+                            <td>{{value.type}}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
 
     </div>
 </div>

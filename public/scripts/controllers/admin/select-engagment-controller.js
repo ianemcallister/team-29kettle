@@ -1,10 +1,10 @@
 ckc
     .controller('adminSelectEngagmentController', adminSelectEngagmentController);
 
-	adminSelectEngagmentController.$inject = ['$routeParams', '$firebaseObject', '$location'];
+	adminSelectEngagmentController.$inject = ['$routeParams', '$firebaseObject', '$location', 'moment'];
 
 /* @ngInject */
-function adminSelectEngagmentController($routeParams, $firebaseObject, $location) {
+function adminSelectEngagmentController($routeParams, $firebaseObject, $location, moment) {
 
 	//	NOTIFY PROGRES
 	console.log('$routeParams', $routeParams)
@@ -12,23 +12,13 @@ function adminSelectEngagmentController($routeParams, $firebaseObject, $location
 	//	LOCAL VARIABLES
 	var vm = this;
 
-    //  LOCAL FUNCTION S
-    function downloadEngagmentData(id) {
-        //  NOTIFY PROGRESS
-        //console.log('got this key: ', id);
-
-        //  LOCAL VARIABLES
-        var readPath = "Engagments/" + id;
-        var _db     = firebase.database();
-        var ref     = _db.ref(readPath);
-        return $firebaseObject(ref);
-    };
+    //  LOCAL FUNCTIONS
 
 
 
 	//	VIEW MODEL VARIABLES
-    vm.engagmentData = downloadEngagmentData($routeParams.engagmentId);
-    
+    vm.engagmentData = $firebaseObject(firebase.database().ref('Engagments/' + $routeParams.engagmentId));
+    vm.routeParams = $routeParams;
     
 	//	VIEW MODEL FUNCTIONS
     vm.channelClicked = function(id) {
@@ -37,7 +27,16 @@ function adminSelectEngagmentController($routeParams, $firebaseObject, $location
     };
 
     vm.dateConcatenate = function(date, time) {
-        return date + "T" + time;
+        const returnValue = moment();
+
+        if(date != undefined && time != undefined) { 
+            const dateSplit = date.split('-');
+            const timeTZSplit = time.split("-");
+            const timeSplit = timeTZSplit[0].split(":")
+            returnValue.year(dateSplit[2]).month(dateSplit[0]-1).date(dateSplit[1]).hour(timeSplit[0]).minute(timeSplit[1]).second(timeSplit[2]);    
+        }
+      
+        return returnValue.format();
     };
 
     vm.yrWkDConcatenate = function(yr, wk, d) {

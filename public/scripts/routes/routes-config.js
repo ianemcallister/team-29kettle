@@ -45,6 +45,7 @@ function config($routeProvider, $locationProvider) {
         }
     })
     .when('/member/:uid', {
+        title: "Dashboard",
         templateUrl: 'assets/views/dashboard-page.htm',     //  dashboard Page View
         controller: 'dashboardController',                  //  dashboard Page Controller
         controllerAs: 'vm',
@@ -205,7 +206,8 @@ function config($routeProvider, $locationProvider) {
         }
     })
     .when('/admin/engagments/:engagmentId', {
-        templateUrl: 'assets/views/admin-select-engagment-page.htm',     //  dashboard Page View
+        title: "Engagment",
+        templateUrl: 'assets/views/admin/select-engagment-page.htm',     //  dashboard Page View
         controller: 'adminSelectEngagmentController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     })

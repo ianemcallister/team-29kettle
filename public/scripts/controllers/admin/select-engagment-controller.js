@@ -19,6 +19,7 @@ function adminSelectEngagmentController($routeParams, $firebaseObject, $location
 	//	VIEW MODEL VARIABLES
     vm.engagmentData = $firebaseObject(firebase.database().ref('Engagments/' + $routeParams.engagmentId));
     vm.routeParams = $routeParams;
+    vm.user = firebase.auth().currentUser;
     
 	//	VIEW MODEL FUNCTIONS
     vm.channelClicked = function(id) {
@@ -44,9 +45,14 @@ function adminSelectEngagmentController($routeParams, $firebaseObject, $location
         return yr.toString() + wk.toString() + d.toString();
     };
 
+    vm.launchReporting = function() {
+        const url = "/minishop/" + $routeParams.engagmentId + "/" + vm.engagmentData.channelId;
+        $location.path(url);
+    }
+
 
 	//	EXECUTE
-	console.log('in the admin engagment channel controller ');	    //  TODO: TAKE THIS OUT LATER
+	//console.log('in the admin engagment channel controller ');	    //  TODO: TAKE THIS OUT LATER
 
 
 }

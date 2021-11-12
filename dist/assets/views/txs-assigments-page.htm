@@ -1,5 +1,76 @@
 <div>
     <div class="container">
-        <h4>Transaction Assigments</h4>
+        <!--Breakcrumbs-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top: 20px;'>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a ng-href="#/member/{{vm.user.uid}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Transactions Assignment</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!--Header-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top: 10px; text-align: center;'>
+                <h4>Daily Transactions</h4>
+               
+                <datepicker>
+                    <input ng-model="vm.currentDate" type="text" ng-change='vm.searchDate(vm.currentDate)'/>
+                </datepicker>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 15px;">
+            <!--Events/Engagments-->
+            <div    class="col-4 sm-col-4 md-col-4 lg-col-4 xl-col-4 border border-primary rounded"
+                    ng-repeat='(key, value) in vm.dailyEngagments'
+                    style='height: 50px; text-align: center; padding-top:10px;'
+                    ng-click="vm.openEngament(key)">
+                    <strong>{{value.channel}}</strong> <br>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <!--Transactions-->
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='overflow: auto; height: 300px; margin-top:20px'>
+                <h4>Funds Collected</h4>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th scope='col'>Time</th>
+                            <th scope='col'>Amount</th>
+                            <th scope='col'>By</th>
+                            <th scope='col'>Channel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='(key, value) in vm.dailyFundsCollected' class='form-group'>
+                            <td>
+                                <input type="checkbox" class='form-checked'>
+                            </td>
+                            <td>{{value.createdAt | date: "h:mm a"}}</td>
+                            <td>{{value.amountMoney.amount / 100 | currency: "$" }} </td>
+                            <td>{{vm.allTeamMembers[value.employeeId].firstName}}</td>
+                            <td>
+                                <select name="channelPicker" id="channelPicker" class='form-control'>
+                                    <option ng-repeat='(key, value) in vm.dailyEngagments'
+                                            value="{{key}}">
+                                            {{value.channel}}
+                                        </option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+
+        </div>
+
     </div>
 </div>

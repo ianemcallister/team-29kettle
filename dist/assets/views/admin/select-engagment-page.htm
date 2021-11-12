@@ -5,10 +5,10 @@
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a ng-href="#/member/{{vm.routeParams.uid}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a ng-href="#/member/{{vm.user.uid}}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a ng-href="#/admin/channels">Channels</a></li>
-                        <li class="breadcrumb-item"><a ng-href="#/admin/channels/{{}}">Test Location</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">11/12/21</li>
+                        <li class="breadcrumb-item"><a ng-href="#/admin/channels/{{vm.engagmentData.channelId}}">{{vm.engagmentData.channel}}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{vm.engagmentData.date}}</li>
                     </ol>
                 </nav>
             </div>
@@ -21,43 +21,53 @@
             </div>
         </div>
 
-        <!--Body-->
+        <!--Launch-->
         <div class="row">
             <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px;'>
-            
+                <button class="btn btn-success" ng-click='vm.launchReporting()'>Launch Reporting</button>
+                
             </div>
         </div>
 
-    
-    <table class="table">
-        <thead>
-        </thead>
-        <tbody>
-            
-            <!--Date-->
-            <tr>
-                <th scope='row'>Date:</th>
-                <td>{{vm.engagmentData.date | date : "shortDate" }}</td>
+        <!--Details-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px;'>
+                <h5>Details</h5>
+                <ol>
+                    <li>
+                        <strong>Timing:</strong> {{ vm.dateConcatenate(vm.engagmentData.date, vm.engagmentData.opensAt) | date :  "h:mm a" }} -
+                        {{ vm.dateConcatenate(vm.engagmentData.date, vm.engagmentData.closesAt) | date : "h:mm a" }}
+                    </li>
+                    <li>
+                        <strong>Address:</strong>
+                    </li>
+                </ol>
+                
+            </div>
+        </div>
 
-                <th scope='row'>YrWkD:</th>
-                <td>{{vm.yrWkDConcatenate(vm.engagmentData.yr, vm.engagmentData.wk, vm.engagmentData.d)}}</td>
-            </tr>
+        <!--Shifts-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px;'>
+                <h5>Shifts</h5>
+                
+            </div>
+        </div>
 
-            <!--Timing-->
-            <tr>
-                <th scope='row'>Opens:</th>
-                <td>{{ vm.dateConcatenate(vm.engagmentData.date, vm.engagmentData.opensAt) | date :  "h:mm a" }}</td>
+        <!--Shipments-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px;'>
+                <h5>Shipments</h5>
+                
+            </div>
+        </div>
 
-                <th scope='row'>Closes:</th>
-                <td>{{ vm.dateConcatenate(vm.engagmentData.date, vm.engagmentData.closesAt) | date : "h:mm a" }}</td>
-
-            </tr>
-            
-            <tr>
-                <th scope='row'>Shifts:</th>
-            </tr>
-
-        </tbody>
-    </table>
+        <!--Resources-->
+        <div class="row">
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px;'>
+                <h5>Resources</h5>
+                
+            </div>
+        </div>
     
 </div>

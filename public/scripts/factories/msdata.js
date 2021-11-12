@@ -203,11 +203,12 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
             channelId:  productionData.channelId,
             channelName:productionData.channelName,
             yrwk:       productionData.yrWk,
-            teamMembrId:'',
+            teamMembrId:productionData.memberId,
             teamMemName:'',
-            temperature:0,
+            temperature:productionData.temp,
             wind:       '',
             powerSource:'',
+            roaster:    productionData.roasterId,
             BoMId:      productionData.cooking.bomid,
             isComplete: false,
             txs:        {}
@@ -260,6 +261,8 @@ function msData($interval, $firebaseObject, $routeParams, $rootScope, $q, moment
 
                 //  ASSIGN THE FINAL JOURNAL ENTRY VALUE NOW THAT ALL VALUES HAVE BEEN ADDED
                 allUpdates['/JournalEntries/' + newJE.id ] = newJE;
+
+                console.log('all Updates', allUpdates);
 
                 //  PROCESS ALL UPDATES
                 Firebase.update(allUpdates).then(function() {

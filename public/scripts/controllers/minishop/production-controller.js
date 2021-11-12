@@ -20,15 +20,22 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	const cadence = 1000 * 1;  //  1000 miliseconds = 1 second x 1 = 1 second
 
 	//	VIEW MODEL VARIABLES
+	vm.user 		= firebase.auth().currentUser;
 	vm.channel		= $firebaseObject(firebase.database().ref('Channels/' + $routeParams.channelId));
 	vm.engagment	= $firebaseObject(firebase.database().ref('Engagments/' + $routeParams.engmntId));
 	vm.recipes 		= _loadRecipes(msData.models.operations);
 	vm.cookingList 	= [];
 	vm.txsList 		= [];
+	vm.conditions 	= {
+		temperature: 66,
+		wind: { speed: 0, deg: 0 },
+		roaster: ""
+	}
 	vm.batch = {
 		prcntPrgs: 0,
 		secElapsed: 0
 	};
+	vm.roasters = ['214606', '213588', '21353x', '216693']
 	vm.txsSummary = {
 		debits: {
 			nuts: {
@@ -225,8 +232,8 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 	*	PRIVATE: MOVE COOKING TO COOLING
 	*/
 	function _moveCookingToCooling(){
-		vm.prodReport.cooling 				= vm.prodReport.cooking;
-		vm.prodReport.cooling.endAt 		= moment().format();
+		vm.prodReport.cooling 		= vm.prodReport.cooking;
+		vm.prodReport.cooling.endAt = moment().format();
 	}
 
 	/*
@@ -238,6 +245,9 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 		vm.prodReport.lastStatus 			= "Cooking";
 		vm.prodReport.cooking.startAt 		= moment().format();
 		vm.prodReport.cooking.expiresAt		= moment(vm.prodReport.cooking.startAt).add(20, 'minutes').format();	
+		vm.prodReport.memberId				= 'L1kSg6D6EIZP2ctV7bI0kEkZRAm2'; //vm.user.uid;
+		vm.prodReport.temp					= vm.conditions.temperature;
+		vm.prodReport.roasterId				= vm.conditions.roaster
 		vm.batch.secElapsed					= 0;
 
 		//	PROCESS THE JOURNAL ENTRY

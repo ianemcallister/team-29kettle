@@ -6,12 +6,17 @@
         </div>
 
         <div class="row">
-            <div class="col-9 sm-col-9 md-col-9 lg-col-9 xl-col-9">
+            <div class="col-9 sm-col-9 md-col-9 lg-col-9 xl-col-9 form-group">
                 <h3>{{vm.channel.name}}</h3>
                 <strong>Wk {{vm.engagment.wk}}</strong> <br>
-                <strong>Current Temperation:</strong> {{vm.weather}} <br>
+                <strong>Current Temperation:</strong> {{vm.conditions.temperature}} <br>
                 <strong>Power Source:</strong> Generator <br>
-                <strong>Wind:</strong> 10mph NNW
+                <strong>Wind:</strong> {{vm.conditions.wind.speed}}mph {{wm.conditions.wind.deg}} <br>
+                <strong>Roaster:</strong>
+                    <select name="roasterPicker" id="roasterPicker" ng-model='vm.conditions.roaster'>
+                        <option ng-repeat='id in vm.roasters' value="{{id}}">{{id}}</option>
+                    </select>
+
             </div>
             <div class="col-3 sm-col-3 md-col-3 lg-col-3 xl-col-3">
                 <strong>{{vm.engagment.date | date: "EEEE"}}</strong><br>

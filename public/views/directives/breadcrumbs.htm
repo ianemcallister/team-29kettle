@@ -1,0 +1,18 @@
+<div>
+
+    <div class="row">
+        <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"
+                        ng-repeat="path in vm.previous">
+                        <a ng-href="{{path.url}}">{{path.name}}</a>
+                    </li>
+                    <!--<li class="breadcrumb-item"><a ng-href="#/member/{{vm.routeParams.uid}}">Dashboard</a></li>-->
+                    <li class="breadcrumb-item active" aria-current="page">{{vm.current}}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+</div>

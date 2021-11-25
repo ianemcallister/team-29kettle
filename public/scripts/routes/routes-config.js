@@ -256,6 +256,16 @@ function config($routeProvider, $locationProvider) {
         controller: 'txsAssigmentsController',                  //  dashboard Page Controller
         controllerAs: 'vm'
     })
+    /*.when('/admin/forecast/week/:wknum', {
+        templateUrl: "",
+        controller: "",
+        contorllerAs: "vm"
+    })*/
+    .when('/projections/engagment/:engagmentId', {
+        templateUrl: "assets/views/projections/engagment-projections.htm",
+        controller: "engagmentProjetionsController",
+        contorllerAs: "vm"
+    })
 	.otherwise({
         redirectTo: '/'
     });

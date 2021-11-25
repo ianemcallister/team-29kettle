@@ -1,20 +1,12 @@
 <div>
     <div class="container">
+
         <!--Breakcrumbs-->
-        <div class="row">
-            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a ng-href="#/member/{{vm.routeParams.uid}}">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Channels</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+        <breadcrumbs previous='vm.breadcrumbs' current='Channels'></breadcrumbs>
 
         <!--Heading-->
         <div class="row">
-            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px;'>
+            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12" style='margin-top:10px; text-align: center;'>
                 <h2>Channels</h2>
             </div>
         </div>
@@ -49,28 +41,7 @@
         </div>
 
         <!--Body-->
-        <div class="row">
-            <div class="col-12 sm-col-12 md-col-12 lg-col-12 xl-col-12 " style='margin-top:10px;'>
-                <table class="table table-sm">
-                    <thead>
-                        <th scope='col'>#</th>
-                        <th scope='col'>Name</th>
-                        <th scope='col'>Type</th>
-                        <th scope='col'>Frequency</th>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat='(key, value) in vm.channelsData'
-                            ng-click='vm.rowClicked(key)'>
-                            <th scope='row'>{{$index + 1}}</th>
-                            <td>{{value.name}}</td>
-                            <td>{{value.type}}</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
+        <list-of-channels channels='vm.channelsData'></list-of-channels>
 
     </div>
 </div>

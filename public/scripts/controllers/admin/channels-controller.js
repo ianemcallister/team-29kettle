@@ -18,6 +18,11 @@ function adminChannelsController($routeParams, $firebaseObject, $location) {
     vm.channelsData     = $firebaseObject(firebase.database().ref('Channels'));
     vm.routeParams      = $routeParams;
     vm.newRecord        = { name: "", type: "" };
+    console.log(vm.routeParams);
+    vm.breadcrumbs      = [{
+        name:   "Dashboard",
+        url:    "#/member/" + vm.routeParams.uid
+    }];
 
 	//	VIEW MODEL FUNCTIONS
     vm.rowClicked = function(id) {

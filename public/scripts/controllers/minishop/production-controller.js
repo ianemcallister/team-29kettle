@@ -265,7 +265,7 @@ function minishopProductionController($firebaseObject, $routeParams, $interval, 
 			vm.cookingList.push(jeRecord)
 
 			//	Record the JE as related to this report via key value pair [timestap]: [entryId]
-			vm.prodReport.journalEntries[moment().format()] = data.jeId
+			vm.prodReport.journalEntries[moment().format()] = data.jeId;
 
 			//	TRACK ALL OF THE NEW TRANSACTIONS VIA NEW FIREBASE OBJECTS
 			//	ITERATE OVER THE LIST OF TRANSACTIONS

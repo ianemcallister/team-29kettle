@@ -262,9 +262,10 @@ function config($routeProvider, $locationProvider) {
         contorllerAs: "vm"
     })*/
     .when('/projections/engagment/:engagmentId', {
+        title: 'Engment: Projections',
         templateUrl: "assets/views/projections/engagment-projections.htm",
-        controller: "engagmentProjetionsController",
-        contorllerAs: "vm"
+        controller: 'engagmentProjetionsController',
+        controllerAs: 'vm'
     })
 	.otherwise({
         redirectTo: '/'

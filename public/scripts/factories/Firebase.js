@@ -22,12 +22,28 @@ function Firebase() {
 
     //  DEFINE METHODS
     var firebaseMod = {
+        add: Add,
         read: Read,
         update: Update,
         query: {
             child: QueryChild
         }
     };
+
+    function Add(path, value) {
+        return new Promise(function (resolve, reject) {
+            firebase.database().ref(path).set(value, function (error) {
+                if(error) {
+                    console.log('Write Error', error);
+                    reject();
+                } else {
+                    console.log('Write Successful');
+                    resolve();
+                }
+            });
+        })
+
+    }
 
     function Read(path) {
         console.log('reading', path);
@@ -55,8 +71,15 @@ function Firebase() {
     }
 
     function QueryChild(path, key, value) {
+        //  define local variables
         const ref = firebase.database().ref(path);
         const query = ref.orderByChild(key).equalTo(value)
+        return new Promise(function(resolve, reject) {
+            query.on('value', function FirebaseQuery(snapshot) {
+                const data = snapshot.val();
+                resolve(data);
+            });
+        });
     }
 
     //   RETURN

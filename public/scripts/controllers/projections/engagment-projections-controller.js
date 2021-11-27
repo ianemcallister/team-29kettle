@@ -27,20 +27,22 @@ function engagmentProjetionsController($routeParams, $firebaseObject, $scope, da
 
 	//	LOCAL VARIABLES
 	let vm          = this;
-    /*let engagment   = $firebaseObject(firebase.database()
-                        .ref('Engagments/' + $routeParams.engagmentId));
-    let projections = $firebaseObject(firebase.database()
-                        .ref('Projections/')
-                        .orderByChild('engagmentId')
-                        .equalTo($routeParams.engagmentId));*/
 
     //  LOAD DATA
-    data.loadFBObject('Engagments/' + $routeParams.engagmentId)
+    data.loadDirectObject('Engagments', $routeParams.engagmentId)
         .then(function engagmentsSuccess(fbObject) {
             //console.log('loaded engagments successfully', fbObject);
             fbObject.$bindTo($scope, 'vm.engagment');
         }).catch(function engagmentsError(e) {
             console.log('engagments error', e);
+        });
+
+    data.loadChildObject('Projections', 'id', $routeParams.engagmentId)
+        .then(function projectionsSuccess(fbObject) {
+            //console.log('loaded engagments successfully', fbObject);
+            fbObject.$bindTo($scope, 'vm.projections');
+        }).catch(function projectionsError(e) {
+            console.log('projections error', e);
         });
 
 	//	VIEW MODEL VARIABLES
@@ -50,30 +52,6 @@ function engagmentProjetionsController($routeParams, $firebaseObject, $scope, da
         revType: "",
         revValue: 0
     }
-    
-    /*engagment.$bindTo($scope, 'vm.engagment')
-    .then(function engagmentSuccess(data) {
-        console.log('engagment', data);
-    })
-    .catch(function engagmentError(e) {
-        console.log("error", e);
-    });*/
-    
-    /*vm.projections  = 
-                        .$loaded()
-                        .then(function validateProjections(data) {
-
-                            //  NOTIFY PROGRESS
-                            console.log('got this back:', data)
-
-                            //  CHECK FOR INTEGRITY
-                            if(data.value == null) {
-                                console.log('record does not exist');
-                            }
-                        })
-                        .catch(function projetionsError(error) {
-                            console.log('error', error);
-                        });*/
      
 
 	//	VIEW MODEL FUNCTIONS

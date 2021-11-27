@@ -43,7 +43,7 @@ function data($firebaseObject, Firebase) {
         return new Promise(function (resolve, reject) {
             Firebase.read(path)
                 .then(function successRead(success) {
-                    console.log('got this record back', success);
+                    //console.log('got this record back', success);
                     resolve(success);
                 })
                 .catch(function errorRead(e) {
@@ -57,7 +57,7 @@ function data($firebaseObject, Firebase) {
             Firebase.query.child(collection, child, value)
                 .then(function successQuery(success) {
                     //  NOTIFY PROGRESS
-                    console.log('got this Query record back', success);
+                    //console.log('got this Query record back', success);
 
                     //  confirm the VALIDITY OF THE DATA 
                     if(success == null) {
@@ -112,13 +112,13 @@ function data($firebaseObject, Firebase) {
     function LoadChildObject(collection, child, value) {
         //  NOTIFY PROGRES
         //  DEFINE LOCAL VARIABLS
-        let query = firebase.database().ref(collection).orderByChild(child).equalTo(value);
+        let ref = firebase.database().ref(collection + "/" + value);
 
         //  RETURN ASYNC WORK
         return new Promise(function loadChildPromise(resolve, reject) {
             _validateChildObject(collection, child, value)
             .then(function sucessChildLoad() {
-                resolve($firebaseObject(query));
+                resolve($firebaseObject(ref));
             })
             .catch(function errorChildLoad() {
                 console.log('error', e);

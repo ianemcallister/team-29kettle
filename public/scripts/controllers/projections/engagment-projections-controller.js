@@ -41,6 +41,7 @@ function engagmentProjetionsController($routeParams, $firebaseObject, $scope, da
         .then(function projectionsSuccess(fbObject) {
             //console.log('loaded engagments successfully', fbObject);
             fbObject.$bindTo($scope, 'vm.projections');
+
         }).catch(function projectionsError(e) {
             console.log('projections error', e);
         });
@@ -48,20 +49,16 @@ function engagmentProjetionsController($routeParams, $firebaseObject, $scope, da
 	//	VIEW MODEL VARIABLES
     vm.user         = firebase.auth().currentUser;
     vm.routeParams  = $routeParams;
-    vm.data = {
-        revType: "",
-        revValue: 0
-    }
      
 
 	//	VIEW MODEL FUNCTIONS
     vm.updateRev = function(type) {
         console.log('changing type', type);
-        //vm.data.revType = type;
+ 
     };
     
     vm.weekNum = function(wk, yr, d) {
-        console.log('calculating weeknum', wk, yr, d);
+        //console.log('calculating weeknum', wk, yr, d);
 
         let returnvalue = "";
         if(wk != undefined && yr != undefined && d != undefined) returnvalue = yr.toString() + wk.toString().padStart(2, "0") + d.toString();

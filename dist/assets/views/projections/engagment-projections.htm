@@ -8,12 +8,11 @@
 
         <div class="row">
             <h5>Profit: $[value] ([margin]%)</h5>
-            {{vm.data}}
         </div>
 
         <!--Revenue-->
         <div class="row">
-            <h5>Revenue: {{ vm.data.revValue | currency: "$" : 2}}</h5>
+            <h5>Revenue: {{ vm.projections.revValue | currency: "$" : 2}}</h5>
             <table class="table table-sm">
                 <thead>
                     <tr style="text-align: center;">
@@ -33,7 +32,7 @@
                         
                         <!--Previous Week-->
                         <td>
-                            <input class="form-check-input" type="radio" id='engRefProjPrevWk' name='revProjMthd' value='1PrefWk' ng-model='vm.data.revType'>
+                            <input class="form-check-input" type="radio" id='engRefProjPrevWk' name='revProjMthd' value='1PrefWk' ng-model='vm.projections.revType'>
                             <label class="form-check-label" for="engRefProjPrevWk">
                                 N/A
                             </label>
@@ -42,7 +41,7 @@
                         
                         <!--4 Week Average-->
                         <td>
-                            <input class="form-check-input" type="radio" id='engRefProj4WkAvg' name='revProjMthd' value='4PrevWks' ng-model='vm.data.revType'>
+                            <input class="form-check-input" type="radio" id='engRefProj4WkAvg' name='revProjMthd' value='4PrevWks' ng-model='vm.projections.revType'>
                             <label class="form-check-label" for="engRefProj4WkAvg">
                                 N/A
                             </label>
@@ -55,7 +54,7 @@
                                     id='engRefProj52Wk' 
                                     name='revProjMthd' 
                                     value='52wkPrior' 
-                                    ng-model='vm.data.revType'
+                                    ng-model='vm.projections.revType'
                                     ng-change="vm.updateRev('52wkPrior')">
                             <label class="form-check-label" for="engRefProj52Wk">
                                 N/A
@@ -69,7 +68,7 @@
                                     id='engRefProjWklyAvg' 
                                     name='revProjMthd' 
                                     value='wklyAvrg' 
-                                    ng-model='vm.data.revType'
+                                    ng-model='vm.projections.revType'
                                     ng-change="vm.updateRev('wklyAvrg')">
                             <label class="form-check-label" for="engRefProjWklyAvg">
                                 N/A
@@ -78,12 +77,12 @@
 
                         <!--Custom Value-->
                         <td>
-                            <input class="form-check-input" type="radio" id='engRefProjCustm' name='revProjMthd' value='custom' ng-model='vm.data.revType'>
+                            <input class="form-check-input" type="radio" id='engRefProjCustm' name='revProjMthd' value='custom' ng-model='vm.projections.revType'>
                             <label class="form-check-label" for="engRefProjCustm">
                                 $
                                 <input  type="text" 
                                         style='width:50px; text-align: right;' 
-                                        ng-model='vm.data.revValue'
+                                        ng-model='vm.projections.revValue'
                                         ng-="vm.updateRev('custom')"> .00
                             </label>
                         </td>

@@ -524,7 +524,7 @@ function _paymentsToExhibitsList(rawPayments) {
         employeeId: ""
     };
     
-    //  ITERATE OVER RAW PAYMENTS
+    //  ITERATE OVER RAW PAYMENTS    
     rawPayments.forEach(function PaymentsParser(aPayment) {
 
         const employeeId = aPayment.employeeId;
@@ -543,9 +543,9 @@ function _paymentsToExhibitsList(rawPayments) {
             exhibitsList[employeeId]['txs'] = {};
         }
         exhibitsList[employeeId].txs[paymentId] = aPayment.orderId
-       
+        
     });
-
+    
     return exhibitsList;
 };
 
@@ -617,7 +617,8 @@ async function dailyPayments(date) {
     //  DEFINE LOCAL VARIABLES
     var paymentsAssets = {
         exhibitsList: {},
-        financialsList: {}
+        financialsList: {},
+        active: true
     };
     var startMmt    = date.set('hour', 0).set('minute', 0).set('second', 0);
     var start       = startMmt.tz("America/Los_Angeles").format();
@@ -631,12 +632,16 @@ async function dailyPayments(date) {
         //  1) Download Payments
         const rawPayments = await Square.payments.list(undefined, start, end);
         
-        //  2) Parse exhibits list
-        paymentsAssets.exhibitsList = _paymentsToExhibitsList(rawPayments);
+        if(rawPayments != undefined) {
+            //  2) Parse exhibits list
+            paymentsAssets.exhibitsList = _paymentsToExhibitsList(rawPayments);
 
-        //  3) Parse finacials List
-        paymentsAssets.financialsList = _paymentsToFinancialsList(rawPayments);
-
+            //  3) Parse finacials List
+            paymentsAssets.financialsList = _paymentsToFinancialsList(rawPayments);
+        } else {
+            paymentsAssets.active = false;
+        };
+        
         //  4) Return object
         return paymentsAssets;
 

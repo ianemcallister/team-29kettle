@@ -31,14 +31,21 @@ async function dailyExhbtnsReport() {
     const paymentsAssets    = await Reporting.dailyPayments(refDate);
     const exhibitsList      = paymentsAssets.exhibitsList;
 
-    const ordersAssets      = await Reporting.dailyOrders(paymentsAssets);
-    const bom               = ordersAssets.bom
-    const financialsList    = ordersAssets.financialsList;
+    if(paymentsAssets.active) {
+         //  2) ASSIGN PAYMENTS/ORDER PAIRS TO EXHIBITION LIST BY EMPLOYEE ID AND PRODDAY
+        const ordersAssets      = await Reporting.dailyOrders(paymentsAssets);
+        const bom               = ordersAssets.bom
+        const financialsList    = ordersAssets.financialsList;
 
-    //  2) ASSIGN PAYMENTS/ORDER PAIRS TO EXHIBITION LIST BY EMPLOYEE ID AND PRODDAY
-    console.log(ordersAssets, 'ordersAssets');
+        //  NOTIFY PROGRESS
+        console.log(ordersAssets, 'ordersAssets');
 
-    //  3) SAVE NEW EXHIBITIONS TO DB
+        //  3) SAVE NEW EXHIBITIONS TO DB
+    } else {
+        console.log('no activity today');
+    }
+
+
 }
 
 

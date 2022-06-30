@@ -24,7 +24,7 @@ console.log('CL Arguments:' , argv);
 */
 async function dailyExhbtnsReport() {
     //  DEFINE LOCAL VARIABLES
-    var refDate       = Moment(new Date());
+    var refDate       = Moment(new Date()).tz("America/Los_Angeles");
     if(argv['y']) { refDate = refDate.subtract(1, 'days'); }
     
     //  1) DOWNLOAD LIST OF TRANSACTIONS

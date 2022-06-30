@@ -267,6 +267,12 @@ function config($routeProvider, $locationProvider) {
         controller: 'engagmentProjetionsController',
         controllerAs: 'vm'
     })
+    .when('/reports/engagment/:engagmentId', {
+        title: 'Engment: Reports',
+        templateUrl: "assets/views/reports/engagment-reports.htm",
+        controller: 'engagmentReportsController',
+        controllerAs: 'vm'
+    })
 	.otherwise({
         redirectTo: '/'
     });

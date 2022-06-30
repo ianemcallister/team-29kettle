@@ -21,7 +21,8 @@ var squareStOps = {
     },
     orders: {
         list: ListOrders,
-        get: GetOrderById
+        get: GetOrderById,
+        batch: OrdersBatch
     },
     subscriptiosn: {},
     invoices: {},
@@ -175,46 +176,46 @@ async function GetPayment(paymentId) {
     }
 };
 
-async function ListOrders(cursor) {
+async function ListOrders(cursor, start, end) {
     //  NOTIFY PROGRESS
     //  LOCAL VARIABLES
     const ordersApi = client.ordersApi;
-    const bodyLocationIds = ['057P5VYJ4A5X1', '18YC4JDH91E1H'];
+    const bodyLocationIds = ['RKNMKQF48TA6W'];
     const bodyQueryFilterStateFilterStates = ['COMPLETED'];
     const bodyQueryFilterStateFilter= {
         states: bodyQueryFilterStateFilterStates,
     };
 
     const bodyQueryFilterDateTimeFilterCreatedAt = {};
-    bodyQueryFilterDateTimeFilterCreatedAt.startAt = 'start_at8';
-    bodyQueryFilterDateTimeFilterCreatedAt.endAt = 'end_at4';
+    //bodyQueryFilterDateTimeFilterCreatedAt.startAt = 'start_at8';
+    //bodyQueryFilterDateTimeFilterCreatedAt.endAt = 'end_at4';
 
     const bodyQueryFilterDateTimeFilterUpdatedAt = {};
-    bodyQueryFilterDateTimeFilterUpdatedAt.startAt = 'start_at6';
-    bodyQueryFilterDateTimeFilterUpdatedAt.endAt = 'end_at6';
+    //bodyQueryFilterDateTimeFilterUpdatedAt.startAt = 'start_at6';
+    //bodyQueryFilterDateTimeFilterUpdatedAt.endAt = 'end_at6';
 
     const bodyQueryFilterDateTimeFilterClosedAt = {};
-    bodyQueryFilterDateTimeFilterClosedAt.startAt = '2018-03-03T20:00:00+00:00';
-    bodyQueryFilterDateTimeFilterClosedAt.endAt = '2019-03-04T21:54:45+00:00';
+    bodyQueryFilterDateTimeFilterClosedAt.startAt = start;
+    bodyQueryFilterDateTimeFilterClosedAt.endAt = end;
 
     const bodyQueryFilterDateTimeFilter = {};
-    bodyQueryFilterDateTimeFilter.createdAt = bodyQueryFilterDateTimeFilterCreatedAt;
-    bodyQueryFilterDateTimeFilter.updatedAt = bodyQueryFilterDateTimeFilterUpdatedAt;
+    //bodyQueryFilterDateTimeFilter.createdAt = bodyQueryFilterDateTimeFilterCreatedAt;
+    //bodyQueryFilterDateTimeFilter.updatedAt = bodyQueryFilterDateTimeFilterUpdatedAt;
     bodyQueryFilterDateTimeFilter.closedAt = bodyQueryFilterDateTimeFilterClosedAt;
 
-    const bodyQueryFilterFulfillmentFilterFulfillmentTypes = ['SHIPMENT'];
-    const bodyQueryFilterFulfillmentFilterFulfillmentStates = ['CANCELED', 'FAILED'];
+    //const bodyQueryFilterFulfillmentFilterFulfillmentTypes = ['SHIPMENT'];
+    //const bodyQueryFilterFulfillmentFilterFulfillmentStates = ['COMPLETED'];
     const bodyQueryFilterFulfillmentFilter = {};
-    bodyQueryFilterFulfillmentFilter.fulfillmentTypes = bodyQueryFilterFulfillmentFilterFulfillmentTypes;
-    bodyQueryFilterFulfillmentFilter.fulfillmentStates = bodyQueryFilterFulfillmentFilterFulfillmentStates;
+    //bodyQueryFilterFulfillmentFilter.fulfillmentTypes = bodyQueryFilterFulfillmentFilterFulfillmentTypes;
+    //bodyQueryFilterFulfillmentFilter.fulfillmentStates = bodyQueryFilterFulfillmentFilterFulfillmentStates;
 
-    const bodyQueryFilterSourceFilterSourceNames = ['source_names8'];
+    //const bodyQueryFilterSourceFilterSourceNames = ['source_names8'];
     const bodyQueryFilterSourceFilter = {};
-    bodyQueryFilterSourceFilter.sourceNames = bodyQueryFilterSourceFilterSourceNames;
+    //bodyQueryFilterSourceFilter.sourceNames = bodyQueryFilterSourceFilterSourceNames;
 
-    const bodyQueryFilterCustomerFilterCustomerIds = ['customer_ids5', 'customer_ids6'];
+    //const bodyQueryFilterCustomerFilterCustomerIds = ['customer_ids5', 'customer_ids6'];
     const bodyQueryFilterCustomerFilter = {};
-    bodyQueryFilterCustomerFilter.customerIds = bodyQueryFilterCustomerFilterCustomerIds;
+    //bodyQueryFilterCustomerFilter.customerIds = bodyQueryFilterCustomerFilterCustomerIds;
 
     const bodyQueryFilter = {};
     bodyQueryFilter.stateFilter = bodyQueryFilterStateFilter;
@@ -234,20 +235,46 @@ async function ListOrders(cursor) {
 
     const body = {};
     body.locationIds = bodyLocationIds;
-    body.cursor = 'cursor0';
+    //body.cursor = cursor;
     body.query = bodyQuery;
-    body.limit = 3;
+    body.limit = 100;
     body.returnEntries = true;
 
     try {
-    const { result, ...httpResponse } = await ordersApi.searchOrders(body);
+    const { result, ...httpResponse } = await ordersApi.searchOrders({
+        locationIds: ['RKNMKQF48TA6W'],
+        query: {
+          filter: {
+            stateFilter: {
+              states: [
+                'COMPLETED'
+              ]
+            },
+            dateTimeFilter: {
+              closedAt: {
+                startAt: start,
+                endAt: end
+              }
+            }
+          },
+          sort: {
+            sortField: 'CLOSED_AT',
+            sortOrder: 'DESC'
+          }
+        },
+        limit: 100,
+        returnEntries: true
+      });
         // Get more response info...
-        // const { statusCode, headers } = httpResponse;
+        //const { statusCode, headers } = httpResponse;
+        console.log(body, body.query.filter, result);
+        return result;
     } catch(error) {
         //if (error instanceof ApiError) {
         //    const errors = error.result;
-            // const { statusCode, headers } = error;
+        //    const { statusCode, headers } = error;
         //}
+        console.log('list orders error', error);
     }
 }
 
@@ -645,6 +672,25 @@ async function CreateShift(params) {
         console.log('CreateShift error: ');
         console.log(error);
     }
+};
+
+async function OrdersBatch(location, ordersList) {
+    //  DEFINE LOCAL VARIABLES
+
+    // 
+    try {
+        const response = await client.ordersApi.batchRetrieveOrders({
+            locationId: location,
+            orderIds: ordersList
+          });
+
+        return response.result;
+
+    } catch (error) {
+        console.log('OrdersBatch error: ');
+        console.log(error);
+    }
+    
 };
 
 

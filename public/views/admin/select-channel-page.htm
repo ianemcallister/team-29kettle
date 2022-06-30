@@ -155,11 +155,11 @@
                 
                 <h5>Engagments</h5>
 
-                <ol>
+                <!--<ol>
                     <li ng-repeat="(key, value) in vm.chnlEngagments">
                         {{value.date}}
                     </li>
-                </ol>
+                </ol>-->
                 
                 <div class="form-group">
                     <label for="">
@@ -199,22 +199,9 @@
                     </div>
                 </div>
 
-                <table class="table table-sm">
-                    <thead>
-                        <th scope='col'>#</th>
-                        <th scope='col'>YrWkD</th>
-                        <th scope='col'>Date</th>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat='(key, value) in vm.engagementsData'
-                            ng-click='vm.rowClick(key)'>
-                            <th scope='row'>{{$index +1}}</th>
-                            <td>{{value.Yr}}{{value.Wk}}{{value.D}}</td>
-                            <td>{{value.date | date : "shortDate" }}</td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
+                <!--Engagments Table-->
+                <eng-sales-proj-actl-comp engagments="vm.engagementsData"></eng-sales-proj-actl-comp>
+                
 
             </div>
         </div>

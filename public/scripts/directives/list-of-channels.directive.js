@@ -26,10 +26,10 @@ function listOfChannels() {
         
     }
     
-    listOfChannelsController.$inject = ['$scope'];
+    listOfChannelsController.$inject = ['$scope', '$location'];
 
     /* @ngInject */
-    function listOfChannelsController($scope) {
+    function listOfChannelsController($scope, $location) {
         //  DEFINE LOCAL VARIABLES
         var vm = this;
 
@@ -39,7 +39,10 @@ function listOfChannels() {
 
         //  DEFINE LOCAL METHODS
         //  DEFINE VIEW MODEL METHODS
-        
+        vm.rowClicked = function(id) {
+            //console.log(id);
+            $location.path('/admin/channels/' + id);
+        };
 
         console.log('in the list of channels directive', $scope);
     };

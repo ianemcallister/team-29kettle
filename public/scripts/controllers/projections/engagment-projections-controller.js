@@ -64,6 +64,52 @@ function engagmentProjetionsController($routeParams, $firebaseObject, $scope, da
         if(wk != undefined && yr != undefined && d != undefined) returnvalue = yr.toString() + wk.toString().padStart(2, "0") + d.toString();
         return returnvalue;
     }
+
+    vm.evaluateExpense = function(type, value) {
+        console.log('evaluting Exenses');
+        switch(type) {
+            case "procVal":
+                vm.projections.procVal = (vm.projections.procRate / 100) * vm.projections.revValue
+                break;
+            case "rentType":
+                vm.projections.rentValue = value;
+                break;
+            case "cogRate":
+                vm.projections.cogValue = (value / 100 ) * vm.projections.revValue;
+                break;
+            case "laborType":
+                vm.projections.laborVal = value;
+                break;
+            case "commType":
+                vm.projections.commValue = (value / 100) * vm.projections.revValue;
+                break;
+            case "discRate":
+                vm.projections.discValue = (value / 100) * vm.projections.revValue;
+                break;
+            default:
+                break;
+        }
+        _sumExpenses();
+        _sumProfit();
+    }
+
+    function _sumExpenses() {
+        
+        vm.projections.expTotal =   parseFloat(vm.projections.procVal) + 
+                                    parseFloat(vm.projections.rentValue) + 
+                                    parseFloat(vm.projections.cogValue) +
+                                    parseFloat(vm.projections.laborVal) +
+                                    parseFloat(vm.projections.commValue) +
+                                    parseFloat(vm.projections.discValue);
+        //console.log('summing expenses', vm.projections.procVal, vm.projections.rentValue, vm.projections.expTotal);
+    };
+
+    function _sumProfit() {
+        //console.log('summing profits');
+        if(vm.projections.profit == undefined) vm.projections.profit = { value: 0, percentage: 0.00 };
+        vm.projections.profit.value = vm.projections.revValue - vm.projections.expTotal
+        vm.projections.profit.percentage = (vm.projections.profit.value / vm.projections.revValue)
+    };
 	
 	//	EXECUTE
     //console.log('VM:', vm);

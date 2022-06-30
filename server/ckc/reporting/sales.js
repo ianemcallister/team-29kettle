@@ -21,7 +21,9 @@ var salesMod = {
     },
     assignTxs: AssignTxs,
     buildSalesReport: BuildSalesReport,
-    reportDailySales: ReportDailySales
+    reportDailySales: ReportDailySales,
+    dailyPayments: dailyPayments,
+    dailyOrders: dailyOrders
 };
 
 function _buildEmployeeHash(dailyAssignments) {
@@ -512,6 +514,237 @@ async function ReportDailySales() {
         console.log('ReportDailySales Error: ', error);
     }
 };
+
+function _paymentsToExhibitsList(rawPayments) {
+    //  DEFINE LOCAL VARIABLES
+    var exhibitsList = {};
+    const exhibitData = {
+        id: "",
+        data: "",
+        employeeId: ""
+    };
+    
+    //  ITERATE OVER RAW PAYMENTS
+    rawPayments.forEach(function PaymentsParser(aPayment) {
+
+        const employeeId = aPayment.employeeId;
+        const paymentId = aPayment.id;
+
+        //  If the list hasn't been created yet, create it
+        if(exhibitsList[employeeId] == undefined) {
+            exhibitsList[employeeId] = Object.create(exhibitData);
+        };
+
+        //  UPDATE PERTINENT INFO
+        exhibitsList[employeeId].employeeId = employeeId;
+        exhibitsList[employeeId].date = Moment(aPayment.createdAt).tz("America/Los_Angeles").format('YYYY-MM-DD');
+        
+        if(exhibitsList[employeeId]['txs'] == undefined) {
+            exhibitsList[employeeId]['txs'] = {};
+        }
+        exhibitsList[employeeId].txs[paymentId] = aPayment.orderId
+       
+    });
+
+    return exhibitsList;
+};
+
+function _paymentsToFinancialsList(rawPayments) {
+    //  DEFINE LOCAL VARIABLS
+    var financialsList = {};
+    const financialData = {
+        employee:   "",
+        gross:      0,
+        discounts:  0,
+        net:        0,
+        tips:       0,
+        cash:       0,
+        credit:     0,
+        other:      0,
+        fees:       0,
+        sales:      0
+    };
+
+    //  ITERATE OVER THE LIST
+    rawPayments.forEach(function PaymentsParser(aPayment) {
+
+        //console.log(aPayment);
+
+        const employeeId = aPayment.employeeId;
+
+        if(financialsList[employeeId] == undefined) {
+            financialsList[employeeId] = Object.create(financialData);
+        };
+
+        financialsList[employeeId].employee = employeeId;
+
+        //  INCRIMENT COUNTER
+        financialsList[employeeId].sales++;
+
+        //  RECORD NET & FEES
+        financialsList[employeeId].net  += Number(aPayment.amountMoney.amount);
+
+        if(aPayment.processingFee != undefined) {
+           
+            financialsList[employeeId].fees += Number(aPayment.processingFee[0].amountMoney.amount);
+        }
+
+        //  tips
+        if(aPayment.tipMoney != undefined) {
+            financialsList[employeeId].tips  += Number(aPayment.tipMoney.amount);
+        }
+
+        //  payment type
+        switch(aPayment.sourceType) {
+            case 'CARD':
+                financialsList[employeeId].credit   += Number(aPayment.amountMoney.amount);
+                break;
+            case 'CASH':
+                financialsList[employeeId].cash     += Number(aPayment.amountMoney.amount);
+                break;
+            default:
+                financialsList[employeeId].other    += Number(aPayment.amountMoney.amount);
+                break;
+        }
+        
+    });
+
+
+    return financialsList;
+}
+
+async function dailyPayments(date) {
+    //  DEFINE LOCAL VARIABLES
+    var paymentsAssets = {
+        exhibitsList: {},
+        financialsList: {}
+    };
+    var startMmt    = date.set('hour', 0).set('minute', 0).set('second', 0);
+    var start       = startMmt.tz("America/Los_Angeles").format();
+    var endMmt      = date.set('hour', 23).set('minute', 59).set('second', 59)
+    var end         = endMmt.tz("America/Los_Angeles").format();
+
+    //  COMMUNICATE
+    console.log('daily:', date, start, end);
+
+    try{
+        //  1) Download Payments
+        const rawPayments = await Square.payments.list(undefined, start, end);
+        
+        //  2) Parse exhibits list
+        paymentsAssets.exhibitsList = _paymentsToExhibitsList(rawPayments);
+
+        //  3) Parse finacials List
+        paymentsAssets.financialsList = _paymentsToFinancialsList(rawPayments);
+
+        //  4) Return object
+        return paymentsAssets;
+
+    } catch (error) {
+        console.log('Daily Error:', error);
+    }
+ };
+
+ /*
+ *  PRIVATE: PARSE ORDERS LIST BATCH
+ */
+ function _parseOrdersListBatch(paymentOrderPairList) {
+    //  DEFINE LOCAL VARIABLS
+    const ordersList = [];
+
+    Object.keys(paymentOrderPairList).forEach(function (paymentId) {
+        ordersList.push(paymentOrderPairList[paymentId]);
+    });
+
+    return ordersList;
+ };
+
+
+ /*
+ *  DAILY ODERS 
+ */
+ async function dailyOrders(paymentsAssets) {
+    //  DEFINE LOCAL VARIABLES
+    const returnObject = {
+        bom: {},
+        financialsList: paymentsAssets.financialsList
+    };
+    const aBom = {
+        units:      0,
+        pints:      0,
+        hpints:     0,
+        platters:   0
+    };
+    const bomsPromiseList = [];
+
+    //  ITERATE OVER EXHIBIT LISTS TO PULL OUT LISTS OF ORDERS
+    Object.keys(paymentsAssets.exhibitsList).forEach(function ExhibitParser(employeeId) {
+
+        bomsPromiseList.push(Square.orders.batch('RKNMKQF48TA6W', _parseOrdersListBatch(paymentsAssets.exhibitsList[employeeId].txs)));
+
+    });
+
+
+    //  EXECUTE ASYNC WORK
+    try {   
+        //  DEFINE LOCAL COUNTER
+        var counter = 0;
+
+        //  COLLECT RESPECTIVE ORDERS FOR EACH EXHIBIT
+        const rawOrdersCollections = await Promise.all(bomsPromiseList);
+
+        //  ITERATE OVER EXHIBITS LIST AGAIN
+        Object.keys(paymentsAssets.exhibitsList).forEach(function ExhibitParser(employeeId) {
+
+            //  CREATE THE BOM OBJECT
+            returnObject.bom[employeeId] = Object.create(aBom);
+
+            //  ITERATE OVER ORDERS WITHIN AN EMPLOYEE COLLECTIONS
+            rawOrdersCollections[counter].orders.forEach(function (anOrder) {
+
+                //  ITERATE OVER ITEMS IN AN ORDER
+                anOrder.lineItems.forEach(function (anItem) {
+
+                    //console.log(anItem);
+
+                    //  increase the units count
+                    returnObject.bom[employeeId].units += Number(anItem.quantity);
+
+                    switch(anItem.catalogObjectId) {
+                        case "OWAWZJAYYFIS47JSRBMRZNML": // 8oz Mixed Gourmet Glazed Nuts Pint
+                            returnObject.bom[employeeId].pints += Number(anItem.quantity);
+                            break;
+                        case "2YUXFSYE73C4AEKA5AXYWSNN": // 4oz Mixed Gourmet Glazed Nuts Half Pint
+                            returnObject.bom[employeeId].hpints += Number(anItem.quantity);
+                            break;
+                        case "":
+                            break;
+                        default:
+                            break; 
+                    };
+
+                    returnObject.financialsList[employeeId].gross       += Number(anItem.grossSalesMoney.amount);
+
+                    if(typeof anItem.totalDiscountMoney.amount == 'bigint') {
+                        console.log('discount:', Number(anItem.totalDiscountMoney.amount));
+                        returnObject.financialsList[employeeId].discounts   += Number(anItem.totalDiscountMoney.amount);
+                    }
+                    
+                    
+                });
+
+            });
+
+            counter++; 
+        });
+
+        return returnObject;
+
+    } catch(error) {
+        console.log('Daily Orders:', error);
+    };
+
+ };
 
 //  EXPORT MODULE
 module.exports = salesMod;

@@ -1,0 +1,66 @@
+<div>
+    <div class="container">
+
+        <div class="row">
+            <h3>{{vm.engagment.channel}} - {{vm.engagment.date | date: "shortDate"}} ({{vm.weekNum(vm.engagment.wk, vm.engagment.yr, vm.engagment.d)}})</h3>
+        </div>
+        <strong></strong>
+
+        <!--Summary-->
+        <div class="row" class='form-group'>
+            <h5>Summary</h5>
+            <ol>
+                <li>
+                    
+                    <label for="grSalesInput">
+                        Gross Sales:
+                        <input  ng-model="vm.reports.grsSalesVal"
+                                type="text"
+                                id='grSalesInput'
+                                class='form-control'>
+                    </label>
+                </li>
+                <li>
+                    <label for="ntSalesInput">
+                        Net Sales:
+                        <input  ng-model="vm.reports.netSalesVal"
+                                type="text"
+                                id='ntSalesInput'
+                                class='form-control'>
+                    </label>
+                </li>
+                <li>
+                    <label for="TeamMEmberSelector">
+                        Team Member:
+                        <select 
+                                name="TeamMEmberSelector" 
+                                id="TeamMEmberSelector"
+                                class="form-control"
+                                ng-model="vm.reports.tmId">
+                            <option ng-repeat="(key, value) in vm.teamMembers"
+                                    value="{{key}}"
+                                    >
+                                {{value.firstName}} {{value.lastName}}
+                            </option>
+                        </select>
+                    </label>
+                </li>
+            </ol>
+        </div>
+
+         <!--Square Transactions-->
+         <div class="row">
+            <h5>Square Transactions</h5>
+        </div>
+
+        <!--Sales Transactions-->
+        <div class="row">
+            <h5>Sales Transactions</h5>
+        </div>
+
+        <!--Production Transactions-->
+        <div class="row">
+            <h5>Production Transactions</h5>
+        </div>
+    </div>
+</div>

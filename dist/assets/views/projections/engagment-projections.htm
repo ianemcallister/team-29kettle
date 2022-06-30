@@ -3,11 +3,11 @@
         
         <!--Header-->
         <div class="row" style='text-align: center;'>
-            <h3>{{vm.engagment.channel}} ({{vm.weekNum(vm.engagment.wk, vm.engagment.yr, vm.engagment.d)}})</h3>
+            <h3>{{vm.engagment.channel}} - {{vm.engagment.date | date: "shortDate"}} ({{vm.weekNum(vm.engagment.wk, vm.engagment.yr, vm.engagment.d)}})</h3>
         </div>
 
         <div class="row">
-            <h5>Profit: $[value] ([margin]%)</h5>
+            <h5>Profit: {{vm.projections.profit.value | currency: "$" : 2}} ( {{ ((vm.projections.profit.percentage) * 100).toFixed(2) }}% )</h5>
         </div>
 
         <!--Revenue-->
@@ -105,54 +105,128 @@
 
         <!--Expenses-->
         <div class="row">
-            <h5>Expenses</h5>
+            <h5>Expenses: {{ vm.projections.expTotal | currency: "$" : 2}}</h5>
 
-            <table class="table table-sm" style='text-align: center;'>
+            <table class="table table-sm form-group" style='text-align: center;'>
                 <thead>
                     <tr>
                         <th scope="col" style='text-align: left;'>Acct</th>
-                        <th scope="col">Source(s)</th>
+                        <th scope="col">Method</th>
+                        <th scope="col">Input</th>
                         <th scope="col">Value</th>
-                        <th scope="col">Custom</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!--Discount Rate-->
+                    <tr>
+                        <th scope='row' style='text-align: left;'>Discount Rate</th>
+                        <td>
+                            <select name="discSelect" id="discSelect" ng-model='vm.projections.discRateType' class="form-control">
+                                <option value="percentage">Percentage</option> 
+                            </select>
+                        </td>
+                        <td>
+                            <input  ng-if='vm.projections.discRateType == "percentage"'
+                                    type="text"
+                                    ng-change='vm.evaluateExpense("discRate", vm.projections.discRate)'
+                                    ng-model="vm.projections.discRate"
+                                    class="form-control">
+                        </td>
+                        <td>
+                            {{vm.projections.discValue | currency: "$": 2}}
+                        </td>
+                    </tr>
+
                     <!--Labor-->
                     <tr>
                         <th scope="row" style='text-align: left;'>Labor</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <select name="laborSelect" id="laborSelect" ng-model='vm.projections.laborType' class='form-control'>
+                                <option value="flatRate">Flat Rate</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input  ng-if='vm.projections.laborType == "flatRate"'
+                                    type="text"
+                                    ng-model='vm.projections.laborVal'
+                                    class='form-control'
+                                    ng-change='vm.evaluateExpense("laborType", vm.projections.laborVal)'>
+                        </td>
+                        <td>
+                            {{vm.projections.laborVal | currency: "$": 2}}
+                        </td>
                     </tr>
 
                     <!--Cost of Goods-->
                     <tr >
                         <th scope="row" style='text-align: left;'>Cost of Goods</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <select name="cogSelect" id="cogSelect" ng-model='vm.projections.cogType' class='form-control'>
+                                <option value="simplePerc">Simple Percentage</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input  ng-if='vm.projections.cogType == "simplePerc"'
+                                    type="text"
+                                    class='form-control'
+                                    ng-model='vm.projections.cogRate'
+                                    ng-change='vm.evaluateExpense("cogRate", vm.projections.cogRate)'>
+                        </td>
+                        <td>
+                            {{ vm.projections.cogValue | currency: "$": 2}}
+                        </td>
                     </tr>
 
                     <!--Rent-->
                     <tr >
                         <th scope="row" style='text-align: left;'>Rent</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <select name="rentSelect" id="rentSelect" ng-model='vm.projections.rentType' class='form-control'>
+                                <option value="flatRate">Flat Rate</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input  ng-if='vm.projections.rentType == "flatRate"'
+                                    type="text"
+                                    class='form-control'
+                                    ng-model='vm.projections.rentValue'
+                                    ng-change='vm.evaluateExpense("rentType", vm.projections.rentValue)'>
+                        </td>
+                        <td>
+                            {{vm.projections.rentValue | currency: "$" : 2}}
+                        </td>
                     </tr>
 
                     <!--Commissions-->
                     <tr >
                         <th scope="row" style='text-align: left;'>Commissions</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <select name="comSelect" id="comSelect" class='form-control' ng-model='vm.projections.commType'>
+                                <option value="percentage">Percentage</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input  ng-if="vm.projections.commType == 'percentage' "
+                                    type="text"
+                                    ng-model="vm.projections.commRate"
+                                    class="form-control"
+                                    ng-change='vm.evaluateExpense("commType", vm.projections.commRate)'>
+                        </td>
+                        <td>
+                            {{vm.projections.commValue | currency: "$": 2}}
+                        </td>
                     </tr>
 
                     <!--Power-->
                     <tr >
                         <th scope="row" style='text-align: left;'>Power</th>
-                        <td></td>
+                        <td>
+                            <select name="powerSelect" id="powerSelect" class='form-control'>
+                                <option value="generator">Generator</option>
+                                <option value="house">House Power</option>
+                                <option value="n/a">N/A</option>
+                            </select>
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -160,7 +234,11 @@
                     <!--Transportaion-->
                     <tr >
                         <th scope="row" style='text-align: left;'>Transportation</th>
-                        <td></td>
+                        <td>
+                            <select name="transpSelect" id="transpSelect" class='form-control'>
+                                <option value="n/a">N/A</option>
+                            </select>
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -168,23 +246,44 @@
                     <!--CC Processing-->
                     <tr >
                         <th scope="row" style='text-align: left;'>CC Processing</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <select name="processingSelect" id="processingSelect" class='form-control' ng-model='vm.projections.procType'>
+                                <option value="netPerc">Net %</option>
+                                <option value="n/a">N/A</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input  ng-if='vm.projections.procType=="netPerc"' 
+                                    type="text" 
+                                    class='form-control'
+                                    ng-model='vm.projections.procRate'
+                                    ng-change='vm.evaluateExpense("procVal", vm.projections.procRate)'>
+                        </td>
+                        <td>
+                            <span>{{vm.projections.procVal | currency: "$" : 2}}</span>
+                        </td>
                     </tr>
 
                     <!--Parking-->
                     <tr >
                         <th scope="row" style='text-align: left;'>Parking</th>
-                        <td></td>
+                        <td>
+                            <select name="parkingSelect" id="parkingSelect" class='form-control'>
+                                <option value="n/a">N/A</option>
+                            </select>
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>
 
                     <!--Lodging-->
-                    <tr >
+                    <tr>
                         <th scope="row" style='text-align: left;'>Lodging</th>
-                        <td></td>
+                        <td>
+                            <select name="lodgingSelect" id="lodgingSelect" class='form-control'>
+                                <option value="n/a">N/A</option>
+                            </select>
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>

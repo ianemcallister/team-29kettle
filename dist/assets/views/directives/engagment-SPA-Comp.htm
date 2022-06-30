@@ -1,0 +1,34 @@
+<div>
+    <h4>Revenue</h4>
+    
+    <table class="table table-sm">
+        <thead>
+            <th scope='col'>#</th>
+            <th scope='col'>YrWkD</th>
+            <th scope='col'>Date</th>
+            <th scope='col'>Projections</th>
+            <th scope='col'>Report</th>
+            <th scope='col'>Status</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat='engagment in vm.engagmentsList track by $index'
+                ng-click='vm.rowClick(engagment.engagmentId)'>
+                <th scope='row'>{{$index +1}}</th>
+                <td>{{vm.weekNum(engagment.wk, engagment.yr, engagment.d)}}</td>
+                <td>{{engagment.date | date : "shortDate" }}</td>
+                <td>
+                    <a  ng-if="false" 
+                        ng-href='#/projections/engagment/{{engagment.engagmentId}}'>Projections</a> 
+                </td>
+                <td>
+                    <a  ng-if="vm.reports[$index].id == null"
+                        ng-href="#/reports/engagment/{{engagment.engagmentId}}">Reports</a>
+                        <a  ng-if="vm.reports[$index].id != null"
+                        ng-href="#/reports/engagment/{{engagment.engagmentId}}">{{vm.reports[$index].netSalesVal | currency: "$": 2}}</a>
+                </td>
+                <td></td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>

@@ -84,6 +84,18 @@ function adminSelectChannelController($routeParams, $firebaseObject, $location, 
         }).catch(function failure(error) {
             console.log('error saving', error);
         });
+
+    }
+
+    /*
+    *   VIEW MODEL: WEEK NUM FUNCTION
+    */
+    vm.weekNum = function(wk, yr, d) {
+        //console.log('calculating weeknum', wk, yr, d);
+
+        let returnvalue = "";
+        if(wk != undefined && yr != undefined && d != undefined) returnvalue = yr.toString() + wk.toString().padStart(2, "0") + d.toString();
+        return returnvalue;
     }
 
 

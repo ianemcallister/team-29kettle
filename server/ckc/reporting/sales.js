@@ -726,7 +726,7 @@ async function dailyPayments(date) {
                     returnObject.financialsList[employeeId].gross       += Number(anItem.grossSalesMoney.amount);
 
                     if(typeof anItem.totalDiscountMoney.amount == 'bigint') {
-                        console.log('discount:', Number(anItem.totalDiscountMoney.amount));
+                        
                         returnObject.financialsList[employeeId].discounts   += Number(anItem.totalDiscountMoney.amount);
                     }
                     

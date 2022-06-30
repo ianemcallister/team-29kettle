@@ -36,7 +36,7 @@ async function dailyExhbtnsReport() {
     const financialsList    = ordersAssets.financialsList;
 
     //  2) ASSIGN PAYMENTS/ORDER PAIRS TO EXHIBITION LIST BY EMPLOYEE ID AND PRODDAY
-    
+    console.log(ordersAssets, 'ordersAssets');
 
     //  3) SAVE NEW EXHIBITIONS TO DB
 }
